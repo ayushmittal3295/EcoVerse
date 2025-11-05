@@ -1,0 +1,430 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(to bottom, #1a2980, #26d0ce);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#game-container {
+    width: 800px;
+    height: 600px;
+    background: linear-gradient(to bottom, #4facfe, #00f2fe);
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+#game-ui {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+#level-display {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffeb3b;
+}
+
+#time-display {
+    font-size: 20px;
+    font-weight: bold;
+    color: #4caf50;
+}
+
+#score-display {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ff9800;
+}
+
+#lives-container {
+    display: flex;
+}
+
+.life {
+    width: 30px;
+    height: 30px;
+    background: #ff5252;
+    margin-left: 5px;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(255, 82, 82, 0.7);
+}
+
+#player {
+    width: 60px;
+    height: 80px;
+    position: absolute;
+    bottom: 100px;
+    left: 100px;
+    z-index: 5;
+    transition: transform 0.2s;
+}
+
+.player-body {
+    width: 50px;
+    height: 50px;
+    background: #3498db;
+    border-radius: 50% 50% 40% 40%;
+    position: absolute;
+    bottom: 0;
+    left: 5px;
+}
+
+.player-head {
+    width: 40px;
+    height: 40px;
+    background: #ffdbac;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 45px;
+    left: 10px;
+    box-shadow: 0 -3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.player-eye {
+    width: 8px;
+    height: 8px;
+    background: #000;
+    border-radius: 50%;
+    position: absolute;
+    top: 15px;
+}
+
+.player-eye.left {
+    left: 10px;
+}
+
+.player-eye.right {
+    right: 10px;
+}
+
+.player-mouth {
+    width: 15px;
+    height: 5px;
+    background: #e74c3c;
+    border-radius: 0 0 8px 8px;
+    position: absolute;
+    bottom: 8px;
+    left: 12px;
+}
+
+.player-leg {
+    width: 12px;
+    height: 25px;
+    background: #3498db;
+    position: absolute;
+    bottom: -15px;
+}
+
+.player-leg.left {
+    left: 15px;
+    transform: rotate(5deg);
+}
+
+.player-leg.right {
+    right: 15px;
+    transform: rotate(-5deg);
+}
+
+.ground {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(to bottom, #8B4513, #5D4037);
+    border-top: 5px solid #795548;
+    z-index: 2;
+}
+
+.grass {
+    position: absolute;
+    bottom: 100px;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(to bottom, transparent, rgba(76, 175, 80, 0.3));
+    z-index: 3;
+}
+
+.plant-spot {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: #795548;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 2;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.plant {
+    position: absolute;
+    z-index: 3;
+    transition: transform 0.5s;
+}
+
+.tree {
+    width: 60px;
+    height: 100px;
+    background: linear-gradient(to bottom, #4CAF50, #2E7D32);
+    border-radius: 30% 30% 50% 50%;
+    position: relative;
+}
+
+.tree::before {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: #4CAF50;
+    border-radius: 50%;
+    bottom: 60px;
+    left: -10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.flower {
+    width: 40px;
+    height: 60px;
+    background: linear-gradient(to bottom, #81C784, #4CAF50);
+    border-radius: 40% 40% 50% 50%;
+    position: relative;
+}
+
+.flower::before {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: #FFEB3B;
+    border-radius: 50%;
+    bottom: 40px;
+    left: 5px;
+    box-shadow: 0 0 8px rgba(255, 235, 59, 0.6);
+}
+
+.flower::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #E91E63;
+    border-radius: 50%;
+    bottom: 45px;
+    left: 10px;
+}
+
+.obstacle {
+    position: absolute;
+    z-index: 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.no2 {
+    background: linear-gradient(to bottom, #f44336, #b71c1c);
+    width: 60px;
+    height: 60px;
+}
+
+.so2 {
+    background: linear-gradient(to bottom, #9c27b0, #4a148c);
+    width: 60px;
+    height: 60px;
+}
+
+.no {
+    background: linear-gradient(to bottom, #ff9800, #e65100);
+    width: 60px;
+    height: 60px;
+}
+
+.co {
+    background: linear-gradient(to bottom, #795548, #3e2723);
+    width: 60px;
+    height: 60px;
+}
+
+#start-screen, #game-over {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    z-index: 20;
+    text-align: center;
+}
+
+#game-over {
+    display: none;
+}
+
+h1 {
+    font-size: 52px;
+    margin-bottom: 20px;
+    color: #4CAF50;
+    text-shadow: 0 0 15px rgba(76, 175, 80, 0.8);
+    letter-spacing: 2px;
+}
+
+button {
+    padding: 15px 40px;
+    font-size: 22px;
+    background: linear-gradient(to bottom, #4CAF50, #2E7D32);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 30px;
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.7);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(76, 175, 80, 0.9);
+}
+
+p {
+    font-size: 20px;
+    max-width: 80%;
+    text-align: center;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+#instructions {
+    margin-top: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 15px;
+    width: 80%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.environment-bar {
+    position: absolute;
+    bottom: 110px;
+    left: 15px;
+    width: 200px;
+    height: 20px;
+    background: #555;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    border: 2px solid #333;
+}
+
+#environment-fill {
+    height: 100%;
+    width: 50%;
+    background: linear-gradient(to right, #4CAF50, #8BC34A);
+    transition: width 0.5s;
+    border-radius: 8px;
+}
+
+#environment-label {
+    position: absolute;
+    bottom: 135px;
+    left: 15px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.cloud {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    opacity: 0.8;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.cloud-1 {
+    width: 120px;
+    height: 50px;
+    top: 50px;
+    left: 100px;
+}
+
+.cloud-2 {
+    width: 90px;
+    height: 40px;
+    top: 80px;
+    left: 250px;
+}
+
+.cloud-3 {
+    width: 140px;
+    height: 55px;
+    top: 40px;
+    right: 100px;
+}
+
+.sun {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, #ffeb3b, #ffc107);
+    border-radius: 50%;
+    top: 30px;
+    right: 50px;
+    box-shadow: 0 0 30px rgba(255, 235, 59, 0.8);
+    z-index: 1;
+}
+
+@keyframes fall {
+    from {
+        transform: translateY(-100px);
+    }
+    to {
+        transform: translateY(600px);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.bounce {
+    animation: bounce 0.5s ease-in-out infinite;
+}

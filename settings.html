@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - EcoLearn</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/settings.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-seedling"></i>
+                <span>EcoLearn</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="index.html#features" class="nav-link">Features</a></li>
+                <li class="nav-item"><a href="games.html" class="nav-link">Games & Quizzes</a></li>
+                <li class="nav-item"><a href="index.html#impact" class="nav-link">Impact</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="chatbot.html" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="settings.html" class="nav-link active">Settings</a></li>
+                <li class="nav-item"><a href="login.html" class="nav-link">Login</a></li>
+                <li class="nav-item"><a href="#profile" class="nav-link profile-link">
+                    <i class="fas fa-user"></i>
+                </a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Settings Header -->
+    <section class="settings-hero">
+        <div class="container">
+            <div class="settings-header">
+                <h1><i class="fas fa-cog"></i> Settings</h1>
+                <p>Customize your EcoLearn experience and manage your account preferences</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Settings Content -->
+    <section class="settings-content">
+        <div class="container">
+            <div class="settings-grid">
+                <!-- Account Settings -->
+                <div class="settings-card kid-friendly-card">
+                    <div class="settings-card-header">
+                        <i class="fas fa-user-circle"></i>
+                        <h2>Account Settings</h2>
+                    </div>
+                    <div class="settings-card-body">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" value="EcoExplorer23">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" value="user@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Change Password</label>
+                            <input type="password" id="password" placeholder="Enter new password">
+                        </div>
+                        <div class="form-group">
+                            <label for="avatar">Profile Avatar</label>
+                            <div class="avatar-selection">
+                                <div class="avatar-option active" data-avatar="1">
+                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Felix" alt="Avatar 1">
+                                </div>
+                                <div class="avatar-option" data-avatar="2">
+                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Midnight" alt="Avatar 2">
+                                </div>
+                                <div class="avatar-option" data-avatar="3">
+                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Pepper" alt="Avatar 3">
+                                </div>
+                                <div class="avatar-option" data-avatar="4">
+                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Annie" alt="Avatar 4">
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" id="saveAccount">Save Changes</button>
+                    </div>
+                </div>
+
+                <!-- Notification Settings -->
+                <div class="settings-card kid-friendly-card">
+                    <div class="settings-card-header">
+                        <i class="fas fa-bell"></i>
+                        <h2>Notification Preferences</h2>
+                    </div>
+                    <div class="settings-card-body">
+                        <div class="toggle-group">
+                            <label class="toggle-label">
+                                <span>Game Notifications</span>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </label>
+                            <label class="toggle-label">
+                                <span>Eco-Challenge Reminders</span>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </label>
+                            <label class="toggle-label">
+                                <span>Weekly Progress Reports</span>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </label>
+                            <label class="toggle-label">
+                                <span>New Content Alerts</span>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </label>
+                            <label class="toggle-label">
+                                <span>Email Newsletter</span>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </label>
+                        </div>
+                        <button class="btn btn-primary" id="saveNotifications">Save Preferences</button>
+                    </div>
+                </div>
+
+                <!-- Privacy Settings -->
+                <div class="settings-card kid-friendly-card">
+                    <div class="settings-card-header">
+                        <i class="fas fa-shield-alt"></i>
+                        <h2>Privacy & Security</h2>
+                    </div>
+                    <div class="settings-card-body">
+                        <div class="toggle-group">
+                            <label class="toggle-label">
+                                <span>Public Profile</span>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </label>
+                            <label class="toggle-label">
+                                <span>Show Eco-Points</span>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </label>
+                            <label class="toggle-label">
+                                <span>Show Achievements</span>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </label>
+                            <label class="toggle-label">
+                                <span>Data Collection for Improvement</span>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </label>
+                        </div>
+                        <div class="privacy-actions">
+                            <button class="btn btn-secondary">Download My Data</button>
+                            <button class="btn btn-danger" id="deleteAccount">Delete Account</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accessibility Settings -->
+                <div class="settings-card kid-friendly-card">
+                    <div class="settings-card-header">
+                        <i class="fas fa-universal-access"></i>
+                        <h2>Accessibility</h2>
+                    </div>
+                    <div class="settings-card-body">
+                        <div class="form-group">
+                            <label for="fontSize">Font Size</label>
+                            <select id="fontSize">
+                                <option value="small">Small</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="large">Large</option>
+                                <option value="x-large">Extra Large</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="theme">Color Theme</label>
+                            <select id="theme">
+                                <option value="default" selected>Default (Green)</option>
+                                <option value="blue">Blue</option>
+                                <option value="high-contrast">High Contrast</option>
+                                <option value="color-blind">Color Blind Friendly</option>
+                            </select>
+                        </div>
+                        <div class="toggle-group">
+                            <label class="toggle-label">
+                                <span>Reduced Animations</span>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </label>
+                            <label class="toggle-label">
+                                <span>Text-to-Speech</span>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </label>
+                        </div>
+                        <button class="btn btn-primary" id="saveAccessibility">Apply Settings</button>
+                    </div>
+                </div>
+
+                <!-- Parental Controls -->
+                <div class="settings-card kid-friendly-card">
+                    <div class="settings-card-header">
+                        <i class="fas fa-user-lock"></i>
+                        <h2>Parental Controls</h2>
+                    </div>
+                    <div class="settings-card-body">
+                        <div class="toggle-group">
+                            <label class="toggle-label">
+                                <span>Screen Time Limits</span>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </label>
+                            <label class="toggle-label">
+                                <span>Purchase Restrictions</span>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </label>
+                            <label class="toggle-label">
+                                <span>Content Filters</span>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="dailyLimit">Daily Time Limit (minutes)</label>
+                            <input type="range" id="dailyLimit" min="0" max="120" value="60">
+                            <span id="limitValue">60 minutes</span>
+                        </div>
+                        <button class="btn btn-primary" id="saveParental">Save Controls</button>
+                    </div>
+                </div>
+
+                <!-- Language & Region -->
+                <div class="settings-card kid-friendly-card">
+                    <div class="settings-card-header">
+                        <i class="fas fa-globe"></i>
+                        <h2>Language & Region</h2>
+                    </div>
+                    <div class="settings-card-body">
+                        <div class="form-group">
+                            <label for="language">Language</label>
+                            <select id="language">
+                                <option value="en" selected>English</option>
+                                <option value="hi">Hindi</option>
+                                <option value="bn">Bengali</option>
+                                <option value="ta">Tamil</option>
+                                <option value="te">Telugu</option>
+                                <option value="mr">Marathi</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="region">Region</label>
+                            <select id="region">
+                                <option value="in" selected>India</option>
+                                <option value="us">United States</option>
+                                <option value="uk">United Kingdom</option>
+                                <option value="ca">Canada</option>
+                                <option value="au">Australia</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="timezone">Timezone</label>
+                            <select id="timezone">
+                                <option value="ist" selected>IST (India Standard Time)</option>
+                                <option value="est">EST (Eastern Standard Time)</option>
+                                <option value="pst">PST (Pacific Standard Time)</option>
+                                <option value="gmt">GMT (Greenwich Mean Time)</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" id="saveLanguage">Save Preferences</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Confirm Action</h2>
+            <p id="modalMessage">Are you sure you want to perform this action?</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="modalCancel">Cancel</button>
+                <button class="btn btn-danger" id="modalConfirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-seedling"></i>
+                        <span>EcoLearn</span>
+                    </div>
+                    <p>Making environmental education engaging, practical, and impactful for students across India.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="games.html">Games & Quizzes</a></li>
+                        <li><a href="index.html#impact">Impact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">For Teachers</a></li>
+                        <li><a href="#">For Students</a></li>
+                        <li><a href="#">Lesson Plans</a></li>
+                        <li><a href="#">Research</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section contact">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> info@ecolearn.com</li>
+                        <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+                        <li><i class="fas fa-map-marker-alt"></i> New Delhi, India</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 EcoLearn. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/settings.js"></script>
+</body>
+</html>

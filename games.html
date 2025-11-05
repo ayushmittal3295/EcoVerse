@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoLearn - Games & Quizzes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/games.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-seedling"></i>
+                <span>EcoLearn</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="#features" class="nav-link">Features</a></li>
+                <li class="nav-item"><a href="games.html" class="nav-link active">Games & Quizzes</a></li>
+                <li class="nav-item"><a href="#impact" class="nav-link">Impact</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="profile.html" class="nav-link profile-link">
+                    <i class="fas fa-user"></i>
+                    <span class="points-badge" id="nav-points">0</span>
+                </a></li>
+                <li class="nav-item"><a href="#" class="nav-link logout-link" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Games Header -->
+    <section class="games-header">
+        <div class="container">
+            <h1>Eco Games & Quizzes</h1>
+            <p>Test your knowledge, earn points, and learn how to protect our planet</p>
+        </div>
+    </section>
+
+    <!-- Games Filter -->
+    <section class="games-filter">
+        <div class="container">
+            <div class="filter-options">
+                <button class="filter-btn active" data-filter="all">All Games</button>
+                <button class="filter-btn" data-filter="quiz">Quizzes</button>
+                <button class="filter-btn" data-filter="challenge">Challenges</button>
+                <button class="filter-btn" data-filter="puzzle">Puzzles</button>
+                <button class="filter-btn" data-filter="simulation">Simulations</button>
+            </div>
+            <div class="search-box">
+                <input type="text" placeholder="Search games..." id="gameSearch">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Games Grid -->
+    <section class="games-grid-section">
+        <div class="container">
+            <div class="games-grid" id="gamesGrid">
+                <!-- Recycling Game -->
+                <div class="game-card" data-category="quiz">
+                    <div class="game-image">
+                        <img src="images/eco.png" alt="Recycling Game">
+                        <span class="difficulty-badge medium">Medium</span>
+                    </div>
+                    <div class="game-content">
+                        <h3>Advanced Recycling Challenge</h3>
+                        <p>Test your knowledge of advanced recycling techniques and learn how to properly sort waste</p>
+                        <div class="game-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-clock"></i>
+                                <span>10-15 min</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-star"></i>
+                                <span>4.8 (2.4k)</span>
+                            </div>
+                        </div>
+                        <div class="game-points">
+                            <span class="points-value">+50 pts</span>
+                            <button class="btn btn-primary play-btn" data-game="recycling">Play Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carbon Footprint Quiz -->
+                <div class="game-card" data-category="quiz">
+                    <div class="game-image">
+                        <img src="images/carbon-quiz.png" alt="Carbon Footprint Quiz">
+                        <span class="difficulty-badge easy">Easy</span>
+                    </div>
+                    <div class="game-content">
+                        <h3>Carbon Footprint Quiz</h3>
+                        <p>Calculate and understand your environmental impact with this interactive quiz</p>
+                        <div class="game-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-clock"></i>
+                                <span>5-10 min</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-star"></i>
+                                <span>4.6 (1.8k)</span>
+                            </div>
+                        </div>
+                        <div class="game-points">
+                            <span class="points-value">+30 pts</span>
+                            <button class="btn btn-primary play-btn" data-game="carbon">Play Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Eco Puzzle -->
+                <div class="game-card" data-category="puzzle">
+                    <div class="game-image">
+                        <img src="images/puzzle.png" alt="Eco Puzzle">
+                        <span class="difficulty-badge hard">Hard</span>
+                    </div>
+                    <div class="game-content">
+                        <h3>Ecosystem Puzzle</h3>
+                        <p>Assemble ecosystems and learn about the delicate balance of nature</p>
+                        <div class="game-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-clock"></i>
+                                <span>15-20 min</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-star"></i>
+                                <span>4.9 (3.1k)</span>
+                            </div>
+                        </div>
+                        <div class="game-points">
+                            <span class="points-value">+75 pts</span>
+                            <button class="btn btn-primary play-btn" data-game="puzzle">Play Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Water Conservation Challenge -->
+                <div class="game-card" data-category="challenge">
+                    <div class="game-image">
+                        <img src="images/water.png" alt="Water Conservation">
+                        <span class="difficulty-badge medium">Medium</span>
+                    </div>
+                    <div class="game-content">
+                        <h3>Water Conservation Challenge</h3>
+                        <p>7-day challenge to reduce your water usage with daily tasks and tips</p>
+                        <div class="game-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>7 days</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-star"></i>
+                                <span>4.7 (2.7k)</span>
+                            </div>
+                        </div>
+                        <div class="game-points">
+                            <span class="points-value">+100 pts</span>
+                            <button class="btn btn-primary play-btn" data-game="water">Start Challenge</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Renewable Energy Sim -->
+                <div class="game-card" data-category="simulation">
+                    <div class="game-image">
+                        <img src="images/renewable.png" alt="Renewable Energy">
+                        <span class="difficulty-badge hard">Hard</span>
+                    </div>
+                    <div class="game-content">
+                        <h3>Renewable Energy Simulator</h3>
+                        <p>Design and optimize renewable energy systems for different environments</p>
+                        <div class="game-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-clock"></i>
+                                <span>20-30 min</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-star"></i>
+                                <span>4.8 (1.9k)</span>
+                            </div>
+                        </div>
+                        <div class="game-points">
+                            <span class="points-value">+120 pts</span>
+                            <button class="btn btn-primary play-btn" data-game="energy">Play Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Biodiversity Trivia -->
+                <div class="game-card" data-category="quiz">
+                    <div class="game-image">
+                        <img src="images/trivia.png" alt="Biodiversity">
+                        <span class="difficulty-badge easy">Easy</span>
+                    </div>
+                    <div class="game-content">
+                        <h3>Biodiversity Trivia</h3>
+                        <p>Test your knowledge about Earth's diverse species and ecosystems</p>
+                        <div class="game-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-clock"></i>
+                                <span>8-12 min</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-star"></i>
+                                <span>4.5 (1.5k)</span>
+                            </div>
+                        </div>
+                        <div class="game-points">
+                            <span class="points-value">+40 pts</span>
+                            <button class="btn btn-primary play-btn" data-game="biodiversity">Play Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Game Categories Section -->
+    <section class="categories-section">
+        <div class="container">
+            <h2>Game Categories</h2>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3>Quizzes</h3>
+                    <p>Test your environmental knowledge with fun and educational quizzes</p>
+                    <a href="#" class="category-link">Explore Quizzes <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3>Challenges</h3>
+                    <p>Multi-day challenges to build sustainable habits and reduce your impact</p>
+                    <a href="#" class="category-link">Explore Challenges <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-puzzle-piece"></i>
+                    </div>
+                    <h3>Puzzles</h3>
+                    <p>Solve puzzles while learning about ecosystems and environmental science</p>
+                    <a href="#" class="category-link">Explore Puzzles <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3>Simulations</h3>
+                    <p>Interactive simulations to understand complex environmental systems</p>
+                    <a href="#" class="category-link">Explore Simulations <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Game Launcher Modal -->
+    <div class="modal game-launcher-modal" id="gameLauncherModal">
+        <div class="modal-content">
+            <h2 id="gameModalTitle">Launching Game</h2>
+            <p id="gameModalDescription">Preparing your game...</p>
+            <div class="game-progress">
+                <div class="progress-bar">
+                    <div class="progress" id="gameProgress"></div>
+                </div>
+                <span id="progressText">0%</span>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" id="cancelLaunch">Cancel</button>
+                <button class="btn btn-primary" id="startGame" disabled>Play Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-seedling"></i>
+                        <span>EcoLearn</span>
+                    </div>
+                    <p>Making environmental education engaging and accessible for everyone</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="games.html">Games & Quizzes</a></li>
+                        <li><a href="#">Impact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect With Us</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 EcoLearn. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase App and Auth -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="js/games.js"></script>
+</body>
+</html>

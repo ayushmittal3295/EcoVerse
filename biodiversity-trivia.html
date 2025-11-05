@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biodiversity Trivia - EcoLearn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-light: #80e27e;
+            --primary-dark: #087f23;
+            --secondary: #8BC34A;
+            --secondary-light: #bef67a;
+            --secondary-dark: #5a9216;
+            --accent: #FF9800;
+            --accent-light: #ffc947;
+            --accent-dark: #c66900;
+            --text: #263238;
+            --text-light: #78909c;
+            --background: #f9fbe7;
+            --surface: #ffffff;
+            --error: #f44336;
+            --success: #66bb6a;
+            --warning: #ffa726;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--background);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        /* Header */
+        .trivia-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover {
+            color: var(--secondary-light);
+        }
+
+        .back-btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* Trivia Container */
+        .trivia-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            flex: 1;
+        }
+
+        .trivia-card {
+            background: var(--surface);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .trivia-header-card {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary-light) 100%);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text);
+        }
+
+        .trivia-header-card h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        .trivia-header-card p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .trivia-content {
+            padding: 2rem;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            background-color: var(--background);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--primary);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .animal-paws {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .paw {
+            width: 30px;
+            height: 30px;
+            background-color: var(--secondary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            position: relative;
+        }
+
+        .paw::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--secondary-light);
+            border-radius: 50%;
+            top: -5px;
+            left: 5px;
+        }
+
+        .paw::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: var(--secondary-light);
+            border-radius: 50%;
+            top: -3px;
+            left: 15px;
+        }
+
+        .paw.earned {
+            background-color: var(--secondary);
+        }
+
+        .paw.earned::before, .paw.earned::after {
+            background-color: var(--secondary);
+        }
+
+        /* Question Area */
+        .question-area {
+            background-color: var(--surface);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .question-number {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .question-category {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+
+        .question-image {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Options */
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .options-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .option {
+            background-color: var(--background);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            background-color: rgba(76, 175, 80, 0.1);
+            border-color: var(--primary);
+        }
+
+        .option.selected {
+            background-color: rgba(76, 175, 80, 0.2);
+            border-color: var(--primary);
+        }
+
+        .option.correct {
+            background-color: rgba(102, 187, 106, 0.2);
+            border-color: var(--success);
+        }
+
+        .option.incorrect {
+            background-color: rgba(244, 67, 54, 0.2);
+            border-color: var(--error);
+        }
+
+        .option-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-weight: bold;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .option-text {
+            flex: 1;
+        }
+
+        /* Feedback Area */
+        .feedback-area {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .feedback-area.correct {
+            background-color: rgba(102, 187, 106, 0.2);
+            border: 1px solid var(--success);
+            color: var(--success);
+            display: block;
+        }
+
+        .feedback-area.incorrect {
+            background-color: rgba(244, 67, 54, 0.2);
+            border: 1px solid var(--error);
+            color: var(--error);
+            display: block;
+        }
+
+        .feedback-content {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .feedback-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            margin-top: 0.2rem;
+        }
+
+        .feedback-text h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Navigation */
+        .trivia-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--background);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* Results Screen */
+        .results-container {
+            text-align: center;
+            padding: 2rem;
+            display: none;
+        }
+
+        .results-container.active {
+            display: block;
+        }
+
+        .results-icon {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .results-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+
+        .results-score {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .results-description {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .animal-facts {
+            background-color: var(--background);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .animal-facts h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .facts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .fact-card {
+            background-color: var(--surface);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .fact-icon {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        .trivia-footer {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: auto;
+        }
+
+        /* Animations */
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        .celebration {
+            animation: bounce 1s infinite alternate;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .trivia-container {
+                padding: 0 1rem;
+            }
+            
+            .trivia-header-card h1 {
+                font-size: 1.7rem;
+            }
+            
+            .trivia-content {
+                padding: 1.5rem;
+            }
+            
+            .question-text {
+                font-size: 1.1rem;
+            }
+            
+            .trivia-navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .trivia-header {
+                padding: 1rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .trivia-header-card {
+                padding: 1.5rem;
+            }
+            
+            .trivia-header-card h1 {
+                font-size: 1.5rem;
+            }
+            
+            .progress-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .facts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="trivia-header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>EcoLearn</span>
+            </div>
+            <a href="dashboard.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </a>
+        </div>
+    </header>
+
+    <!-- Trivia Container -->
+    <div class="trivia-container">
+        <div class="trivia-card">
+            <div class="trivia-header-card">
+                <h1>Biodiversity Trivia Challenge</h1>
+                <p>Test your knowledge about amazing animals and ecosystems!</p>
+            </div>
+
+            <div class="trivia-content">
+                <!-- Progress Section -->
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <h2>Your Wildlife Explorer Progress</h2>
+                        <div class="animal-paws" id="animal-paws">
+                            <div class="paw">1</div>
+                            <div class="paw">2</div>
+                            <div class="paw">3</div>
+                            <div class="paw">4</div>
+                            <div class="paw">5</div>
+                        </div>
+                    </div>
+                    <p>Answer questions correctly to earn animal paws and become a Wildlife Expert!</p>
+                </div>
+
+                <!-- Question Area -->
+                <div class="question-area" id="question-area">
+                    <div class="question-header">
+                        <div class="question-number">Question <span id="current-question">1</span> of <span id="total-questions">10</span></div>
+                        <div class="question-category" id="question-category">Rainforest Animals</div>
+                    </div>
+                    
+                    <h2 class="question-text" id="question-text">Which of these animals is known as the "gardener of the rainforest"?</h2>
+                    
+                    <img src="https://images.unsplash.com/photo-1547970812-1c6d4d1e6d1c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Rainforest" class="question-image" id="question-image">
+                    
+                    <div class="options-container" id="options-container">
+                        <!-- Options will be populated by JavaScript -->
+                    </div>
+                    
+                    <div class="feedback-area" id="feedback-area">
+                        <div class="feedback-content">
+                            <div class="feedback-icon" id="feedback-icon"></div>
+                            <div class="feedback-text">
+                                <h4 id="feedback-title">Correct!</h4>
+                                <p id="feedback-description">The toucan plays a crucial role in seed dispersal, helping rainforest plants grow!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="trivia-navigation">
+                    <button class="btn btn-secondary" id="prev-btn" disabled>
+                        <i class="fas fa-arrow-left"></i>
+                        Previous
+                    </button>
+                    <button class="btn btn-primary" id="next-btn">
+                        Next Question
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Results Screen -->
+                <div class="results-container" id="results-container">
+                    <div class="results-icon">
+                        <i class="fas fa-trophy celebration"></i>
+                    </div>
+                    <h2 class="results-title">Congratulations, Wildlife Expert!</h2>
+                    <div class="results-score" id="results-score">8/10</div>
+                    <p class="results-description" id="results-description">You've shown amazing knowledge about biodiversity and ecosystems!</p>
+                    
+                    <div class="animal-facts">
+                        <h3>Amazing Biodiversity Facts</h3>
+                        <div class="facts-grid">
+                            <div class="fact-card">
+                                <div class="fact-icon">
+                                    <i class="fas fa-tree"></i>
+                                </div>
+                                <h4>Rainforests</h4>
+                                <p>Home to 50% of Earth's species</p>
+                            </div>
+                            <div class="fact-card">
+                                <div class="fact-icon">
+                                    <i class="fas fa-fish"></i>
+                                </div>
+                                <h4>Coral Reefs</h4>
+                                <p>Support 25% of marine life</p>
+                            </div>
+                            <div class="fact-card">
+                                <div class="fact-icon">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <h4>Plants</h4>
+                                <p>Produce the oxygen we breathe</p>
+                            </div>
+                            <div class="fact-card">
+                                <div class="fact-icon">
+                                    <i class="fas fa-bug"></i>
+                                </div>
+                                <h4>Insects</h4>
+                                <p>Make up 80% of animal species</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="trivia-navigation">
+                        <button class="btn btn-secondary" id="play-again-btn">
+                            <i class="fas fa-redo"></i>
+                            Play Again
+                        </button>
+                        <button class="btn btn-primary" id="share-results-btn">
+                            <i class="fas fa-share"></i>
+                            Share Results
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="trivia-footer">
+        <p>&copy; 2023 EcoLearn. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Biodiversity trivia questions
+        const triviaQuestions = [
+            {
+                id: 1,
+                question: "Which of these animals is known as the 'gardener of the rainforest'?",
+                category: "Rainforest Animals",
+                image: "https://images.unsplash.com/photo-1547970812-1c6d4d1e6d1c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                options: [
+                    { text: "Jaguar", correct: false },
+                    { text: "Toucan", correct: true },
+                    { text: "Monkey", correct: false },
+                    { text: "Sloth", correct: false }
+                ],
+                explanation: "The toucan plays a crucial role in seed dispersal, helping rainforest plants grow!",
+                fact: "Toucans use their large beaks to reach fruit on branches that are too small to support their weight."
+            },
+            {
+                id: 2,
+                question: "What is the largest living species of bird?",
+                category: "Bird Species",
+                image: "https://images.unsplash.com/photo-1552728089-57bdde30beb3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                options: [
+                    { text: "Eagle", correct: false },
+                    { text: "Penguin", correct: false },
+                    { text: "Ostrich", correct: true },
+                    { text: "Albatross", correct: false }
+                ],
+                explanation: "The ostrich is the world's largest bird and can run up to 70 km/h!",
+                fact: "Ostriches have the largest eyes of any land animal - each eye is bigger than its brain!"
+            },
+            {
+                id: 3,
+                question: "Which marine animal can change its color and texture to blend with surroundings?",
+                category: "Marine Life",
+                image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                options: [
+                    { text: "Dolphin", correct: false },
+                    { text: "Octopus", correct: true },
+                    { text: "Sea Turtle", correct: false },
+                    { text: "Jellyfish", correct: false }
+                ],
+                explanation: "Octopuses are masters of camouflage and can change color in less than a second!",
+                fact: "Octopuses have three hearts and blue blood! Two hearts pump blood to the gills, while the third pumps it to the rest of the body."
+            },
+            {
+                id: 4,
+                question: "What percentage of the world's oxygen is produced by the Amazon rainforest?",
+                category: "Ecosystems",
+                image: "https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                options: [
+                    { text: "5%", correct: false },
+                    { text: "10%", correct: false },
+                    { text: "20%", correct: true },
+                    { text: "50%", correct: false }
+                ],
+                explanation: "The Amazon produces about 20% of the world's oxygen, earning it the nickname 'Lungs of the Planet'.",
+                fact: "Although the Amazon produces a lot of oxygen, it uses most of it itself through plant and animal respiration."
+            },
+            {
+                id: 5,
+                question: "Which of these is NOT a pollinator?",
+                category: "Ecosystem Services",
+                image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                options: [
+                    { text: "Bee", correct: false },
+                    { text: "Butterfly", correct: false },
+                    { text: "Bat", correct: false },
+                    { text: "Spider", correct: true }
+                ],
+                explanation: "While spiders are important for ecosystems, they don't typically pollinate plants.",
+                fact: "Bats are important pollinators for over 500 plant species, including mangoes, bananas, and agave (used to make tequila)!"
+            },
+            {
+                id: 6,
+                question: "What is the world's largest coral reef system?",
+                category: "Marine Ecosystems",
+                image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                options: [
+                    { text: "Great Barrier Reef", correct: true },
+                    { text: "Belize Barrier Reef", correct: false },
+                    { text: "New Caledonia Barrier Reef", correct: false },
+                    { text: "Mesoamerican Barrier Reef", correct: false }
+                ],
+                explanation: "The Great Barrier Reef in Australia is the world's largest coral reef system.",
+                fact: "The Great Barrier Reef is so large it can be seen from space! It's made up of over 2,900 individual reefs and 900 islands."
+            },
+            {
+                id: 7,
+                question: "Which animal has the longest migration of any mammal?",
+                category: "Animal Behavior",
+                image: "https://images.unsplash.com/photo-1574878110617-64af8b8e0c33?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                options: [
+                    { text: "Caribou", correct: false },
+                    { text: "Humpback Whale", correct: true },
+                    { text: "Monarch Butterfly", correct: false },
+                    { text: "Arctic Tern", correct: false }
+                ],
+                explanation: "Humpback whales travel up to 5,000 miles between feeding and breeding grounds!",
+                fact: "While humpback whales have the longest mammal migration, the Arctic tern has the longest migration of any animal - flying from the Arctic to Antarctica and back each year!"
+            },
+            {
+                id: 8,
+                question: "What is biodiversity?",
+                category: "Ecology",
+                image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                options: [
+                    { text: "The study of biology", correct: false },
+                    { text: "The variety of life in an ecosystem", correct: true },
+                    { text: "A type of biology degree", correct: false },
+                    { text: "The study of human diversity", correct: false }
+                ],
+                explanation: "Biodiversity refers to the variety of living species in a particular habitat or ecosystem.",
+                fact: "High biodiversity makes ecosystems more resilient to changes and disturbances like climate change or disease outbreaks."
+            },
+            {
+                id: 9,
+                question: "Which of these is an example of a keystone species?",
+                category: "Ecosystem Roles",
+                image: "https://images.unsplash.com/photo-1575550959106-5a7defe28b56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                options: [
+                    { text: "Sea Otter", correct: true },
+                    { text: "Domestic Cat", correct: false },
+                    { text: "Panda", correct: false },
+                    { text: "Goldfish", correct: false }
+                ],
+                explanation: "Sea otters are a keystone species because they help maintain the health of kelp forest ecosystems.",
+                fact: "Keystone species have a disproportionately large effect on their environment relative to their abundance. Without sea otters, sea urchin populations explode and destroy kelp forests."
+            },
+            {
+                id: 10,
+                question: "Why are bees important for biodiversity?",
+                category: "Ecosystem Services",
+                image: "https://images.unsplash.com/photo-1585435557343-3c0d90e0b25f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                options: [
+                    { text: "They produce honey", correct: false },
+                    { text: "They pollinate plants", correct: true },
+                    { text: "They control insect populations", correct: false },
+                    { text: "They improve soil quality", correct: false }
+                ],
+                explanation: "Bees are vital pollinators that help plants reproduce, supporting entire ecosystems.",
+                fact: "About one-third of the food we eat depends on pollinators like bees! This includes fruits, vegetables, and nuts."
+            }
+        ];
+
+        // DOM Elements
+        const questionArea = document.getElementById('question-area');
+        const resultsContainer = document.getElementById('results-container');
+        const currentQuestionEl = document.getElementById('current-question');
+        const totalQuestionsEl = document.getElementById('total-questions');
+        const questionCategory = document.getElementById('question-category');
+        const questionText = document.getElementById('question-text');
+        const questionImage = document.getElementById('question-image');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackArea = document.getElementById('feedback-area');
+        const feedbackIcon = document.getElementById('feedback-icon');
+        const feedbackTitle = document.getElementById('feedback-title');
+        const feedbackDescription = document.getElementById('feedback-description');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const animalPaws = document.getElementById('animal-paws');
+        const resultsScore = document.getElementById('results-score');
+        const resultsDescription = document.getElementById('results-description');
+        const playAgainBtn = document.getElementById('play-again-btn');
+        const shareResultsBtn = document.getElementById('share-results-btn');
+
+        // Game state
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let score = 0;
+        let earnedPaws = 0;
+
+        // Initialize the trivia game
+        function initTrivia() {
+            totalQuestionsEl.textContent = triviaQuestions.length;
+            showQuestion(currentQuestionIndex);
+            updateProgress();
+            
+            // Add event listeners
+            prevBtn.addEventListener('click', prevQuestion);
+            nextBtn.addEventListener('click', nextQuestion);
+            playAgainBtn.addEventListener('click', resetTrivia);
+            shareResultsBtn.addEventListener('click', shareResults);
+        }
+
+        // Show current question
+        function showQuestion(index) {
+            const question = triviaQuestions[index];
+            
+            // Update question info
+            currentQuestionEl.textContent = index + 1;
+            questionCategory.textContent = question.category;
+            questionText.textContent = question.question;
+            questionImage.src = question.image;
+            questionImage.alt = question.category;
+            
+            // Clear previous options
+            optionsContainer.innerHTML = '';
+            
+            // Add new options
+            question.options.forEach((option, i) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                if (userAnswers[index] !== undefined && userAnswers[index] === i) {
+                    optionElement.classList.add('selected');
+                    if (option.correct) {
+                        optionElement.classList.add('correct');
+                    } else {
+                        optionElement.classList.add('incorrect');
+                    }
+                }
+                
+                optionElement.innerHTML = `
+                    <div class="option-icon">${String.fromCharCode(65 + i)}</div>
+                    <div class="option-text">${option.text}</div>
+                `;
+                
+                // Only add click event if not already answered
+                if (userAnswers[index] === undefined) {
+                    optionElement.addEventListener('click', () => selectOption(i));
+                }
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Update navigation buttons
+            prevBtn.disabled = index === 0;
+            
+            // Hide/show feedback based on whether question is answered
+            if (userAnswers[index] !== undefined) {
+                const selectedOption = question.options[userAnswers[index]];
+                showFeedback(selectedOption.correct, question.explanation);
+                nextBtn.textContent = index === triviaQuestions.length - 1 ? 'See Results' : 'Next Question';
+            } else {
+                feedbackArea.className = 'feedback-area';
+                nextBtn.disabled = true;
+                nextBtn.textContent = index === triviaQuestions.length - 1 ? 'Finish Quiz' : 'Next Question';
+            }
+        }
+
+        // Select an option
+        function selectOption(optionIndex) {
+            const question = triviaQuestions[currentQuestionIndex];
+            userAnswers[currentQuestionIndex] = optionIndex;
+            
+            // Check if answer is correct
+            const isCorrect = question.options[optionIndex].correct;
+            if (isCorrect) {
+                score++;
+                
+                // Earn a paw if not already earned for this question
+                if (earnedPaws < 5) {
+                    earnedPaws++;
+                    updateProgress();
+                }
+            }
+            
+            // Update UI to show selected option and feedback
+            showQuestion(currentQuestionIndex);
+            
+            // Enable next button
+            nextBtn.disabled = false;
+        }
+
+        // Show feedback for answer
+        function showFeedback(isCorrect, explanation) {
+            if (isCorrect) {
+                feedbackArea.className = 'feedback-area correct';
+                feedbackIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                feedbackTitle.textContent = 'Correct!';
+            } else {
+                feedbackArea.className = 'feedback-area incorrect';
+                feedbackIcon.innerHTML = '<i class="fas fa-times-circle"></i>';
+                feedbackTitle.textContent = 'Not Quite!';
+            }
+            feedbackDescription.textContent = explanation;
+        }
+
+        // Update progress UI
+        function updateProgress() {
+            // Update animal paws
+            const paws = animalPaws.querySelectorAll('.paw');
+            paws.forEach((paw, index) => {
+                if (index < earnedPaws) {
+                    paw.classList.add('earned');
+                } else {
+                    paw.classList.remove('earned');
+                }
+            });
+        }
+
+        // Navigate to next question
+        function nextQuestion() {
+            if (currentQuestionIndex < triviaQuestions.length - 1) {
+                currentQuestionIndex++;
+                showQuestion(currentQuestionIndex);
+            } else {
+                // Show results
+                showResults();
+            }
+        }
+
+        // Navigate to previous question
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion(currentQuestionIndex);
+            }
+        }
+
+        // Show results screen
+        function showResults() {
+            questionArea.style.display = 'none';
+            resultsContainer.classList.add('active');
+            
+            // Update results
+            resultsScore.textContent = `${score}/${triviaQuestions.length}`;
+            
+            // Set description based on score
+            if (score >= 9) {
+                resultsDescription.textContent = "You're a Biodiversity Expert! Your knowledge of ecosystems and wildlife is impressive!";
+            } else if (score >= 7) {
+                resultsDescription.textContent = "Great job! You have solid knowledge about biodiversity and ecosystems!";
+            } else if (score >= 5) {
+                resultsDescription.textContent = "Good effort! You know quite a bit about biodiversity - keep learning!";
+            } else {
+                resultsDescription.textContent = "Nice try! Biodiversity is a fascinating topic - keep exploring and learning!";
+            }
+        }
+
+        // Reset the trivia game
+        function resetTrivia() {
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            score = 0;
+            earnedPaws = 0;
+            
+            // Reset UI
+            questionArea.style.display = 'block';
+            resultsContainer.classList.remove('active');
+            
+            // Update progress
+            updateProgress();
+            
+            // Show first question
+            showQuestion(currentQuestionIndex);
+        }
+
+        // Share results
+        function shareResults() {
+            const shareText = `I scored ${score}/${triviaQuestions.length} on the EcoLearn Biodiversity Trivia! 🌿🦋 How much do you know about our amazing planet? #Biodiversity #EcoLearn`;
+            alert(shareText);
+            // In a real app, this would use the Web Share API
+            // if (navigator.share) {
+            //     navigator.share({
+            //         title: 'My Biodiversity Trivia Results',
+            //         text: shareText,
+            //         url: window.location.href
+            //     });
+            // }
+        }
+
+        // Initialize the trivia game when page loads
+        document.addEventListener('DOMContentLoaded', initTrivia);
+    </script>
+</body>
+</html>

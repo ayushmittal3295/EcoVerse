@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Conservation Challenge - EcoLearn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-light: #80e27e;
+            --primary-dark: #087f23;
+            --secondary: #2196F3;
+            --secondary-light: #6ec6ff;
+            --secondary-dark: #0069c0;
+            --accent: #00BCD4;
+            --accent-light: #62efff;
+            --accent-dark: #008ba3;
+            --text: #263238;
+            --text-light: #78909c;
+            --background: #f9fbe7;
+            --surface: #ffffff;
+            --error: #f44336;
+            --success: #66bb6a;
+            --warning: #ffa726;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--background);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        /* Header */
+        .challenge-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover {
+            color: var(--secondary-light);
+        }
+
+        .back-btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* Challenge Container */
+        .challenge-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            flex: 1;
+        }
+
+        .challenge-card {
+            background: var(--surface);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .challenge-header-card {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-light) 100%);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text);
+        }
+
+        .challenge-header-card h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        .challenge-header-card p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .challenge-content {
+            padding: 2rem;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            background-color: var(--background);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--primary);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .water-droplets {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .droplet {
+            width: 30px;
+            height: 30px;
+            background-color: var(--secondary-light);
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        .droplet.earned {
+            background-color: var(--secondary);
+        }
+
+        /* Challenge Grid */
+        .challenge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .challenge-card-item {
+            background: var(--surface);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .challenge-card-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .challenge-card-item.completed {
+            border-color: var(--success);
+        }
+
+        .challenge-card-header {
+            background: var(--primary-light);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .challenge-card-header h3 {
+            color: var(--primary-dark);
+            margin: 0;
+        }
+
+        .challenge-badge {
+            background-color: var(--primary);
+            color: white;
+            border-radius: 20px;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .challenge-card-content {
+            padding: 1.5rem;
+        }
+
+        .challenge-card-content p {
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .water-savings {
+            background-color: rgba(33, 150, 243, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .water-savings i {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            margin-right: 1rem;
+        }
+
+        .water-savings span {
+            font-weight: 600;
+            color: var(--secondary-dark);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--background);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn i {
+            margin-right: 0.5rem;
+        }
+
+        .challenge-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Interactive Game */
+        .interactive-game {
+            background-color: var(--background);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .water-drop-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background-color: var(--surface);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid var(--secondary-light);
+        }
+
+        .water-drop {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle at 10px 10px, var(--secondary-light), var(--secondary));
+            border-radius: 50% 50% 50% 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .water-drop:hover {
+            transform: scale(1.1);
+        }
+
+        .bucket {
+            width: 120px;
+            height: 80px;
+            background-color: var(--accent);
+            border-radius: 0 0 50px 50px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .water-level {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, var(--secondary), var(--accent));
+            transition: height 0.5s;
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* Completion Message */
+        .completion-message {
+            text-align: center;
+            padding: 2rem;
+            display: none;
+        }
+
+        .completion-message.active {
+            display: block;
+        }
+
+        .celebration {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        /* Water Facts */
+        .water-facts {
+            background-color: var(--background);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .facts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .fact-card {
+            background-color: var(--surface);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+
+        .fact-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .fact-icon {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        .challenge-footer {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: auto;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .challenge-container {
+                padding: 0 1rem;
+            }
+            
+            .challenge-header-card h1 {
+                font-size: 1.7rem;
+            }
+            
+            .challenge-content {
+                padding: 1.5rem;
+            }
+            
+            .challenge-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .challenge-actions {
+                flex-direction: column;
+            }
+            
+            .game-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .challenge-header {
+                padding: 1rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .challenge-header-card {
+                padding: 1.5rem;
+            }
+            
+            .challenge-header-card h1 {
+                font-size: 1.5rem;
+            }
+            
+            .progress-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .facts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="challenge-header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>EcoLearn</span>
+            </div>
+            <a href="dashboard.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </a>
+        </div>
+    </header>
+
+    <!-- Challenge Container -->
+    <div class="challenge-container">
+        <div class="challenge-card">
+            <div class="challenge-header-card">
+                <h1>Water Conservation Challenge</h1>
+                <p>Become a Water Hero and save our planet's most precious resource!</p>
+            </div>
+
+            <div class="challenge-content">
+                <!-- Progress Section -->
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <h2>Your Water Hero Progress</h2>
+                        <div class="water-droplets" id="water-droplets">
+                            <div class="droplet">1</div>
+                            <div class="droplet">2</div>
+                            <div class="droplet">3</div>
+                            <div class="droplet">4</div>
+                            <div class="droplet">5</div>
+                        </div>
+                    </div>
+                    <p>Complete challenges to earn water droplets and level up as a Water Hero!</p>
+                </div>
+
+                <!-- Challenge Grid -->
+                <div class="challenge-grid" id="challenge-grid">
+                    <!-- Challenges will be populated by JavaScript -->
+                </div>
+
+                <!-- Interactive Game -->
+                <div class="interactive-game">
+                    <h2>Catch the Water Drops!</h2>
+                    <p>Click on the water drops before they disappear to save water!</p>
+                    
+                    <div class="game-area">
+                        <div class="water-drop-container" id="water-drop-container">
+                            <!-- Water drops will be generated here -->
+                        </div>
+                        <div class="bucket">
+                            <div class="water-level" id="bucket-water" style="height: 0%"></div>
+                        </div>
+                        
+                        <div class="game-stats">
+                            <div class="stat">
+                                <div class="stat-value" id="drops-saved">0</div>
+                                <div class="stat-label">Drops Saved</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value" id="water-saved">0L</div>
+                                <div class="stat-label">Water Saved</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value" id="time-left">30</div>
+                                <div class="stat-label">Seconds Left</div>
+                            </div>
+                        </div>
+                        
+                        <div class="challenge-actions">
+                            <button class="btn btn-primary" id="start-game">
+                                <i class="fas fa-play"></i>
+                                Start Game
+                            </button>
+                            <button class="btn btn-secondary" id="reset-game">
+                                <i class="fas fa-redo"></i>
+                                Try Again
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Completion Message -->
+                <div class="completion-message" id="completion-message">
+                    <div class="celebration">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h2>Congratulations, Water Hero!</h2>
+                    <p>You've completed all water conservation challenges and saved <span id="total-water-saved">0</span> liters of water!</p>
+                    <div class="challenge-actions">
+                        <button class="btn btn-primary" id="share-btn">
+                            <i class="fas fa-share"></i>
+                            Share Your Achievement
+                        </button>
+                        <button class="btn btn-secondary" id="new-challenges-btn">
+                            <i class="fas fa-redo"></i>
+                            New Challenges
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Water Facts -->
+                <div class="water-facts">
+                    <h2>Amazing Water Facts</h2>
+                    <div class="facts-grid">
+                        <div class="fact-card">
+                            <div class="fact-icon">
+                                <i class="fas fa-shower"></i>
+                            </div>
+                            <h3>Shower Power</h3>
+                            <p>A 5-minute shower uses about 40 liters of water</p>
+                        </div>
+                        <div class="fact-card">
+                            <div class="fact-icon">
+                                <i class="fas fa-toilet"></i>
+                            </div>
+                            <h3>Toilet Facts</h3>
+                            <p>Older toilets can use up to 13 liters per flush</p>
+                        </div>
+                        <div class="fact-card">
+                            <div class="fact-icon">
+                                <i class="fas fa-faucet"></i>
+                            </div>
+                            <h3>Leaky Faucets</h3>
+                            <p>A dripping faucet can waste 75 liters per day</p>
+                        </div>
+                        <div class="fact-card">
+                            <div class="fact-icon">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <h3>Dishwashing</h3>
+                            <p>A running tap uses 15 liters per minute</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="challenge-footer">
+        <p>&copy; 2023 EcoLearn. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Water conservation challenges data
+        const waterChallenges = [
+            {
+                id: 1,
+                title: "Take Shorter Showers",
+                description: "Challenge yourself to reduce your shower time by 2 minutes today.",
+                waterSaved: 40,
+                completed: false,
+                action: "learn",
+                fact: "A typical shower uses about 10 liters of water per minute. Reducing your shower time by 2 minutes can save 20 liters each time!"
+            },
+            {
+                id: 2,
+                title: "Turn Off Tap While Brushing",
+                description: "Don't let the water run while brushing your teeth.",
+                waterSaved: 15,
+                completed: false,
+                action: "pledge",
+                fact: "Turning off the tap while brushing your teeth can save up to 15 liters of water each time. That's about 10,000 liters per year for a family of four!"
+            },
+            {
+                id: 3,
+                title: "Fix Leaky Faucets",
+                description: "Tell an adult about any leaky faucets you notice at home.",
+                waterSaved: 75,
+                completed: false,
+                action: "game",
+                fact: "A dripping faucet can waste up to 75 liters of water per day. That's enough to fill a bathtub every week!"
+            },
+            {
+                id: 4,
+                title: "Water Plants Wisely",
+                description: "Help water plants in the early morning or late evening.",
+                waterSaved: 30,
+                completed: false,
+                action: "learn",
+                fact: "Watering plants in the early morning or late evening reduces evaporation, saving up to 30% of water used for gardening."
+            },
+            {
+                id: 5,
+                title: "Full Loads Only",
+                description: "Remind your family to only run dishwasher and washing machine with full loads.",
+                waterSaved: 50,
+                completed: false,
+                action: "pledge",
+                fact: "Running full loads in your dishwasher and washing machine can save up to 50 liters of water per cycle. That's like saving a whole bathtub of water!"
+            }
+        ];
+
+        // DOM Elements
+        const challengeGrid = document.getElementById('challenge-grid');
+        const waterDroplets = document.getElementById('water-droplets');
+        const completionMessage = document.getElementById('completion-message');
+        const waterDropContainer = document.getElementById('water-drop-container');
+        const bucketWater = document.getElementById('bucket-water');
+        const dropsSavedDisplay = document.getElementById('drops-saved');
+        const waterSavedDisplay = document.getElementById('water-saved');
+        const timeLeftDisplay = document.getElementById('time-left');
+        const startGameBtn = document.getElementById('start-game');
+        const resetGameBtn = document.getElementById('reset-game');
+        const totalWaterSaved = document.getElementById('total-water-saved');
+        const shareBtn = document.getElementById('share-btn');
+        const newChallengesBtn = document.getElementById('new-challenges-btn');
+
+        // Game state
+        let earnedDroplets = 0;
+        let completedChallenges = 0;
+        let totalWaterSavedValue = 0;
+        let gameActive = false;
+        let dropsSaved = 0;
+        let waterSaved = 0;
+        let timeLeft = 30;
+        let gameInterval;
+        let dropInterval;
+
+        // Initialize the challenge
+        function initChallenge() {
+            renderChallenges();
+            updateProgress();
+            
+            // Add game event listeners
+            startGameBtn.addEventListener('click', startGame);
+            resetGameBtn.addEventListener('click', resetGame);
+            shareBtn.addEventListener('click', shareAchievement);
+            newChallengesBtn.addEventListener('click', resetChallenges);
+        }
+
+        // Render challenges
+        function renderChallenges() {
+            challengeGrid.innerHTML = '';
+            
+            waterChallenges.forEach(challenge => {
+                const challengeCard = document.createElement('div');
+                challengeCard.className = `challenge-card-item ${challenge.completed ? 'completed' : ''}`;
+                challengeCard.innerHTML = `
+                    <div class="challenge-card-header">
+                        <h3>${challenge.title}</h3>
+                        <div class="challenge-badge">${challenge.waterSaved}L saved</div>
+                    </div>
+                    <div class="challenge-card-content">
+                        <p>${challenge.description}</p>
+                        <div class="water-savings">
+                            <i class="fas fa-tint"></i>
+                            <span>Save ${challenge.waterSaved} liters of water</span>
+                        </div>
+                        <div class="challenge-actions">
+                            <button class="btn ${challenge.completed ? 'btn-secondary' : 'btn-primary'}" data-challenge="${challenge.id}">
+                                <i class="fas fa-${getActionIcon(challenge.action)}"></i>
+                                ${challenge.completed ? 'Completed!' : getActionText(challenge.action)}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                challengeGrid.appendChild(challengeCard);
+            });
+            
+            // Add event listeners to challenge buttons
+            const challengeButtons = document.querySelectorAll('.challenge-card-item .btn');
+            challengeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const challengeId = parseInt(this.getAttribute('data-challenge'));
+                    startChallenge(challengeId);
+                });
+            });
+        }
+
+        // Get action icon based on challenge type
+        function getActionIcon(action) {
+            const icons = {
+                'learn': 'book',
+                'game': 'gamepad',
+                'pledge': 'handshake'
+            };
+            return icons[action] || 'check';
+        }
+
+        // Get action text based on challenge type
+        function getActionText(action) {
+            const texts = {
+                'learn': 'Learn More',
+                'game': 'Play Game',
+                'pledge': 'Take Pledge'
+            };
+            return texts[action] || 'Start';
+        }
+
+        // Start a challenge
+        function startChallenge(challengeId) {
+            const challenge = waterChallenges.find(c => c.id === challengeId);
+            
+            if (!challenge || challenge.completed) return;
+            
+            if (challenge.action === 'game') {
+                // For game challenges, complete after playing
+                completeChallenge(challengeId);
+            } else {
+                // For other challenges, show educational content
+                showChallengeInfo(challenge);
+            }
+        }
+
+        // Show challenge information
+        function showChallengeInfo(challenge) {
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.7)';
+            modal.style.display = 'flex';
+            modal.style.justifyContent = 'center';
+            modal.style.alignItems = 'center';
+            modal.style.zIndex = '1000';
+            
+            modal.innerHTML = `
+                <div style="background: white; padding: 2rem; border-radius: 10px; max-width: 500px; text-align: center;">
+                    <h3>${challenge.title}</h3>
+                    <p style="margin: 1rem 0;">${challenge.fact}</p>
+                    <p style="margin: 1rem 0; font-weight: 600;">Can you do this challenge today?</p>
+                    <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+                        <button class="btn btn-primary" id="accept-challenge">
+                            <i class="fas fa-check"></i>
+                            Yes, I'll Do It!
+                        </button>
+                        <button class="btn btn-secondary" id="close-modal">
+                            <i class="fas fa-times"></i>
+                            Not Now
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Add event listeners to modal buttons
+            document.getElementById('accept-challenge').addEventListener('click', function() {
+                completeChallenge(challenge.id);
+                document.body.removeChild(modal);
+            });
+            
+            document.getElementById('close-modal').addEventListener('click', function() {
+                document.body.removeChild(modal);
+            });
+        }
+
+        // Complete a challenge
+        function completeChallenge(challengeId) {
+            const challenge = waterChallenges.find(c => c.id === challengeId);
+            
+            if (!challenge || challenge.completed) return;
+            
+            // Mark as completed
+            challenge.completed = true;
+            completedChallenges++;
+            totalWaterSavedValue += challenge.waterSaved;
+            
+            // Earn a water droplet
+            if (earnedDroplets < 5) {
+                earnedDroplets++;
+            }
+            
+            // Update UI
+            renderChallenges();
+            updateProgress();
+            
+            // Show celebration for completed challenge
+            showCelebration(challenge.title);
+            
+            // Check if all challenges are completed
+            if (completedChallenges === waterChallenges.length) {
+                setTimeout(() => {
+                    completionMessage.classList.add('active');
+                    totalWaterSaved.textContent = totalWaterSavedValue;
+                }, 1000);
+            }
+        }
+
+        // Show celebration for completed challenge
+        function showCelebration(challengeTitle) {
+            const celebration = document.createElement('div');
+            celebration.style.position = 'fixed';
+            celebration.style.top = '20px';
+            celebration.style.right = '20px';
+            celebration.style.backgroundColor = 'var(--success)';
+            celebration.style.color = 'white';
+            celebration.style.padding = '1rem';
+            celebration.style.borderRadius = '10px';
+            celebration.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
+            celebration.style.zIndex = '1000';
+            celebration.style.animation = 'slideIn 0.5s ease-out';
+            
+            celebration.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-check-circle" style="font-size: 1.5rem;"></i>
+                    <div>
+                        <h4 style="margin: 0;">Challenge Completed!</h4>
+                        <p style="margin: 0;">You completed: ${challengeTitle}</p>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(celebration);
+            
+            // Remove celebration after 3 seconds
+            setTimeout(() => {
+                document.body.removeChild(celebration);
+            }, 3000);
+            
+            // Add slideIn animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Update progress UI
+        function updateProgress() {
+            // Update water droplets
+            const droplets = waterDroplets.querySelectorAll('.droplet');
+            droplets.forEach((droplet, index) => {
+                if (index < earnedDroplets) {
+                    droplet.classList.add('earned');
+                } else {
+                    droplet.classList.remove('earned');
+                }
+            });
+        }
+
+        // Game Functions
+        function startGame() {
+            gameActive = true;
+            dropsSaved = 0;
+            waterSaved = 0;
+            timeLeft = 30;
+            
+            // Reset game elements
+            waterDropContainer.innerHTML = '';
+            bucketWater.style.height = '0%';
+            dropsSavedDisplay.textContent = '0';
+            waterSavedDisplay.textContent = '0L';
+            timeLeftDisplay.textContent = timeLeft;
+            
+            // Start game timers
+            gameInterval = setInterval(updateGame, 1000);
+            dropInterval = setInterval(createWaterDrop, 800);
+            
+            // Disable start button
+            startGameBtn.disabled = true;
+        }
+
+        function updateGame() {
+            if (!gameActive) return;
+            
+            // Update game time
+            timeLeft--;
+            timeLeftDisplay.textContent = timeLeft;
+            
+            // Check if game is over
+            if (timeLeft <= 0) {
+                endGame();
+            }
+        }
+
+        function createWaterDrop() {
+            if (!gameActive) return;
+            
+            const drop = document.createElement('div');
+            drop.className = 'water-drop';
+            
+            // Random position
+            const left = Math.random() * (waterDropContainer.offsetWidth - 30);
+            const top = Math.random() * (waterDropContainer.offsetHeight - 30);
+            
+            drop.style.left = `${left}px`;
+            drop.style.top = `${top}px`;
+            
+            // Add click event to save the drop
+            drop.addEventListener('click', function() {
+                if (!gameActive) return;
+                
+                // Remove the drop
+                waterDropContainer.removeChild(drop);
+                
+                // Update stats
+                dropsSaved++;
+                waterSaved += 0.5; // Each drop saves 0.5L
+                
+                dropsSavedDisplay.textContent = dropsSaved;
+                waterSavedDisplay.textContent = `${waterSaved}L`;
+                
+                // Update bucket water level
+                bucketWater.style.height = `${Math.min(100, (dropsSaved / 30) * 100)}%`;
+            });
+            
+            waterDropContainer.appendChild(drop);
+            
+            // Remove drop after 3 seconds if not clicked
+            setTimeout(() => {
+                if (waterDropContainer.contains(drop)) {
+                    waterDropContainer.removeChild(drop);
+                }
+            }, 3000);
+        }
+
+        function endGame() {
+            gameActive = false;
+            clearInterval(gameInterval);
+            clearInterval(dropInterval);
+            startGameBtn.disabled = false;
+            
+            // Complete the game challenge if player saved enough water
+            if (waterSaved >= 10) {
+                completeChallenge(3); // Fix Leaky Faucets challenge
+            }
+            
+            // Show result message
+            if (waterSaved >= 10) {
+                alert(`Great job! You saved ${waterSaved} liters of water! You're a true Water Hero!`);
+            } else {
+                alert(`You saved ${waterSaved} liters of water. Try again to save more!`);
+            }
+        }
+
+        function resetGame() {
+            // Clear any existing intervals
+            clearInterval(gameInterval);
+            clearInterval(dropInterval);
+            
+            // Reset game state
+            gameActive = false;
+            startGameBtn.disabled = false;
+            
+            // Reset UI
+            waterDropContainer.innerHTML = '';
+            bucketWater.style.height = '0%';
+            dropsSavedDisplay.textContent = '0';
+            waterSavedDisplay.textContent = '0L';
+            timeLeftDisplay.textContent = '30';
+        }
+
+        // Share achievement
+        function shareAchievement() {
+            alert(`I saved ${totalWaterSavedValue} liters of water by completing the EcoLearn Water Conservation Challenge! 🌊💧 #WaterHero #EcoLearn`);
+        }
+
+        // Reset challenges
+        function resetChallenges() {
+            // Reset challenge state
+            waterChallenges.forEach(challenge => {
+                challenge.completed = false;
+            });
+            
+            // Reset progress
+            earnedDroplets = 0;
+            completedChallenges = 0;
+            totalWaterSavedValue = 0;
+            
+            // Update UI
+            renderChallenges();
+            updateProgress();
+            completionMessage.classList.remove('active');
+        }
+
+        // Initialize the challenge when page loads
+        document.addEventListener('DOMContentLoaded', initChallenge);
+    </script>
+</body>
+</html>

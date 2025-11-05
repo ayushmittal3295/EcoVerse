@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environmental Choices: A Sustainability Game</title>
+    <link rel="stylesheet" href="css/scenario.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Environmental Choices</h1>
+            <p>Make sustainable decisions and learn about environmental impact</p>
+        </header>
+        
+        <div class="score-board">
+            <div class="score">Environmental Points: <span id="points">0</span></div>
+            <div class="scenario-count">Scenario: <span id="current-scenario">1</span>/5</div>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        
+        <div class="scenario-container" id="scenario-container">
+            <div class="image-container">
+                <img class="scenario-image" id="scenario-image" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15e6b3a7436%20text%20%7B%20fill%3A%23333%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15e6b3a7436%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23555%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22285%22%20y%3D%22217.7%22%3EImage%20Loading%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Scenario image">
+            </div>
+            <div class="scenario-text" id="scenario-text"></div>
+            <div class="options-container" id="options-container"></div>
+            <div class="feedback-container" id="feedback-container">
+                <div class="feedback-title">Result:</div>
+                <div class="feedback-text" id="feedback-text"></div>
+            </div>
+            <button class="next-btn" id="next-btn">Next Scenario</button>
+        </div>
+        
+        <div class="game-end" id="game-end">
+            <h2>Game Complete!</h2>
+            <p>Your final environmental impact score: <span id="final-score">0</span> <span class="environment-score">out of 50</span></p>
+            <p id="end-message"></p>
+            <button class="restart-btn" id="restart-btn">Play Again</button>
+        </div>
+    </div>
+    <script src="js/scenario.js"></script>
+</body>
+</html>

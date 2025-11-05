@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoLearn - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-light: #80e27e;
+            --primary-dark: #087f23;
+            --secondary: #FF9800;
+            --secondary-light: #ffc947;
+            --secondary-dark: #c66900;
+            --accent: #2196F3;
+            --accent-light: #6ec6ff;
+            --accent-dark: #0069c0;
+            --text: #263238;
+            --text-light: #78909c;
+            --background: #f9fbe7;
+            --surface: #ffffff;
+            --error: #f44336;
+            --success: #66bb6a;
+            --warning: #ffa726;
+            --sidebar-width: 280px;
+            --header-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--background);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--primary);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 0.8rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .nav-logo i {
+            margin-right: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-item {
+            margin-left: 1.5rem;
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-link:hover {
+            color: var(--secondary-light);
+        }
+
+        .admin-badge {
+            background-color: var(--accent);
+            color: white;
+            border-radius: 20px;
+            padding: 2px 8px;
+            font-size: 0.8rem;
+            margin-left: 6px;
+        }
+
+        .logout-link {
+            color: #e53935 !important;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Dashboard Layout */
+        .dashboard-container {
+            display: flex;
+            margin-top: var(--header-height);
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--surface);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem 0;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: calc(100vh - var(--header-height));
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 1.5rem 1.5rem;
+            border-bottom: 1px solid var(--background);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1rem;
+            background-color: var(--background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .profile-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+            color: var(--text);
+        }
+
+        .profile-info p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 1.5rem 0;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+        }
+
+        .sidebar-nav .nav-item {
+            margin: 0;
+        }
+
+        .sidebar-nav .nav-item a {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .sidebar-nav .nav-item a i {
+            margin-right: 0.8rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-nav .nav-item a:hover {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--primary);
+        }
+
+        .sidebar-nav .nav-item.active a {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+        }
+
+        .sidebar-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--background);
+        }
+
+        .admin-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .admin-stat {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+
+        .admin-stat span:last-child {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+        }
+
+        /* Welcome Banner */
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-light) 100%);
+            border-radius: 10px;
+            padding: 2rem;
+            color: var(--text);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-content h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        .welcome-content p {
+            opacity: 0.9;
+        }
+
+        .welcome-stats {
+            display: flex;
+        }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .stat-card i {
+            font-size: 2rem;
+            margin-right: 1rem;
+            color: var(--primary);
+        }
+
+        .stat-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+            color: var(--primary-dark);
+        }
+
+        .stat-card p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Stats Overview */
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stats-overview .stat {
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(76, 175, 80, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+
+        .stat-icon i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .stat-info h3 {
+            font-size: 1.8rem;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-info p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+        }
+
+        .view-all {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .view-all:hover {
+            text-decoration: underline;
+        }
+
+        /* Tables */
+        .table-container {
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--background);
+        }
+
+        th {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: rgba(76, 175, 80, 0.05);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status.active {
+            background-color: rgba(102, 187, 106, 0.2);
+            color: var(--success);
+        }
+
+        .status.inactive {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: var(--error);
+        }
+
+        .status.pending {
+            background-color: rgba(255, 167, 38, 0.2);
+            color: var(--warning);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--background);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+
+        .btn-danger {
+            background-color: var(--error);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #d32f2f;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+        }
+
+        /* Forms */
+        .form-container {
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid var(--background);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--background);
+            margin-bottom: 1.5rem;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            color: var(--text);
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(76, 175, 80, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .card-content {
+            color: var(--text-light);
+        }
+
+        /* Charts */
+        .chart-container {
+            height: 300px;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+            
+            .main-content {
+                margin-left: 240px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                display: flex;
+                flex-direction: column;
+                background-color: var(--primary);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+                padding: 2rem 0;
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-item {
+                margin: 1.5rem 0;
+            }
+            
+            .dashboard-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                margin-bottom: 1rem;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+            
+            .welcome-banner {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+            
+            .stats-overview {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .stats-overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .stat-icon {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-seedling"></i>
+                <span>EcoLearn</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="dashboard.html" class="nav-link">User Dashboard</a></li>
+                <li class="nav-item"><a href="#" class="nav-link admin-link">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Admin</span>
+                    <span class="admin-badge">Admin</span>
+                </a></li>
+                <li class="nav-item"><a href="#" class="nav-link logout-link" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Layout -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-profile">
+                    <div class="profile-img" id="user-avatar">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="profile-info">
+                        <h3 id="user-name">Admin User</h3>
+                        <p>System Administrator</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item active">
+                        <a href="#">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#users">
+                            <i class="fas fa-users"></i>
+                            <span>User Management</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#content">
+                            <i class="fas fa-gamepad"></i>
+                            <span>Content Management</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#analytics">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#reports">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#settings">
+                            <i class="fas fa-cog"></i>
+                            <span>System Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="admin-stats">
+                    <div class="admin-stat">
+                        <span>Total Users:</span>
+                        <span>1,254</span>
+                    </div>
+                    <div class="admin-stat">
+                        <span>Active Today:</span>
+                        <span>342</span>
+                    </div>
+                    <div class="admin-stat">
+                        <span>New This Week:</span>
+                        <span>89</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Welcome Banner -->
+            <section class="welcome-banner">
+                <div class="welcome-content">
+                    <h1>Admin Dashboard</h1>
+                    <p>Manage users, content, and platform analytics</p>
+                </div>
+                <div class="welcome-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-chart-line"></i>
+                        <div>
+                            <h3>Platform Health</h3>
+                            <p>All systems operational</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stats Overview -->
+            <section class="stats-overview">
+                <div class="stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>1,254</h3>
+                        <p>Total Users</p>
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>24</h3>
+                        <p>Active Games</p>
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>5,678</h3>
+                        <p>Badges Awarded</p>
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>1,023</h3>
+                        <p>Trees Planted</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- User Management -->
+            <section class="table-container" id="users">
+                <div class="section-header">
+                    <h2>User Management</h2>
+                    <button class="btn btn-primary">Add New User</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Join Date</th>
+                            <th>Status</th>
+                            <th>Points</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="user-avatar">
+                                John Doe
+                            </td>
+                            <td>john.doe@example.com</td>
+                            <td>2023-05-15</td>
+                            <td><span class="status active">Active</span></td>
+                            <td>1,250</td>
+                            <td class="action-buttons">
+                                <button class="btn btn-secondary btn-sm">Edit</button>
+                                <button class="btn btn-danger btn-sm">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="user-avatar">
+                                Jane Smith
+                            </td>
+                            <td>jane.smith@example.com</td>
+                            <td>2023-06-22</td>
+                            <td><span class="status active">Active</span></td>
+                            <td>980</td>
+                            <td class="action-buttons">
+                                <button class="btn btn-secondary btn-sm">Edit</button>
+                                <button class="btn btn-danger btn-sm">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="User" class="user-avatar">
+                                Robert Johnson
+                            </td>
+                            <td>robert.j@example.com</td>
+                            <td>2023-04-10</td>
+                            <td><span class="status inactive">Inactive</span></td>
+                            <td>560</td>
+                            <td class="action-buttons">
+                                <button class="btn btn-secondary btn-sm">Edit</button>
+                                <button class="btn btn-danger btn-sm">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="User" class="user-avatar">
+                                Maria Garcia
+                            </td>
+                            <td>maria.g@example.com</td>
+                            <td>2023-07-05</td>
+                            <td><span class="status active">Active</span></td>
+                            <td>1,750</td>
+                            <td class="action-buttons">
+                                <button class="btn btn-secondary btn-sm">Edit</button>
+                                <button class="btn btn-danger btn-sm">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Content Management -->
+            <section class="table-container" id="content">
+                <div class="section-header">
+                    <h2>Content Management</h2>
+                    <button class="btn btn-primary">Add New Content</button>
+                </div>
+                <div class="tabs">
+                    <div class="tab active" data-tab="games">Games</div>
+                    <div class="tab" data-tab="quizzes">Quizzes</div>
+                    <div class="tab" data-tab="challenges">Challenges</div>
+                </div>
+                <div class="tab-content active" id="games-tab">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Game Title</th>
+                                <th>Category</th>
+                                <th>Difficulty</th>
+                                <th>Points</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Recycling Challenge</td>
+                                <td>Recycling</td>
+                                <td>Medium</td>
+                                <td>50</td>
+                                <td><span class="status active">Active</span></td>
+                                <td class="action-buttons">
+                                    <button class="btn btn-secondary btn-sm">Edit</button>
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>EcoCity Builder</td>
+                                <td>Sustainability</td>
+                                <td>Hard</td>
+                                <td>100</td>
+                                <td><span class="status active">Active</span></td>
+                                <td class="action-buttons">
+                                    <button class="btn btn-secondary btn-sm">Edit</button>
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Ocean Cleanup Mission</td>
+                                <td>Conservation</td>
+                                <td>Easy</td>
+                                <td>30</td>
+                                <td><span class="status inactive">Inactive</span></td>
+                                <td class="action-buttons">
+                                    <button class="btn btn-secondary btn-sm">Edit</button>
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-content" id="quizzes-tab">
+                    <p>Quizzes management content would go here.</p>
+                </div>
+                <div class="tab-content" id="challenges-tab">
+                    <p>Challenges management content would go here.</p>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section class="cards-grid" id="analytics">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">User Growth</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="chart-container">
+                            <canvas id="userGrowthChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Game Popularity</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="chart-container">
+                            <canvas id="gamePopularityChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Platform Engagement</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="chart-container">
+                            <canvas id="engagementChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- System Settings -->
+            <section class="form-container" id="settings">
+                <div class="section-header">
+                    <h2>System Settings</h2>
+                </div>
+                <form id="system-settings">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="site-name">Site Name</label>
+                            <input type="text" id="site-name" class="form-control" value="EcoLearn">
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-email">Admin Email</label>
+                            <input type="email" id="admin-email" class="form-control" value="admin@ecolearn.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="site-description">Site Description</label>
+                        <textarea id="site-description" class="form-control" rows="3">An interactive platform for environmental education through games and challenges.</textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="points-multiplier">Points Multiplier</label>
+                            <input type="number" id="points-multiplier" class="form-control" value="1.0" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label for="max-daily-points">Max Daily Points</label>
+                            <input type="number" id="max-daily-points" class="form-control" value="500">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="maintenance-mode">
+                            <input type="checkbox" id="maintenance-mode">
+                            Enable Maintenance Mode
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Settings</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Tab functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            // Initialize charts
+            initializeCharts();
+            
+            // Hamburger menu functionality
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+            
+            // Close menu when clicking on a link
+            document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }));
+        });
+        
+        function initializeCharts() {
+            // User Growth Chart
+            const userGrowthCtx = document.getElementById('userGrowthChart').getContext('2d');
+            const userGrowthChart = new Chart(userGrowthCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                    datasets: [{
+                        label: 'New Users',
+                        data: [65, 78, 90, 81, 86, 105, 120],
+                        borderColor: '#4CAF50',
+                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+            
+            // Game Popularity Chart
+            const gamePopularityCtx = document.getElementById('gamePopularityChart').getContext('2d');
+            const gamePopularityChart = new Chart(gamePopularityCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Recycling', 'EcoCity', 'Ocean Cleanup', 'Climate Quiz', 'Eco Scenario'],
+                    datasets: [{
+                        label: 'Plays',
+                        data: [65, 59, 80, 81, 56],
+                        backgroundColor: [
+                            'rgba(76, 175, 80, 0.7)',
+                            'rgba(255, 152, 0, 0.7)',
+                            'rgba(33, 150, 243, 0.7)',
+                            'rgba(156, 39, 176, 0.7)',
+                            'rgba(244, 67, 54, 0.7)'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+            
+            // Engagement Chart
+            const engagementCtx = document.getElementById('engagementChart').getContext('2d');
+            const engagementChart = new Chart(engagementCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Active Users', 'New Users', 'Returning Users', 'Inactive Users'],
+                    datasets: [{
+                        data: [45, 20, 25, 10],
+                        backgroundColor: [
+                            'rgba(76, 175, 80, 0.7)',
+                            'rgba(255, 152, 0, 0.7)',
+                            'rgba(33, 150, 243, 0.7)',
+                            'rgba(189, 189, 189, 0.7)'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+    </script>
+</body>
+</html>

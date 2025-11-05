@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoLearn - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-seedling"></i>
+                <span>EcoLearn</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="#features" class="nav-link">Features</a></li>
+                <li class="nav-item"><a href="#games" class="nav-link">Games & Quizzes</a></li>
+                <li class="nav-item"><a href="#impact" class="nav-link">Impact</a></li>
+                <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="profile.html" class="nav-link profile-link">
+                    <i class="fas fa-user"></i>
+                    <span class="points-badge" id="nav-points">0</span>
+                </a></li>
+                <li class="nav-item"><a href="#" class="nav-link logout-link" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Layout -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-profile">
+                    <div class="profile-img" id="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-info">
+                        <h3 id="user-name">Loading...</h3>
+                        <p id="user-level">Level 1 Eco Learner</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item active">
+                        <a href="#">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="games.html">
+                            <i class="fas fa-gamepad"></i>
+                            <span>Games & Quizzes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="challenges.html">
+                            <i class="fas fa-tasks"></i>
+                            <span>Challenges</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="achievements.html">
+                            <i class="fas fa-trophy"></i>
+                            <span>Achievements</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="progress.html">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Progress</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="community.html">
+                            <i class="fas fa-users"></i>
+                            <span>Community</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="eco-points">
+                    <h4>Your Eco Points</h4>
+                    <div class="points-display" id="user-points">0</div>
+                </div>
+                <a href="rewards.html" class="btn btn-primary redeem-btn">Redeem Rewards</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Welcome Banner -->
+            <section class="welcome-banner">
+                <div class="welcome-content">
+                    <h1 id="welcome-message">Welcome back!</h1>
+                    <p>Continue your eco-learning journey and earn more points today.</p>
+                </div>
+                <div class="welcome-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-fire"></i>
+                        <div>
+                            <h3 id="streak-count">0 Day Streak</h3>
+                            <p>Keep it up!</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stats Overview -->
+            <section class="stats-overview">
+                <div class="stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="completed-challenges">0</h3>
+                        <p>Completed Challenges</p>
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="badges-earned">0</h3>
+                        <p>Badges Earned</p>
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="trees-planted">0</h3>
+                        <p>Trees Planted</p>
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="learning-time">0h</h3>
+                        <p>Learning Time</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Activity -->
+            <section class="recent-activity">
+                <div class="section-header">
+                    <h2>Recent Activity</h2>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                <div class="activity-list" id="activity-list">
+                    <!-- Activities will be loaded dynamically -->
+                </div>
+            </section>
+
+            <!-- Recommended Content -->
+<section class="recommended-content" id="games-section">
+    <div class="section-header">
+        <h2>Recommended For You</h2>
+    </div>
+    <div class="content-grid">
+        <!-- Card 1 -->
+        <div class="content-card">
+            <div class="card-image">
+                <img src="https://images.unsplash.com/photo-1571757767119-68b8dbed8c97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Recycling Game">
+                <span class="card-badge">New</span>
+            </div>
+            <div class="card-content">
+                <h3>Advanced Recycling Challenge</h3>
+                <p>Test your knowledge of advanced recycling techniques</p>
+                <div class="card-meta">
+                    <span class="difficulty medium">Medium</span>
+                    <span class="points">+50 pts</span>
+                </div>
+                <button class="btn btn-primary" data-game="recycling">Play Now</button>
+            </div>
+        </div>
+        
+        
+       <div class="content-card">
+    <div class="card-image">
+        <img src="images/ecocity.png" alt="EcoCity Builder">
+        <span class="card-badge">New</span>
+    </div>
+    <div class="card-content">
+        <h3>EcoCity Builder</h3>
+        <p>Design and build your own sustainable city while balancing resources and eco-friendly choices.</p>
+        <div class="card-meta">
+            <span class="difficulty medium">Medium</span>
+            <span class="points">+50 pts</span>
+        </div>
+        <a href="EcoCity_Builder.html">
+            <button class="btn btn-primary" data-game="eco-city">Play Now</button>
+        </a>
+    </div>
+</div>
+
+
+        <!-- Card 2 -->
+        <div class="content-card">
+    <div class="card-image">
+        <img src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Climate Change">
+        <span class="card-badge new">New</span>
+        <div class="play-button">
+            <i class="fas fa-play"></i>
+        </div>
+    </div>
+    <div class="card-content">
+        <h3>Understanding Climate Change</h3>
+        <p>Learn how our planet is changing and what we can do about it</p>
+        <div class="card-meta">
+            <div class="duration">
+                <i class="far fa-clock"></i>
+                <span>1 min</span>
+            </div>
+        </div>
+        <!-- Button that opens video in new tab -->
+        <button class="btn btn-primary" onclick="window.open('https://drive.google.com/file/d/1bjPNu4YYMQxA1vfdM8oTsLfDKcyq_obI/preview', '_blank')">
+            Watch Now
+        </button>
+    </div>
+</div>
+        
+
+
+        <!-- Card 3 (New Game) -->
+        <div class="content-card">
+            <div class="card-image">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Ocean Cleanup Game">
+                <span class="card-badge">Hot</span>
+            </div>
+            <div class="card-content">
+                <h3>Ocean Cleanup Mission</h3>
+                <p>Help clean the oceans by sorting waste correctly</p>
+                <div class="card-meta">
+                    <div class="duration">
+                        <i class="far fa-clock"></i>
+                        <span>2 min</span>
+                    </div>
+                   
+                </div>
+                <button class="btn btn-primary" onclick="window.open('https://drive.google.com/file/d/1okPyVsZ_oSglWzp0hsWqS63XbfGTN4Ph/preview', '_blank')">
+    Play Now
+</button>
+
+            </div>
+        </div>
+        <div class="content-card">
+    <div class="card-image">
+        <img src="images/Eco.jpg" alt="Eco Scenario">
+        <span class="card-badge">Popular</span>
+    </div>
+    <div class="card-content">
+        <h3>Eco Scenario</h3>
+        <p>Face real-world situations and make eco-friendly decisions in this action-packed game.</p>
+        <div class="card-meta">
+            <span class="difficulty medium">Medium</span>
+            <span class="points">+20 pts</span>
+        </div>
+        <a href="scenario.html" class="btn btn-primary">Play Now</a>
+    </div>
+</div>
+
+    </div>
+</section>
+
+
+            <!-- Progress Section -->
+            <section class="progress-section">
+                <div class="section-header">
+                    <h2>Your Learning Progress</h2>
+                </div>
+                <div class="progress-content">
+                    <div class="progress-chart">
+                        <div class="chart-header">
+                            <h3>Weekly Activity</h3>
+                            <select id="time-range">
+                                <option value="week">This Week</option>
+                                <option value="month">This Month</option>
+                                <option value="year">This Year</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="activityChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="badges-display">
+                        <h3>Recently Earned Badges</h3>
+                        <div class="badges-list" id="badges-list">
+                            <!-- Badges will be loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Game Iframe Container -->
+    <div class="game-iframe-container" id="gameIframeContainer">
+        <div class="game-iframe-header">
+            <h2 id="gameIframeTitle">Recycling Game</h2>
+            <button class="close-game-btn" id="closeGameBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <iframe class="game-iframe" id="gameIframe" src="about:blank"></iframe>
+    </div>
+
+    <!-- Game Launcher Modal -->
+    <div class="modal game-launcher-modal" id="gameLauncherModal">
+        <div class="modal-content">
+            <h2 id="gameModalTitle">Launching Game</h2>
+            <p id="gameModalDescription">Preparing your game...</p>
+            <div class="game-progress">
+                <div class="progress-bar">
+                    <div class="progress" id="gameProgress"></div>
+                </div>
+                <span id="progressText">0%</span>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" id="cancelLaunch">Cancel</button>
+                <button class="btn btn-primary" id="startGame" disabled>Play Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Completion Modal -->
+    <div class="modal" id="gameCompletionModal">
+        <div class="modal-content">
+            <h2>Challenge Complete!</h2>
+            <p>You scored <span id="scoreDisplay">0</span> out of <span id="totalScoreDisplay">0</span> points</p>
+            <p>You've earned <strong><span id="pointsEarned">0</span> Eco Points</strong></p>
+            <div class="modal-buttons">
+                <button class="btn btn-primary" id="continueBtn">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase App and Auth -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

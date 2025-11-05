@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoLearn - Achievements</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/achievements.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-seedling"></i>
+                <span>EcoLearn</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li class="nav-item"><a href="games.html" class="nav-link">Games & Quizzes</a></li>
+                <li class="nav-item"><a href="challenges.html" class="nav-link">Challenges</a></li>
+                <li class="nav-item"><a href="achievements.html" class="nav-link active">Achievements</a></li>
+                <li class="nav-item"><a href="progress.html" class="nav-link">Progress</a></li>
+                <li class="nav-item"><a href="community.html" class="nav-link">Community</a></li>
+                <li class="nav-item"><a href="settings.html" class="nav-link">Settings</a></li>
+                <li class="nav-item"><a href="profile.html" class="nav-link profile-link">
+                    <i class="fas fa-user"></i>
+                    <span class="points-badge" id="nav-points">0</span>
+                </a></li>
+                <li class="nav-item"><a href="#" class="nav-link logout-link" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="achievements-container">
+        <div class="page-header">
+            <h1><i class="fas fa-trophy"></i> Achievements</h1>
+            <p>Celebrate your eco-friendly accomplishments and track your progress</p>
+        </div>
+
+        <!-- Achievement Stats -->
+        <section class="achievement-stats">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="total-achievements">12</h3>
+                    <p>Total Achievements</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-medal"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="completed-achievements">8</h3>
+                    <p>Completed</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-lock-open"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="inprogress-achievements">3</h3>
+                    <p>In Progress</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="locked-achievements">1</h3>
+                    <p>Locked</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievement Categories -->
+        <section class="achievement-categories">
+            <h2>Achievement Categories</h2>
+            <div class="categories-tabs">
+                <button class="tab-btn active" data-category="all">All Achievements</button>
+                <button class="tab-btn" data-category="learning">Learning</button>
+                <button class="tab-btn" data-category="action">Action</button>
+                <button class="tab-btn" data-category="community">Community</button>
+                <button class="tab-btn" data-category="mastery">Mastery</button>
+            </div>
+        </section>
+
+        <!-- Achievements Grid -->
+        <section class="achievements-grid">
+            <div class="achievement-card completed">
+                <div class="achievement-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                    <div class="badge-check">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+                <div class="achievement-info">
+                    <h3>Eco Scholar</h3>
+                    <p>Complete 10 educational modules</p>
+                    <div class="achievement-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%"></div>
+                        </div>
+                        <span>10/10 completed</span>
+                    </div>
+                </div>
+                <div class="achievement-reward">
+                    <span class="reward-points">+50</span>
+                    <span class="reward-date">Earned: Jun 15, 2023</span>
+                </div>
+            </div>
+
+            <div class="achievement-card completed">
+                <div class="achievement-icon">
+                    <i class="fas fa-recycle"></i>
+                    <div class="badge-check">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+                <div class="achievement-info">
+                    <h3>Recycling Expert</h3>
+                    <p>Correctly recycle 50 items</p>
+                    <div class="achievement-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%"></div>
+                        </div>
+                        <span>50/50 completed</span>
+                    </div>
+                </div>
+                <div class="achievement-reward">
+                    <span class="reward-points">+75</span>
+                    <span class="reward-date">Earned: May 28, 2023</span>
+                </div>
+            </div>
+
+            <div class="achievement-card completed">
+                <div class="achievement-icon">
+                    <i class="fas fa-leaf"></i>
+                    <div class="badge-check">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+                <div class="achievement-info">
+                    <h3>Green Thumb</h3>
+                    <p>Plant 5 trees or maintain a garden for 30 days</p>
+                    <div class="achievement-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%"></div>
+                        </div>
+                        <span>5/5 planted</span>
+                    </div>
+                </div>
+                <div class="achievement-reward">
+                    <span class="reward-points">+100</span>
+                    <span class="reward-date">Earned: Apr 10, 2023</span>
+                </div>
+            </div>
+
+            <div class="achievement-card in-progress">
+                <div class="achievement-icon">
+                    <i class="fas fa-bicycle"></i>
+                </div>
+                <div class="achievement-info">
+                    <h3>Eco Commuter</h3>
+                    <p>Use eco-friendly transportation for 30 days</p>
+                    <div class="achievement-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 63%"></div>
+                        </div>
+                        <span>19/30 days</span>
+                    </div>
+                </div>
+                <div class="achievement-reward">
+                    <span class="reward-points">+80</span>
+                    <button class="btn btn-secondary">Track Progress</button>
+                </div>
+            </div>
+
+            <div class="achievement-card in-progress">
+                <div class="achievement-icon">
+                    <i class="fas fa-tint"></i>
+                </div>
+                <div class="achievement-info">
+                    <h3>Water Guardian</h3>
+                    <p>Reduce water usage by 25% for 2 weeks</p>
+                    <div class="achievement-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 42%"></div>
+                        </div>
+                        <span>6/14 days</span>
+                    </div>
+                </div>
+                <div class="achievement-reward">
+                    <span class="reward-points">+60</span>
+                    <button class="btn btn-secondary">Track Progress</button>
+                </div>
+            </div>
+
+            <div class="achievement-card in-progress">
+                <div class="achievement-icon">
+                    <i class="fas fa-solar-panel"></i>
+                </div>
+                <div class="achievement-info">
+                    <h3>Energy Saver</h3>
+                    <p>Reduce energy consumption by 20% for a month</p>
+                    <div class="achievement-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 33%"></div>
+                        </div>
+                        <span>10/30 days</span>
+                    </div>
+                </div>
+                <div class="achievement-reward">
+                    <span class="reward-points">+90</span>
+                    <button class="btn btn-secondary">Track Progress</button>
+                </div>
+            </div>
+
+            <div class="achievement-card locked">
+                <div class="achievement-icon">
+                    <i class="fas fa-users"></i>
+                    <div class="badge-lock">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+                <div class="achievement-info">
+                    <h3>Community Leader</h3>
+                    <p>Organize or participate in 3 community clean-up events</p>
+                    <div class="achievement-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span>0/3 events</span>
+                    </div>
+                </div>
+                <div class="achievement-reward">
+                    <span class="reward-points">+120</span>
+                    <span class="reward-info">Complete previous achievements to unlock</span>
+                </div>
+            </div>
+
+            <div class="achievement-card locked">
+                <div class="achievement-icon">
+                    <i class="fas fa-award"></i>
+                    <div class="badge-lock">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+                <div class="achievement-info">
+                    <h3>Eco Master</h3>
+                    <p>Earn all other achievements</p>
+                    <div class="achievement-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 66%"></div>
+                        </div>
+                        <span>8/12 achievements</span>
+                    </div>
+                </div>
+                <div class="achievement-reward">
+                    <span class="reward-points">+200</span>
+                    <span class="reward-info">Complete all achievements to unlock</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Unlocks -->
+        <section class="recent-unlocks">
+            <div class="section-header">
+                <h2>Recently Unlocked</h2>
+            </div>
+            
+            <div class="unlocks-carousel">
+                <div class="unlock-item">
+                    <div class="unlock-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <div class="unlock-info">
+                        <h3>First Sprout</h3>
+                        <p>Complete your first eco-lesson</p>
+                        <span class="unlock-date">Unlocked: 2 days ago</span>
+                    </div>
+                </div>
+                
+                <div class="unlock-item">
+                    <div class="unlock-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="unlock-info">
+                        <h3>Game Champion</h3>
+                        <p>Score 100% on any eco-game</p>
+                        <span class="unlock-date">Unlocked: 5 days ago</span>
+                    </div>
+                </div>
+                
+                <div class="unlock-item">
+                    <div class="unlock-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="unlock-info">
+                        <h3>Power Saver</h3>
+                        <p>Complete the energy conservation challenge</p>
+                        <span class="unlock-date">Unlocked: 1 week ago</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Achievement Detail Modal -->
+    <div class="modal" id="achievementDetailModal">
+        <div class="modal-content">
+            <div class="achievement-modal-header">
+                <div class="modal-icon" id="modalIcon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h2 id="achievementModalTitle">Achievement Title</h2>
+            </div>
+            
+            <p id="achievementModalDescription">Achievement description will appear here.</p>
+            
+            <div class="achievement-progress-modal">
+                <div class="progress-info">
+                    <span id="progressCurrent">0</span>
+                    <span id="progressTotal">/ 0</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="modalProgressFill" style="width: 0%"></div>
+                </div>
+            </div>
+            
+            <div class="achievement-tips">
+                <h3>Tips to complete:</h3>
+                <ul id="achievementTipsList">
+                    <!-- Tips will be added dynamically -->
+                </ul>
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" id="closeAchievementModal">Close</button>
+                <button class="btn btn-primary" id="trackAchievementBtn">Track Achievement</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase App and Auth -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="js/achievements.js"></script>
+</body>
+</html>

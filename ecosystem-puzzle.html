@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecosystem Puzzle - EcoLearn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-light: #80e27e;
+            --primary-dark: #087f23;
+            --secondary: #FF9800;
+            --secondary-light: #ffc947;
+            --secondary-dark: #c66900;
+            --accent: #2196F3;
+            --accent-light: #6ec6ff;
+            --accent-dark: #0069c0;
+            --text: #263238;
+            --text-light: #78909c;
+            --background: #f9fbe7;
+            --surface: #ffffff;
+            --error: #f44336;
+            --success: #66bb6a;
+            --warning: #ffa726;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--background);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        /* Header */
+        .puzzle-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover {
+            color: var(--secondary-light);
+        }
+
+        .back-btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* Puzzle Container */
+        .puzzle-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            flex: 1;
+        }
+
+        .puzzle-card {
+            background: var(--surface);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .puzzle-header-card {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-light) 100%);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text);
+        }
+
+        .puzzle-header-card h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        .puzzle-header-card p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .puzzle-content {
+            padding: 2rem;
+        }
+
+        /* Instructions */
+        .instructions {
+            background-color: var(--background);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--primary);
+        }
+
+        .instructions h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .instructions-list {
+            list-style-type: none;
+        }
+
+        .instructions-list li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .instructions-list li i {
+            color: var(--primary);
+            margin-right: 1rem;
+            margin-top: 0.2rem;
+        }
+
+        /* Game Area */
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .game-area {
+                flex-direction: row;
+            }
+        }
+
+        .puzzle-board {
+            flex: 2;
+            background-color: var(--background);
+            border-radius: 10px;
+            padding: 1.5rem;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .puzzle-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .puzzle-slot {
+            background-color: var(--surface);
+            border: 2px dashed var(--primary-light);
+            border-radius: 10px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .puzzle-slot.correct {
+            border-color: var(--success);
+            background-color: rgba(102, 187, 106, 0.1);
+        }
+
+        .puzzle-slot.incorrect {
+            border-color: var(--error);
+            background-color: rgba(244, 67, 54, 0.1);
+        }
+
+        .puzzle-slot.highlight {
+            border-color: var(--secondary);
+            background-color: rgba(255, 152, 0, 0.1);
+        }
+
+        .slot-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        .puzzle-pieces {
+            flex: 1;
+            background-color: var(--background);
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+
+        .pieces-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .puzzle-piece {
+            background-color: var(--surface);
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: grab;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-height: 120px;
+            justify-content: center;
+        }
+
+        .puzzle-piece:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .puzzle-piece.dragging {
+            opacity: 0.7;
+            transform: scale(1.05);
+        }
+
+        .piece-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .piece-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .piece-description {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* Feedback Area */
+        .feedback-area {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .feedback-message {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .feedback-message.success {
+            background-color: rgba(102, 187, 106, 0.2);
+            border: 1px solid var(--success);
+            color: var(--success);
+            display: block;
+        }
+
+        .feedback-message.error {
+            background-color: rgba(244, 67, 54, 0.2);
+            border: 1px solid var(--error);
+            color: var(--error);
+            display: block;
+        }
+
+        .completion-message {
+            text-align: center;
+            padding: 2rem;
+            display: none;
+        }
+
+        .completion-message.active {
+            display: block;
+        }
+
+        .celebration {
+            font-size: 4rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--background);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+
+        .puzzle-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        /* Footer */
+        .puzzle-footer {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: auto;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .puzzle-container {
+                padding: 0 1rem;
+            }
+            
+            .puzzle-header-card h1 {
+                font-size: 1.7rem;
+            }
+            
+            .puzzle-content {
+                padding: 1.5rem;
+            }
+            
+            .puzzle-slots {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .pieces-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .puzzle-header {
+                padding: 1rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .puzzle-header-card {
+                padding: 1.5rem;
+            }
+            
+            .puzzle-header-card h1 {
+                font-size: 1.5rem;
+            }
+            
+            .puzzle-slots {
+                grid-template-columns: 1fr;
+            }
+            
+            .puzzle-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="puzzle-header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>EcoLearn</span>
+            </div>
+            <a href="dashboard.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </a>
+        </div>
+    </header>
+
+    <!-- Puzzle Container -->
+    <div class="puzzle-container">
+        <div class="puzzle-card">
+            <div class="puzzle-header-card">
+                <h1>Ecosystem Puzzle Adventure</h1>
+                <p>Connect the pieces to build a healthy ecosystem!</p>
+            </div>
+
+            <div class="puzzle-content">
+                <!-- Instructions -->
+                <div class="instructions">
+                    <h3>How to Play</h3>
+                    <ul class="instructions-list">
+                        <li>
+                            <i class="fas fa-dragon"></i>
+                            <span>Drag and drop the ecosystem pieces to their correct spots</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-lightbulb"></i>
+                            <span>Learn how each part helps our environment</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-trophy"></i>
+                            <span>Complete the puzzle to see how everything works together!</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Game Area -->
+                <div class="game-area">
+                    <!-- Puzzle Board -->
+                    <div class="puzzle-board">
+                        <h3>Build Your Ecosystem</h3>
+                        <div class="puzzle-slots" id="puzzle-slots">
+                            <div class="puzzle-slot" data-slot="sun">
+                                <div class="slot-label">Energy Source</div>
+                            </div>
+                            <div class="puzzle-slot" data-slot="producers">
+                                <div class="slot-label">Food Producers</div>
+                            </div>
+                            <div class="puzzle-slot" data-slot="consumers">
+                                <div class="slot-label">Consumers</div>
+                            </div>
+                            <div class="puzzle-slot" data-slot="decomposers">
+                                <div class="slot-label">Nature's Recyclers</div>
+                            </div>
+                            <div class="puzzle-slot" data-slot="water">
+                                <div class="slot-label">Water Cycle</div>
+                            </div>
+                            <div class="puzzle-slot" data-slot="air">
+                                <div class="slot-label">Clean Air</div>
+                            </div>
+                        </div>
+
+                        <!-- Feedback Area -->
+                        <div class="feedback-area">
+                            <div class="feedback-message" id="feedback-message"></div>
+                            
+                            <div class="completion-message" id="completion-message">
+                                <div class="celebration">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <h2>Great Job!</h2>
+                                <p>You've built a healthy ecosystem where all parts work together!</p>
+                                <div class="puzzle-actions">
+                                    <button class="btn btn-primary" id="play-again-btn">
+                                        <i class="fas fa-redo"></i>
+                                        Play Again
+                                    </button>
+                                    <button class="btn btn-secondary" id="learn-more-btn">
+                                        <i class="fas fa-book"></i>
+                                        Learn More
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Puzzle Pieces -->
+                    <div class="puzzle-pieces">
+                        <h3>Ecosystem Pieces</h3>
+                        <div class="pieces-container" id="pieces-container">
+                            <!-- Pieces will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="puzzle-footer">
+        <p>&copy; 2023 EcoLearn. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Ecosystem puzzle data
+        const ecosystemPieces = [
+            {
+                id: 'sun',
+                name: 'Sun',
+                description: 'Provides energy for plants to grow',
+                icon: 'fas fa-sun',
+                correctSlot: 'sun',
+                fact: 'The sun provides energy for photosynthesis, which is how plants make their food.'
+            },
+            {
+                id: 'trees',
+                name: 'Trees & Plants',
+                description: 'Produce oxygen and food',
+                icon: 'fas fa-tree',
+                correctSlot: 'producers',
+                fact: 'Plants are called producers because they produce their own food using sunlight.'
+            },
+            {
+                id: 'animals',
+                name: 'Animals',
+                description: 'Eat plants or other animals',
+                icon: 'fas fa-paw',
+                correctSlot: 'consumers',
+                fact: 'Animals are consumers - they eat plants or other animals to get energy.'
+            },
+            {
+                id: 'fungi',
+                name: 'Fungi & Bacteria',
+                description: 'Break down dead material',
+                icon: 'fas fa-seedling',
+                correctSlot: 'decomposers',
+                fact: 'Decomposers break down dead plants and animals, returning nutrients to the soil.'
+            },
+            {
+                id: 'water',
+                name: 'Water',
+                description: 'Essential for all living things',
+                icon: 'fas fa-tint',
+                correctSlot: 'water',
+                fact: 'Water is essential for all life and moves through the environment in the water cycle.'
+            },
+            {
+                id: 'air',
+                name: 'Clean Air',
+                description: 'Provides oxygen to breathe',
+                icon: 'fas fa-wind',
+                correctSlot: 'air',
+                fact: 'Plants produce the oxygen we breathe, while we exhale carbon dioxide that plants need.'
+            }
+        ];
+
+        // DOM Elements
+        const puzzleSlots = document.getElementById('puzzle-slots');
+        const piecesContainer = document.getElementById('pieces-container');
+        const feedbackMessage = document.getElementById('feedback-message');
+        const completionMessage = document.getElementById('completion-message');
+        const playAgainBtn = document.getElementById('play-again-btn');
+        const learnMoreBtn = document.getElementById('learn-more-btn');
+
+        // Game state
+        let placedPieces = {};
+        let correctPlacements = 0;
+
+        // Initialize the puzzle
+        function initPuzzle() {
+            // Create puzzle pieces
+            ecosystemPieces.forEach(piece => {
+                const pieceElement = document.createElement('div');
+                pieceElement.className = 'puzzle-piece';
+                pieceElement.id = `piece-${piece.id}`;
+                pieceElement.draggable = true;
+                pieceElement.innerHTML = `
+                    <div class="piece-icon">
+                        <i class="${piece.icon}"></i>
+                    </div>
+                    <div class="piece-name">${piece.name}</div>
+                    <div class="piece-description">${piece.description}</div>
+                `;
+                
+                // Add drag event listeners
+                pieceElement.addEventListener('dragstart', handleDragStart);
+                pieceElement.addEventListener('dragend', handleDragEnd);
+                
+                piecesContainer.appendChild(pieceElement);
+            });
+            
+            // Add drop event listeners to slots
+            const slots = document.querySelectorAll('.puzzle-slot');
+            slots.forEach(slot => {
+                slot.addEventListener('dragover', handleDragOver);
+                slot.addEventListener('dragenter', handleDragEnter);
+                slot.addEventListener('dragleave', handleDragLeave);
+                slot.addEventListener('drop', handleDrop);
+            });
+            
+            // Add button event listeners
+            playAgainBtn.addEventListener('click', resetPuzzle);
+            learnMoreBtn.addEventListener('click', showFacts);
+        }
+
+        // Drag and Drop Functions
+        function handleDragStart(e) {
+            e.dataTransfer.setData('text/plain', e.target.id);
+            e.target.classList.add('dragging');
+            
+            // Highlight correct slot
+            const pieceId = e.target.id.replace('piece-', '');
+            const piece = ecosystemPieces.find(p => p.id === pieceId);
+            if (piece) {
+                const correctSlot = document.querySelector(`.puzzle-slot[data-slot="${piece.correctSlot}"]`);
+                if (correctSlot && !correctSlot.querySelector('.puzzle-piece')) {
+                    correctSlot.classList.add('highlight');
+                }
+            }
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+            
+            // Remove highlights
+            const slots = document.querySelectorAll('.puzzle-slot');
+            slots.forEach(slot => {
+                slot.classList.remove('highlight');
+            });
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDragEnter(e) {
+            e.preventDefault();
+            e.target.classList.add('highlight');
+        }
+
+        function handleDragLeave(e) {
+            e.target.classList.remove('highlight');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.target.classList.remove('highlight');
+            
+            const pieceId = e.dataTransfer.getData('text/plain');
+            const pieceElement = document.getElementById(pieceId);
+            const slot = e.target.closest('.puzzle-slot');
+            
+            if (slot && !slot.querySelector('.puzzle-piece')) {
+                // Move piece to slot
+                slot.appendChild(pieceElement);
+                pieceElement.style.margin = '0';
+                
+                // Check if placement is correct
+                const pieceId = pieceElement.id.replace('piece-', '');
+                const piece = ecosystemPieces.find(p => p.id === pieceId);
+                const slotType = slot.getAttribute('data-slot');
+                
+                if (piece && piece.correctSlot === slotType) {
+                    // Correct placement
+                    slot.classList.add('correct');
+                    feedbackMessage.textContent = `Great! ${piece.fact}`;
+                    feedbackMessage.className = 'feedback-message success';
+                    
+                    // Track correct placement
+                    if (!placedPieces[pieceId]) {
+                        placedPieces[pieceId] = true;
+                        correctPlacements++;
+                    }
+                    
+                    // Check if puzzle is complete
+                    if (correctPlacements === ecosystemPieces.length) {
+                        setTimeout(() => {
+                            completionMessage.classList.add('active');
+                        }, 1000);
+                    }
+                } else {
+                    // Incorrect placement
+                    slot.classList.add('incorrect');
+                    feedbackMessage.textContent = 'Not quite right! Try again.';
+                    feedbackMessage.className = 'feedback-message error';
+                    
+                    // Return piece to pieces container after a delay
+                    setTimeout(() => {
+                        piecesContainer.appendChild(pieceElement);
+                        slot.classList.remove('incorrect');
+                        feedbackMessage.className = 'feedback-message';
+                    }, 1000);
+                }
+            }
+        }
+
+        // Reset the puzzle
+        function resetPuzzle() {
+            // Clear slots
+            const slots = document.querySelectorAll('.puzzle-slot');
+            slots.forEach(slot => {
+                slot.classList.remove('correct', 'incorrect');
+                const piece = slot.querySelector('.puzzle-piece');
+                if (piece) {
+                    piecesContainer.appendChild(piece);
+                }
+            });
+            
+            // Reset game state
+            placedPieces = {};
+            correctPlacements = 0;
+            
+            // Hide completion message
+            completionMessage.classList.remove('active');
+            feedbackMessage.className = 'feedback-message';
+        }
+
+        // Show facts about the ecosystem
+        function showFacts() {
+            alert("Here's what you learned:\n\n" + 
+                ecosystemPieces.map(piece => 
+                    `• ${piece.name}: ${piece.fact}`
+                ).join('\n\n')
+            );
+        }
+
+        // Initialize the puzzle when page loads
+        document.addEventListener('DOMContentLoaded', initPuzzle);
+    </script>
+</body>
+</html>

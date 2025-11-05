@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoLearn - Progress</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/progress.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-seedling"></i>
+                <span>EcoLearn</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li class="nav-item"><a href="profile.html" class="nav-link">Profile</a></li>
+                <li class="nav-item"><a href="games.html" class="nav-link">Games</a></li>
+                <li class="nav-item"><a href="community.html" class="nav-link">Community</a></li>
+                <li class="nav-item"><a href="progress.html" class="nav-link active">Progress</a></li>
+                <li class="nav-item"><a href="profile.html" class="nav-link profile-link">
+                    <i class="fas fa-user"></i>
+                    <span class="points-badge" id="nav-points">0</span>
+                </a></li>
+                <li class="nav-item"><a href="#" class="nav-link logout-link" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Layout -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-profile">
+                    <div class="profile-img" id="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-info">
+                        <h3 id="user-name">Loading...</h3>
+                        <p id="user-level">Level 1 Eco Learner</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a href="dashboard.html">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="profile.html">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="games.html">
+                            <i class="fas fa-gamepad"></i>
+                            <span>Games & Quizzes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">
+                            <i class="fas fa-tasks"></i>
+                            <span>Challenges</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">
+                            <i class="fas fa-trophy"></i>
+                            <span>Achievements</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="progress.html">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Progress</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="community.html">
+                            <i class="fas fa-users"></i>
+                            <span>Community</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="eco-points">
+                    <h4>Your Eco Points</h4>
+                    <div class="points-display" id="user-points">0</div>
+                </div>
+                <button class="btn btn-primary redeem-btn">Redeem Rewards</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Progress Header -->
+            <section class="progress-header">
+                <h1>Your Learning Progress</h1>
+                <p>Track your eco-journey and see how much you've accomplished</p>
+            </section>
+
+            <!-- Progress Overview -->
+            <section class="progress-overview">
+                <div class="progress-card main-progress">
+                    <h2>Level Progress</h2>
+                    <div class="progress-circle">
+                        <div class="circle-bg"></div>
+                        <div class="circle-progress" id="level-circle"></div>
+                        <div class="circle-text">
+                            <span class="progress-percent" id="level-percent">0%</span>
+                            <span class="progress-label">to Level <span id="next-level">2</span></span>
+                        </div>
+                    </div>
+                    <div class="progress-info">
+                        <p><span id="current-points">0</span> / <span id="next-level-points">100</span> points</p>
+                        <p>You need <span id="points-needed">100</span> more points to reach Level <span id="target-level">2</span></p>
+                    </div>
+                </div>
+                
+                <div class="progress-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="streak-days">0</h3>
+                            <p>Day Streak</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="completed-challenges">0</h3>
+                            <p>Challenges Completed</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="badges-earned">0</h3>
+                            <p>Badges Earned</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Progress Charts -->
+            <section class="progress-charts">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Weekly Activity</h3>
+                        <select id="time-range">
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="year">This Year</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="activityChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Category Progress</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Activity -->
+            <section class="recent-activity">
+                <div class="section-header">
+                    <h2>Recent Activity</h2>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                <div class="activity-list" id="activity-list">
+                    <!-- Activities will be loaded dynamically -->
+                </div>
+            </section>
+
+            <!-- Badges Progress -->
+            <section class="badges-progress">
+                <div class="section-header">
+                    <h2>Badges Progress</h2>
+                    <a href="profile.html" class="view-all">View All Badges</a>
+                </div>
+                <div class="badges-grid" id="badges-grid">
+                    <!-- Badges will be loaded dynamically -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/progress.js"></script>
+</body>
+</html>

@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizMaster - Real-Time Quiz Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(to right, #3a7bd5, #00d2ff);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #3a7bd5;
+        }
+
+        h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background: linear-gradient(to right, #3a7bd5, #00d2ff);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to right, #f5a623, #f5d123);
+        }
+
+        .btn-danger {
+            background: linear-gradient(to right, #ff512f, #dd2476);
+        }
+
+        .question-container {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+
+        .option-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .option-container input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .quiz-list {
+            margin-top: 20px;
+        }
+
+        .quiz-item {
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .timer {
+            font-size: 24px;
+            text-align: center;
+            margin: 20px 0;
+            color: #ff512f;
+            font-weight: bold;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .option:hover {
+            background-color: #f5f5f5;
+        }
+
+        .option.selected {
+            border-color: #3a7bd5;
+            background-color: #e3f2fd;
+        }
+
+        .points-display {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #3a7bd5;
+        }
+
+        .leaderboard {
+            margin-top: 30px;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .leaderboard-header {
+            font-weight: bold;
+            background-color: #f5f5f5;
+        }
+
+        .correct {
+            background-color: #e7f6e7;
+            border-color: #4caf50;
+        }
+
+        .incorrect {
+            background-color: #ffecec;
+            border-color: #f44336;
+        }
+
+        .flex-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .flex-row button {
+            flex: 1;
+        }
+
+        .teacher-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+            
+            .flex-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>QuizMaster</h1>
+            <p>Real-Time Interactive Quiz Platform</p>
+        </div>
+        
+        <div class="content">
+            <!-- Main Menu Screen -->
+            <div id="main-menu" class="screen active">
+                <h2>Welcome to QuizMaster!</h2>
+                <p>Are you a teacher or a student?</p>
+                <div class="flex-row">
+                    <button onclick="showScreen('teacher-setup')">Teacher</button>
+                    <button onclick="showScreen('student-join')">Student</button>
+                </div>
+            </div>
+            
+            <!-- Teacher Setup Screen -->
+            <div id="teacher-setup" class="screen">
+                <h2>Create a Quiz</h2>
+                <input type="text" id="quiz-title" placeholder="Quiz Title">
+                
+                <div id="questions-container">
+                    <!-- Questions will be added here -->
+                </div>
+                
+                <button onclick="addQuestion()">Add Question</button>
+                <button class="btn-secondary" onclick="saveQuiz()">Save Quiz</button>
+                <button onclick="showScreen('main-menu')">Back to Menu</button>
+            </div>
+            
+            <!-- Teacher Quiz Management Screen -->
+            <div id="teacher-quiz-management" class="screen">
+                <h2>Your Quiz is Ready!</h2>
+                <p>Share this code with your students: <strong id="quiz-code-display">12345</strong></p>
+                <p>When all students have joined, click Start Quiz</p>
+                
+                <div id="student-list">
+                    <h3>Joined Students:</h3>
+                    <!-- Student list will appear here -->
+                </div>
+                
+                <button onclick="startQuiz()">Start Quiz</button>
+                <button onclick="showScreen('teacher-setup')">Create New Quiz</button>
+            </div>
+            
+            <!-- Student Join Screen -->
+            <div id="student-join" class="screen">
+                <h2>Join a Quiz</h2>
+                <input type="text" id="quiz-code-input" placeholder="Enter Quiz Code">
+                <input type="text" id="student-name" placeholder="Your Name">
+                <button onclick="joinQuiz()">Join Quiz</button>
+                <button onclick="showScreen('main-menu')">Back to Menu</button>
+            </div>
+            
+            <!-- Student Waiting Screen -->
+            <div id="student-waiting" class="screen">
+                <h2>Waiting for Quiz to Start</h2>
+                <p>You've joined successfully. Please wait for the teacher to start the quiz.</p>
+                <p id="waiting-quiz-title">Quiz Title</p>
+                <div id="waiting-students">
+                    <!-- Other students will be listed here -->
+                </div>
+            </div>
+            
+            <!-- Quiz In Progress Screen -->
+            <div id="quiz-screen" class="screen">
+                <h2 id="current-quiz-title">Quiz Title</h2>
+                <div class="timer" id="timer">30</div>
+                <div class="points-display" id="points-display">Potential Points: 1000</div>
+                
+                <h3 id="question-text">Question will appear here</h3>
+                <div class="options" id="options-container">
+                    <!-- Options will be added here -->
+                </div>
+                
+                <button onclick="submitAnswer()">Submit Answer</button>
+            </div>
+            
+            <!-- Results Screen -->
+            <div id="results-screen" class="screen">
+                <h2>Quiz Results</h2>
+                <p>Your total score: <strong id="total-score">0</strong> points</p>
+                
+                <h3>Leaderboard</h3>
+                <div class="leaderboard">
+                    <div class="leaderboard-item leaderboard-header">
+                        <span>Rank</span>
+                        <span>Name</span>
+                        <span>Score</span>
+                    </div>
+                    <div id="leaderboard-items">
+                        <!-- Leaderboard items will be added here -->
+                    </div>
+                </div>
+                
+                <button onclick="showScreen('main-menu')">Back to Main Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentScreen = 'main-menu';
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let timeLeft = 30;
+        let timerInterval;
+        let selectedOptions = [];
+        let quizCode = '';
+        let studentName = '';
+        let studentScore = 0;
+        let leaderboard = [];
+
+        // Show a specific screen
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+            currentScreen = screenId;
+        }
+
+        // Add a new question in teacher mode
+        function addQuestion() {
+            const questionsContainer = document.getElementById('questions-container');
+            const questionIndex = questions.length;
+            
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question-container';
+            questionDiv.innerHTML = `
+                <h3>Question ${questionIndex + 1}</h3>
+                <textarea placeholder="Question text" id="question-${questionIndex}"></textarea>
+                <div id="options-${questionIndex}">
+                    <div class="option-container">
+                        <input type="checkbox" id="correct-${questionIndex}-0">
+                        <input type="text" placeholder="Option 1" id="option-${questionIndex}-0">
+                    </div>
+                    <div class="option-container">
+                        <input type="checkbox" id="correct-${questionIndex}-1">
+                        <input type="text" placeholder="Option 2" id="option-${questionIndex}-1">
+                    </div>
+                </div>
+                <button onclick="addOption(${questionIndex})">Add Option</button>
+                <button class="btn-danger" onclick="removeQuestion(${questionIndex})">Remove Question</button>
+            `;
+            
+            questionsContainer.appendChild(questionDiv);
+            questions.push({
+                text: '',
+                options: ['', ''],
+                correctOptions: [false, false]
+            });
+        }
+
+        // Add an option to a question
+        function addOption(questionIndex) {
+            const optionsContainer = document.getElementById(`options-${questionIndex}`);
+            const optionIndex = questions[questionIndex].options.length;
+            
+            const optionDiv = document.createElement('div');
+            optionDiv.className = 'option-container';
+            optionDiv.innerHTML = `
+                <input type="checkbox" id="correct-${questionIndex}-${optionIndex}">
+                <input type="text" placeholder="Option ${optionIndex + 1}" id="option-${questionIndex}-${optionIndex}">
+            `;
+            
+            optionsContainer.appendChild(optionDiv);
+            questions[questionIndex].options.push('');
+            questions[questionIndex].correctOptions.push(false);
+        }
+
+        // Remove a question
+        function removeQuestion(questionIndex) {
+            questions.splice(questionIndex, 1);
+            renderQuestions();
+        }
+
+        // Render questions for teacher
+        function renderQuestions() {
+            const questionsContainer = document.getElementById('questions-container');
+            questionsContainer.innerHTML = '';
+            
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-container';
+                
+                let optionsHtml = '';
+                question.options.forEach((option, optIndex) => {
+                    optionsHtml += `
+                        <div class="option-container">
+                            <input type="checkbox" id="correct-${index}-${optIndex}" ${question.correctOptions[optIndex] ? 'checked' : ''}>
+                            <input type="text" placeholder="Option ${optIndex + 1}" id="option-${index}-${optIndex}" value="${option}">
+                        </div>
+                    `;
+                });
+                
+                questionDiv.innerHTML = `
+                    <h3>Question ${index + 1}</h3>
+                    <textarea placeholder="Question text" id="question-${index}">${question.text}</textarea>
+                    <div id="options-${index}">
+                        ${optionsHtml}
+                    </div>
+                    <button onclick="addOption(${index})">Add Option</button>
+                    <button class="btn-danger" onclick="removeQuestion(${index})">Remove Question</button>
+                `;
+                
+                questionsContainer.appendChild(questionDiv);
+            });
+        }
+
+        // Save the quiz created by teacher
+        function saveQuiz() {
+            // Collect questions and options
+            for (let i = 0; i < questions.length; i++) {
+                questions[i].text = document.getElementById(`question-${i}`).value;
+                
+                for (let j = 0; j < questions[i].options.length; j++) {
+                    questions[i].options[j] = document.getElementById(`option-${i}-${j}`).value;
+                    questions[i].correctOptions[j] = document.getElementById(`correct-${i}-${j}`).checked;
+                }
+            }
+            
+            // Generate a random quiz code
+            quizCode = Math.floor(10000 + Math.random() * 90000);
+            document.getElementById('quiz-code-display').textContent = quizCode;
+            
+            // Show quiz management screen
+            showScreen('teacher-quiz-management');
+        }
+
+        // Start the quiz
+        function startQuiz() {
+            showScreen('quiz-screen');
+            loadQuestion(0);
+        }
+
+        // Join quiz as student
+        function joinQuiz() {
+            const code = document.getElementById('quiz-code-input').value;
+            studentName = document.getElementById('student-name').value;
+            
+            if (!code || !studentName) {
+                alert('Please enter both quiz code and your name');
+                return;
+            }
+            
+            // In a real app, this would verify with the server
+            // For this demo, we'll just assume it's correct
+            document.getElementById('waiting-quiz-title').textContent = `Quiz Code: ${code}`;
+            showScreen('student-waiting');
+        }
+
+        // Load a question
+        function loadQuestion(index) {
+            if (index >= questions.length) {
+                endQuiz();
+                return;
+            }
+            
+            currentQuestionIndex = index;
+            const question = questions[index];
+            
+            document.getElementById('question-text').textContent = question.text;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, optIndex) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = option;
+                optionElement.onclick = () => toggleOption(optIndex, optionElement);
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            selectedOptions = [];
+            startTimer();
+        }
+
+        // Toggle an option selection
+        function toggleOption(optionIndex, element) {
+            const index = selectedOptions.indexOf(optionIndex);
+            
+            if (index === -1) {
+                selectedOptions.push(optionIndex);
+                element.classList.add('selected');
+            } else {
+                selectedOptions.splice(index, 1);
+                element.classList.remove('selected');
+            }
+        }
+
+        // Start the timer for the current question
+        function startTimer() {
+            timeLeft = 30;
+            document.getElementById('timer').textContent = timeLeft;
+            updatePointsDisplay();
+            
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').textContent = timeLeft;
+                updatePointsDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitAnswer();
+                }
+            }, 1000);
+        }
+
+        // Update the points display based on time left
+        function updatePointsDisplay() {
+            let points = 400;
+            
+            if (timeLeft > 15) {
+                points = 1000;
+            } else if (timeLeft > 5) {
+                // Calculate points between 400 and 1000 for 6-15 seconds
+                points = 400 + Math.floor(600 * (timeLeft - 5) / 10);
+            }
+            
+            document.getElementById('points-display').textContent = `Potential Points: ${points}`;
+        }
+
+        // Submit an answer
+        function submitAnswer() {
+            clearInterval(timerInterval);
+            
+            const question = questions[currentQuestionIndex];
+            let isCorrect = true;
+            
+            // Check if all correct options are selected and no incorrect ones
+            question.correctOptions.forEach((isCorrectOption, index) => {
+                if (isCorrectOption && !selectedOptions.includes(index)) {
+                    isCorrect = false;
+                }
+                if (!isCorrectOption && selectedOptions.includes(index)) {
+                    isCorrect = false;
+                }
+            });
+            
+            // Calculate points based on time
+            let pointsEarned = 400;
+            if (timeLeft > 15) {
+                pointsEarned = 1000;
+            } else if (timeLeft > 5) {
+                pointsEarned = 400 + Math.floor(600 * (timeLeft - 5) / 10);
+            }
+            
+            if (isCorrect) {
+                studentScore += pointsEarned;
+                
+                // Show correct answer feedback
+                const options = document.querySelectorAll('.option');
+                options.forEach((option, index) => {
+                    if (question.correctOptions[index]) {
+                        option.classList.add('correct');
+                    }
+                });
+            } else {
+                // Show correct and incorrect answers
+                const options = document.querySelectorAll('.option');
+                options.forEach((option, index) => {
+                    if (question.correctOptions[index]) {
+                        option.classList.add('correct');
+                    } else if (selectedOptions.includes(index)) {
+                        option.classList.add('incorrect');
+                    }
+                });
+            }
+            
+            // Wait a moment to show feedback, then move to next question
+            setTimeout(() => {
+                loadQuestion(currentQuestionIndex + 1);
+            }, 3000);
+        }
+
+        // End the quiz and show results
+        function endQuiz() {
+            // In a real app, this would send the score to the server
+            // For this demo, we'll create a mock leaderboard
+            document.getElementById('total-score').textContent = studentScore;
+            
+            // Generate mock leaderboard
+            leaderboard = [
+                { name: studentName, score: studentScore },
+                { name: 'Emma', score: 8500 },
+                { name: 'Noah', score: 7200 },
+                { name: 'Olivia', score: 6800 },
+                { name: 'Liam', score: 5500 },
+                { name: 'Ava', score: 4800 },
+                { name: 'James', score: 4200 }
+            ];
+            
+            // Sort by score descending
+            leaderboard.sort((a, b) => b.score - a.score);
+            
+            // Assign ranks (same score gets same rank)
+            let currentRank = 1;
+            leaderboard.forEach((item, index) => {
+                if (index > 0 && item.score === leaderboard[index - 1].score) {
+                    item.rank = leaderboard[index - 1].rank;
+                } else {
+                    item.rank = currentRank;
+                }
+                currentRank++;
+            });
+            
+            // Display leaderboard
+            const leaderboardItems = document.getElementById('leaderboard-items');
+            leaderboardItems.innerHTML = '';
+            
+            leaderboard.forEach(item => {
+                const leaderboardItem = document.createElement('div');
+                leaderboardItem.className = 'leaderboard-item';
+                leaderboardItem.innerHTML = `
+                    <span>${item.rank}</span>
+                    <span>${item.name}</span>
+                    <span>${item.score}</span>
+                `;
+                leaderboardItems.appendChild(leaderboardItem);
+            });
+            
+            showScreen('results-screen');
+        }
+
+        // Initialize the app
+        function init() {
+            // Add a couple of sample questions for demo purposes
+            questions = [
+                {
+                    text: "What is the capital of France?",
+                    options: ["London", "Paris", "Berlin", "Madrid"],
+                    correctOptions: [false, true, false, false]
+                },
+                {
+                    text: "Which of these are programming languages?",
+                    options: ["JavaScript", "HTML", "CSS", "Python"],
+                    correctOptions: [true, false, false, true]
+                }
+            ];
+            
+            showScreen('main-menu');
+        }
+
+        // Start the app when page loads
+        window.onload = init;
+    </script>
+</body>
+</html>

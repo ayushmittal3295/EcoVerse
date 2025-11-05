@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco Challenges - EcoLearn</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/challenges.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-seedling"></i>
+                <span>EcoLearn</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="index.html#features" class="nav-link">Features</a></li>
+                <li class="nav-item"><a href="games.html" class="nav-link">Games & Quizzes</a></li>
+                <li class="nav-item"><a href="challenges.html" class="nav-link active">Challenges</a></li>
+                <li class="nav-item"><a href="index.html#impact" class="nav-link">Impact</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="login.html" class="nav-link">Login</a></li>
+                <li class="nav-item"><a href="#profile.html" class="nav-link profile-link">
+                    <i class="fas fa-user"></i>
+                    <span class="points-badge">350</span>
+                </a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Challenges Hero -->
+    <section class="challenges-hero">
+        <div class="decoration circle circle-1"></div>
+        <div class="decoration circle circle-2"></div>
+        <div class="floating-animal animal-1">
+            <i class="fas fa-leaf"></i>
+        </div>
+        <div class="floating-animal animal-2">
+            <i class="fas fa-recycle"></i>
+        </div>
+        
+        <div class="container">
+            <div class="challenges-header">
+                <h1><i class="fas fa-trophy"></i> Eco Challenges</h1>
+                <p>Complete fun environmental challenges, earn points, and make a real impact on our planet!</p>
+                <div class="user-stats">
+                    <div class="stat-card">
+                        <div class="stat-value">350</div>
+                        <div class="stat-label">Eco Points</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Challenges Completed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Badges Earned</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Challenges Content -->
+    <section class="challenges-content">
+        <div class="container">
+            <div class="challenges-tabs">
+                <button class="tab-btn active" data-tab="all">All Challenges</button>
+                <button class="tab-btn" data-tab="daily">Daily</button>
+                <button class="tab-btn" data-tab="weekly">Weekly</button>
+                <button class="tab-btn" data-tab="monthly">Monthly</button>
+                <button class="tab-btn" data-tab="completed">Completed</button>
+            </div>
+
+            <div class="challenges-grid">
+                <!-- Daily Challenge -->
+                <div class="challenge-card kid-friendly-card" data-type="daily">
+                    <div class="challenge-header">
+                        <span class="challenge-badge daily">Daily</span>
+                        <span class="challenge-points">+25 pts</span>
+                    </div>
+                    <div class="challenge-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <h3>Water Conservation</h3>
+                    <p>Take a 5-minute shower today instead of a bath to save water.</p>
+                    <div class="challenge-progress">
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text">0% complete</span>
+                    </div>
+                    <button class="btn btn-primary start-challenge">Start Challenge</button>
+                </div>
+
+                <!-- Weekly Challenge -->
+                <div class="challenge-card kid-friendly-card" data-type="weekly">
+                    <div class="challenge-header">
+                        <span class="challenge-badge weekly">Weekly</span>
+                        <span class="challenge-points">+50 pts</span>
+                    </div>
+                    <div class="challenge-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <h3>Plastic-Free Week</h3>
+                    <p>Avoid single-use plastics for 7 days. Use reusable bags and containers.</p>
+                    <div class="challenge-progress">
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 30%"></div>
+                        </div>
+                        <span class="progress-text">3/7 days</span>
+                    </div>
+                    <button class="btn btn-secondary continue-challenge">Continue</button>
+                </div>
+
+                <!-- Monthly Challenge -->
+                <div class="challenge-card kid-friendly-card" data-type="monthly">
+                    <div class="challenge-header">
+                        <span class="challenge-badge monthly">Monthly</span>
+                        <span class="challenge-points">+100 pts</span>
+                    </div>
+                    <div class="challenge-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3>Plant a Tree</h3>
+                    <p>Plant a native tree species in your community and track its growth.</p>
+                    <div class="challenge-progress">
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text">Not started</span>
+                    </div>
+                    <button class="btn btn-primary start-challenge">Start Challenge</button>
+                </div>
+
+                <!-- Completed Challenge -->
+                <div class="challenge-card kid-friendly-card completed" data-type="completed">
+                    <div class="challenge-header">
+                        <span class="challenge-badge completed">Completed</span>
+                        <span class="challenge-points">+30 pts</span>
+                    </div>
+                    <div class="challenge-icon">
+                        <i class="fas fa-bicycle"></i>
+                    </div>
+                    <h3>Car-Free Day</h3>
+                    <p>Use eco-friendly transportation for one day instead of a car.</p>
+                    <div class="challenge-progress">
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 100%"></div>
+                        </div>
+                        <span class="progress-text">Completed!</span>
+                    </div>
+                    <button class="btn btn-success" disabled><i class="fas fa-check"></i> Completed</button>
+                </div>
+
+                <!-- Daily Challenge -->
+                <div class="challenge-card kid-friendly-card" data-type="daily">
+                    <div class="challenge-header">
+                        <span class="challenge-badge daily">Daily</span>
+                        <span class="challenge-points">+20 pts</span>
+                    </div>
+                    <div class="challenge-icon">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <h3>Energy Saver</h3>
+                    <p>Turn off all electronics when not in use for a full day.</p>
+                    <div class="challenge-progress">
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 75%"></div>
+                        </div>
+                        <span class="progress-text">Almost done</span>
+                    </div>
+                    <button class="btn btn-secondary continue-challenge">Continue</button>
+                </div>
+
+                <!-- Weekly Challenge -->
+                <div class="challenge-card kid-friendly-card" data-type="weekly">
+                    <div class="challenge-header">
+                        <span class="challenge-badge weekly">Weekly</span>
+                        <span class="challenge-points">+60 pts</span>
+                    </div>
+                    <div class="challenge-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Vegetarian Week</h3>
+                    <p>Go vegetarian for 7 days and reduce your carbon footprint.</p>
+                    <div class="challenge-progress">
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text">Not started</span>
+                    </div>
+                    <button class="btn btn-primary start-challenge">Start Challenge</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Challenge Categories -->
+    <section class="categories">
+        <div class="container">
+            <h2 class="section-title">Challenge Categories</h2>
+            <p class="section-subtitle">Explore challenges by environmental categories</p>
+            
+            <div class="categories-grid">
+                <div class="category-card kid-friendly-card" data-category="water">
+                    <div class="category-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <h3>Water Conservation</h3>
+                    <p>Save water with daily habits</p>
+                    <span class="challenge-count">5 challenges</span>
+                </div>
+                
+                <div class="category-card kid-friendly-card" data-category="energy">
+                    <div class="category-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Energy Saving</h3>
+                    <p>Reduce your energy consumption</p>
+                    <span class="challenge-count">7 challenges</span>
+                </div>
+                
+                <div class="category-card kid-friendly-card" data-category="waste">
+                    <div class="category-icon">
+                        <i class="fas fa-recycle"></i>
+                    </div>
+                    <h3>Waste Reduction</h3>
+                    <p>Minimize and properly manage waste</p>
+                    <span class="challenge-count">8 challenges</span>
+                </div>
+                
+                <div class="category-card kid-friendly-card" data-category="food">
+                    <div class="category-icon">
+                        <i class="fas fa-apple-alt"></i>
+                    </div>
+                    <h3>Sustainable Food</h3>
+                    <p>Make eco-friendly food choices</p>
+                    <span class="challenge-count">6 challenges</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rewards Section -->
+    <section class="rewards">
+        <div class="container">
+            <h2 class="section-title">Earn Rewards</h2>
+            <p class="section-subtitle">Complete challenges to earn points and unlock badges</p>
+            
+            <div class="rewards-content">
+                <div class="badges-container">
+                    <h3>Your Badges</h3>
+                    <div class="badges-grid">
+                        <div class="badge earned">
+                            <div class="badge-icon">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <span class="badge-name">Eco Beginner</span>
+                        </div>
+                        <div class="badge earned">
+                            <div class="badge-icon">
+                                <i class="fas fa-recycle"></i>
+                            </div>
+                            <span class="badge-name">Recycling Pro</span>
+                        </div>
+                        <div class="badge earned">
+                            <div class="badge-icon">
+                                <i class="fas fa-bicycle"></i>
+                            </div>
+                            <span class="badge-name">Green Commuter</span>
+                        </div>
+                        <div class="badge">
+                            <div class="badge-icon">
+                                <i class="fas fa-tree"></i>
+                            </div>
+                            <span class="badge-name">Tree Guardian</span>
+                        </div>
+                        <div class="badge">
+                            <div class="badge-icon">
+                                <i class="fas fa-sun"></i>
+                            </div>
+                            <span class="badge-name">Energy Saver</span>
+                        </div>
+                        <div class="badge">
+                            <div class="badge-icon">
+                                <i class="fas fa-medal"></i>
+                            </div>
+                            <span class="badge-name">Eco Champion</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="leaderboard">
+                    <h3>Top Eco Warriors</h3>
+                    <div class="leaderboard-list">
+                        <div class="leaderboard-item">
+                            <div class="rank">1</div>
+                            <div class="user-info">
+                                <div class="avatar">
+                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Max" alt="Avatar">
+                                </div>
+                                <span class="username">EcoWarrior22</span>
+                            </div>
+                            <div class="points">1240 pts</div>
+                        </div>
+                        <div class="leaderboard-item">
+                            <div class="rank">2</div>
+                            <div class="user-info">
+                                <div class="avatar">
+                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Lucy" alt="Avatar">
+                                </div>
+                                <span class="username">GreenQueen</span>
+                            </div>
+                            <div class="points">980 pts</div>
+                        </div>
+                        <div class="leaderboard-item">
+                            <div class="rank">3</div>
+                            <div class="user-info">
+                                <div class="avatar">
+                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Jack" alt="Avatar">
+                                </div>
+                                <span class="username">PlanetSaver</span>
+                            </div>
+                            <div class="points">875 pts</div>
+                        </div>
+                        <div class="leaderboard-item">
+                            <div class="rank">4</div>
+                            <div class="user-info">
+                                <div class="avatar">
+                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Kiki" alt="Avatar">
+                                </div>
+                                <span class="username">EcoExplorer</span>
+                            </div>
+                            <div class="points">760 pts</div>
+                        </div>
+                        <div class="leaderboard-item current-user">
+                            <div class="rank">27</div>
+                            <div class="user-info">
+                                <div class="avatar">
+                                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Sam" alt="Avatar">
+                                </div>
+                                <span class="username">You</span>
+                            </div>
+                            <div class="points">350 pts</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-seedling"></i>
+                        <span>EcoLearn</span>
+                    </div>
+                    <p>Making environmental education engaging, practical, and impactful for students across India.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="games.html">Games & Quizzes</a></li>
+                        <li><a href="challenges.html">Challenges</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">For Teachers</a></li>
+                        <li><a href="#">For Students</a></li>
+                        <li><a href="#">Lesson Plans</a></li>
+                        <li><a href="#">Research</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section contact">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> info@ecolearn.com</li>
+                        <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+                        <li><i class="fas fa-map-marker-alt"></i> New Delhi, India</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 EcoLearn. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Challenge Modal -->
+    <div id="challengeModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <span class="challenge-badge daily">Daily</span>
+                <h2>Water Conservation Challenge</h2>
+                <p>Take a 5-minute shower today instead of a bath to save water.</p>
+            </div>
+            <div class="modal-body">
+                <div class="challenge-details">
+                    <h3><i class="fas fa-info-circle"></i> Why This Matters</h3>
+                    <p>A typical bath uses about 80 liters of water, while a 5-minute shower with a water-efficient showerhead uses only about 40 liters. That's a savings of 40 liters of water!</p>
+                    
+                    <h3><i class="fas fa-tasks"></i> How to Complete</h3>
+                    <ul>
+                        <li>Time your shower to ensure it's 5 minutes or less</li>
+                        <li>Turn off the water while soaping up</li>
+                        <li>Use a water-efficient showerhead if possible</li>
+                    </ul>
+                    
+                    <div class="completion-proof">
+                        <h3><i class="fas fa-camera"></i> Share Your Success</h3>
+                        <p>Upload a photo or describe how you completed the challenge</p>
+                        <textarea placeholder="Describe how you saved water today..."></textarea>
+                        <button class="btn btn-secondary"><i class="fas fa-upload"></i> Upload Photo</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="modalCancel">Maybe Later</button>
+                <button class="btn btn-primary" id="modalConfirm">Mark as Complete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/challenges.js"></script>
+</body>
+</html>

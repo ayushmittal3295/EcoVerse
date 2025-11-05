@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoLearn - Community</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/community.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-seedling"></i>
+                <span>EcoLearn</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="#features" class="nav-link">Features</a></li>
+                <li class="nav-item"><a href="#games" class="nav-link">Games & Quizzes</a></li>
+                <li class="nav-item"><a href="#impact" class="nav-link">Impact</a></li>
+                <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="profile.html" class="nav-link profile-link">
+                    <i class="fas fa-user"></i>
+                    <span class="points-badge" id="nav-points">0</span>
+                </a></li>
+                <li class="nav-item"><a href="#" class="nav-link logout-link" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Layout -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-profile">
+                    <div class="profile-img" id="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-info">
+                        <h3 id="user-name">Loading...</h3>
+                        <p id="user-level">Level 1 Eco Learner</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a href="dashboard.html">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="games.html">
+                            <i class="fas fa-gamepad"></i>
+                            <span>Games & Quizzes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="challenges.html">
+                            <i class="fas fa-tasks"></i>
+                            <span>Challenges</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="achievements.html">
+                            <i class="fas fa-trophy"></i>
+                            <span>Achievements</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="progress.html">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Progress</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="community.html">
+                            <i class="fas fa-users"></i>
+                            <span>Community</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="eco-points">
+                    <h4>Your Eco Points</h4>
+                    <div class="points-display" id="user-points">0</div>
+                </div>
+                <button class="btn btn-primary redeem-btn">Redeem Rewards</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Community Header -->
+            <section class="community-header">
+                <h1>EcoLearn Community</h1>
+                <p>Connect with fellow eco-warriors, share tips, and celebrate achievements together!</p>
+                <div class="community-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="total-members">5,280</span>
+                        <span class="stat-label">Total Members</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="online-members">1,245</span>
+                        <span class="stat-label">Online Now</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="community-impact">12,850</span>
+                        <span class="stat-label">Trees Planted</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Community Tabs -->
+            <section class="community-tabs">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="feed">Community Feed</button>
+                    <button class="tab-btn" data-tab="discussions">Discussions</button>
+                    <button class="tab-btn" data-tab="leaderboard">Leaderboard</button>
+                    <button class="tab-btn" data-tab="events">Events</button>
+                </div>
+            </section>
+
+            <!-- Community Content -->
+            <div class="community-content">
+                <!-- Feed Tab -->
+                <div class="tab-content active" id="feed-tab">
+                    <!-- Create Post -->
+                    <div class="create-post">
+                        <div class="post-input">
+                            <div class="profile-img small">
+                                <i class="fas fa-user" id="current-user-avatar"></i>
+                            </div>
+                            <input type="text" placeholder="Share your eco-achievement or tip..." id="post-text">
+                        </div>
+                        <div class="post-actions">
+                            <button class="action-btn">
+                                <i class="fas fa-image"></i> Photo
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-trophy"></i> Achievement
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-question-circle"></i> Question
+                            </button>
+                            <button class="btn btn-primary" id="post-submit">Post</button>
+                        </div>
+                    </div>
+
+                    <!-- Posts Feed -->
+                    <div class="posts-feed" id="posts-container">
+                        <!-- Posts will be loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Discussions Tab -->
+                <div class="tab-content" id="discussions-tab">
+                    <div class="discussions-header">
+                        <h2>Popular Discussions</h2>
+                        <button class="btn btn-primary" id="create-topic-btn">Start New Topic</button>
+                    </div>
+
+                    <div class="topics-list">
+                        <!-- Topic items will be loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Leaderboard Tab -->
+                <div class="tab-content" id="leaderboard-tab">
+                    <div class="leaderboard-header">
+                        <h2>EcoLearn Leaderboard</h2>
+                        <div class="time-filter">
+                            <select id="leaderboard-time">
+                                <option value="weekly">This Week</option>
+                                <option value="monthly">This Month</option>
+                                <option value="alltime">All Time</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="leaderboard-content">
+                        <div class="leaderboard-list" id="leaderboard-container">
+                            <!-- Leaderboard items will be loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Events Tab -->
+                <div class="tab-content" id="events-tab">
+                    <div class="events-header">
+                        <h2>Upcoming Eco Events</h2>
+                        <button class="btn btn-primary" id="suggest-event-btn">Suggest Event</button>
+                    </div>
+
+                    <div class="events-list">
+                        <!-- Event items will be loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase App and Auth -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/community.js"></script>
+</body>
+</html>

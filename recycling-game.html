@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Recycling Game - EcoKids</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Neue', cursive;
+            background: linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .game-container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            border: 8px solid #FF9800;
+        }
+
+        .game-header {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .game-header h1 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .game-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .character {
+            position: absolute;
+            bottom: 0;
+            width: 80px;
+            height: 100px;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: bottom;
+        }
+
+        .character-left {
+            left: 15px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 120'%3E%3Cpath d='M50,100 C70,110 80,90 70,70 C80,50 60,40 50,30 C40,40 20,50 30,70 C20,90 30,110 50,100 Z' fill='%23FFEB3B'/%3E%3Ccircle cx='40' cy='50' r='5' fill='black'/%3E%3Ccircle cx='60' cy='50' r='5' fill='black'/%3E%3Cpath d='M45,65 Q50,70 55,65' stroke='black' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+        }
+
+        .character-right {
+            right: 15px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 120'%3E%3Ccircle cx='50' cy='40' r='35' fill='%23FF9800'/%3E%3Crect x='30' y='75' width='40' height='45' fill='%230288d1'/%3E%3Ccircle cx='40' cy='50' r='5' fill='white'/%3E%3Ccircle cx='60' cy='50' r='5' fill='white'/%3E%3Ccircle cx='40' cy='50' r='2' fill='black'/%3E%3Ccircle cx='60' cy='50' r='2' fill='black'/%3E%3Cpath d='M45,65 Q50,70 55,65' stroke='black' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+        }
+
+        .game-content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .score-display {
+            font-size: 1.5rem;
+            margin: 15px 0;
+            font-family: 'Fredoka One', cursive;
+            color: #FF9800;
+        }
+
+        .item-to-sort {
+            font-size: 4rem;
+            margin: 20px 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .bins-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .bin {
+            padding: 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 120px;
+        }
+
+        .bin:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .bin-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .paper-bin {
+            background: linear-gradient(to bottom, #FFF9C4, #FFEB3B);
+            color: #5D4037;
+        }
+
+        .plastic-bin {
+            background: linear-gradient(to bottom, #BBDEFB, #2196F3);
+            color: white;
+        }
+
+        .glass-bin {
+            background: linear-gradient(to bottom, #C8E6C9, #4CAF50);
+            color: white;
+        }
+
+        .metal-bin {
+            background: linear-gradient(to bottom, #E0E0E0, #9E9E9E);
+            color: #212121;
+        }
+
+        .feedback {
+            padding: 15px;
+            border-radius: 15px;
+            margin: 15px 0;
+            font-weight: 700;
+            text-align: center;
+            display: none;
+        }
+
+        .feedback.correct {
+            background-color: rgba(76, 175, 80, 0.2);
+            border: 3px solid #4CAF50;
+            color: #2E7D32;
+        }
+
+        .feedback.incorrect {
+            background-color: rgba(244, 67, 54, 0.1);
+            border: 3px solid #F44336;
+            color: #C62828;
+        }
+
+        .tree-container {
+            margin: 20px auto;
+            width: 120px;
+            height: 120px;
+        }
+
+        .tree {
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 150'%3E%3Cpath d='M75,20 L90,50 L70,50 L85,80 L65,80 L95,130 L55,130 L75,100 L55,100 L75,150 L50,110 L30,150 L50,90 L20,90 L50,50 L30,50 Z' fill='%234CAF50'/%3E%3Crect x='70' y='130' width='10' height='20' fill='%23795548'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+        }
+
+        .growing-tree {
+            animation: grow 1.5s ease-in-out forwards;
+        }
+
+        .progress-container {
+            height: 20px;
+            background: #E0E0E0;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #FFEB3B, #FF9800);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .game-completion {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+
+        .completion-message {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #2E7D32;
+        }
+
+        .completion-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .completion-btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-family: 'Comic Neue', cursive;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .play-again-btn {
+            background: #FF9800;
+            color: white;
+        }
+
+        .play-again-btn:hover {
+            background: #F57C00;
+            transform: translateY(-2px);
+        }
+
+        .back-to-dashboard-btn {
+            background: #E0E0E0;
+            color: #333;
+        }
+
+        .back-to-dashboard-btn:hover {
+            background: #BDBDBD;
+            transform: translateY(-2px);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes grow {
+            0% { transform: scale(0.2); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-7px); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .game-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .character {
+                display: none;
+            }
+            
+            .item-to-sort {
+                font-size: 3rem;
+            }
+            
+            .bins-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .completion-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <div class="character character-left"></div>
+            <div class="character character-right"></div>
+            <h1>Recycling Fun</h1>
+            <p>Which bin does this belong in?</p>
+        </div>
+        
+        <div class="game-content">
+            <div class="score-display">Score: <span id="score">0</span></div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            
+            <div class="item-to-sort" id="itemToSort">🗞️</div>
+            
+            <div class="bins-container">
+                <div class="bin paper-bin" data-type="paper">
+                    <div class="bin-icon">📄</div>
+                    <div>Paper</div>
+                </div>
+                
+                <div class="bin plastic-bin" data-type="plastic">
+                    <div class="bin-icon">🥤</div>
+                    <div>Plastic</div>
+                </div>
+                
+                <div class="bin glass-bin" data-type="glass">
+                    <div class="bin-icon">🍶</div>
+                    <div>Glass</div>
+                </div>
+                
+                <div class="bin metal-bin" data-type="metal">
+                    <div class="bin-icon">🥫</div>
+                    <div>Metal</div>
+                </div>
+            </div>
+            
+            <div class="feedback" id="feedback">
+                <p id="feedbackText"></p>
+            </div>
+            
+            <div class="tree-container">
+                <div class="tree" id="tree"></div>
+            </div>
+            
+            <p>Help the tree grow by recycling correctly!</p>
+        </div>
+
+        <div class="game-completion" id="gameCompletion">
+            <div class="completion-message">
+                <i class="fas fa-trophy" style="font-size: 3rem; color: gold; margin-bottom: 15px;"></i>
+                <h2>Game Complete!</h2>
+                <p>You earned <span id="totalPoints" style="font-weight: bold; color: #FF9800;">0</span> points!</p>
+            </div>
+            <div class="completion-buttons">
+                <button class="completion-btn play-again-btn" id="playAgainBtn">Play Again</button>
+                <button class="completion-btn back-to-dashboard-btn" id="backToDashboardBtn">Back to Dashboard</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game data - items with their types and emojis
+        const items = [
+            { type: "paper", emoji: "📰", name: "Newspaper" },
+            { type: "paper", emoji: "📦", name: "Cardboard" },
+            { type: "paper", emoji: "📖", name: "Magazine" },
+            { type: "plastic", emoji: "💧", name: "Water Bottle" },
+            { type: "plastic", emoji: "🍶", name: "Milk Jug" },
+            { type: "plastic", emoji: "🥤", name: "Soda Bottle" },
+            { type: "glass", emoji: "🍯", name: "Glass Jar" },
+            { type: "glass", emoji: "🍷", name: "Glass Bottle" },
+            { type: "glass", emoji: "🥃", name: "Drinking Glass" },
+            { type: "metal", emoji: "🥫", name: "Food Can" },
+            { type: "metal", emoji: "🥤", name: "Soda Can" },
+            { type: "metal", emoji: "🍫", name: "Foil Wrapper" }
+        ];
+
+        // Game state
+        let score = 0;
+        let currentItem = null;
+        let itemsSorted = 0;
+        const totalItemsToSort = 10;
+        let canSelect = true; // Flag to control if player can select a bin
+
+        // DOM elements
+        const scoreElement = document.getElementById('score');
+        const itemToSortElement = document.getElementById('itemToSort');
+        const feedbackElement = document.getElementById('feedback');
+        const feedbackTextElement = document.getElementById('feedbackText');
+        const progressBar = document.getElementById('progressBar');
+        const treeElement = document.getElementById('tree');
+        const binElements = document.querySelectorAll('.bin');
+        const gameCompletionElement = document.getElementById('gameCompletion');
+        const totalPointsElement = document.getElementById('totalPoints');
+        const playAgainBtn = document.getElementById('playAgainBtn');
+        const backToDashboardBtn = document.getElementById('backToDashboardBtn');
+
+        // Initialize the game
+        function initGame() {
+            score = 0;
+            itemsSorted = 0;
+            updateScore();
+            updateProgressBar();
+            selectRandomItem();
+            
+            // Hide completion screen
+            gameCompletionElement.style.display = 'none';
+            
+            // Show game elements
+            document.querySelector('.game-content').style.display = 'block';
+            
+            // Enable bin selection
+            canSelect = true;
+            
+            // Add event listeners to bins
+            binElements.forEach(bin => {
+                bin.addEventListener('click', () => handleBinSelection(bin));
+            });
+        }
+
+        // Select a random item to sort
+        function selectRandomItem() {
+            const randomIndex = Math.floor(Math.random() * items.length);
+            currentItem = items[randomIndex];
+            itemToSortElement.textContent = currentItem.emoji;
+            itemToSortElement.setAttribute('title', currentItem.name);
+        }
+
+        // Handle bin selection
+        function handleBinSelection(bin) {
+            if (!canSelect) return; // Prevent multiple selections
+            
+            // Disable further selections until next item
+            canSelect = false;
+            
+            const selectedType = bin.getAttribute('data-type');
+            
+            if (selectedType === currentItem.type) {
+                // Correct selection
+                handleCorrectSelection(bin);
+            } else {
+                // Incorrect selection
+                handleIncorrectSelection(bin);
+            }
+            
+            // Move to next item after a short delay
+            setTimeout(() => {
+                itemsSorted++;
+                updateProgressBar();
+                
+                if (itemsSorted >= totalItemsToSort) {
+                    showResults();
+                } else {
+                    selectRandomItem();
+                    // Re-enable selection for the next item
+                    canSelect = true;
+                }
+            }, 1500);
+        }
+
+        // Handle correct selection
+        function handleCorrectSelection(bin) {
+            // Visual feedback
+            bin.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                bin.style.transform = '';
+            }, 300);
+            
+            // Update score
+            score += 10;
+            updateScore();
+            
+            // Show feedback
+            feedbackTextElement.textContent = "Great job! That's correct! +10 points!";
+            feedbackElement.className = 'feedback correct';
+            feedbackElement.style.display = 'block';
+        }
+
+        // Handle incorrect selection
+        function handleIncorrectSelection(bin) {
+            // Visual feedback
+            bin.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                bin.style.animation = '';
+            }, 500);
+            
+            // Show feedback
+            feedbackTextElement.textContent = "Oops! That goes in a different bin!";
+            feedbackElement.className = 'feedback incorrect';
+            feedbackElement.style.display = 'block';
+        }
+
+        // Update score display
+        function updateScore() {
+            scoreElement.textContent = score;
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            const progress = (itemsSorted / totalItemsToSort) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        // Show results
+        function showResults() {
+            // Animate the tree growing based on score
+            const growthLevel = Math.min(1, score / (totalItemsToSort * 10));
+            treeElement.style.transform = `scale(${0.2 + growthLevel * 0.8})`;
+            
+            // Hide game content
+            document.querySelector('.game-content').style.display = 'none';
+            
+            // Show completion screen
+            gameCompletionElement.style.display = 'block';
+            totalPointsElement.textContent = score;
+            
+            // Send results to parent window if in iframe
+            if (window !== window.parent) {
+                window.parent.postMessage({
+                    type: 'GAME_COMPLETE',
+                    score: score,
+                    total: totalItemsToSort * 10,
+                    points: score
+                }, '*');
+            }
+        }
+
+        // Event listeners for completion buttons
+        playAgainBtn.addEventListener('click', () => {
+            initGame();
+        });
+
+        backToDashboardBtn.addEventListener('click', () => {
+            if (window !== window.parent) {
+                // If we're in an iframe, communicate with parent
+                window.parent.postMessage({ type: 'CLOSE_GAME' }, '*');
+            } else {
+                // If we're not in an iframe, redirect
+                window.location.href = 'dashboard.html';
+            }
+        });
+
+        // Initialize the game when page loads
+        window.addEventListener('load', initGame);
+    </script>
+</body>
+</html>

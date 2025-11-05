@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Planter Game</title>
+    <link rel="stylesheet" href="css/life.css">
+</head>
+<body>
+    <div id="game-container">
+        <div class="sun"></div>
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
+        
+        <div id="game-ui">
+            <div id="level-display">Level: 1</div>
+            <div id="time-display">Time: 60s</div>
+            <div id="score-display">Score: 0</div>
+            <div id="lives-container">
+                <div class="life"></div>
+                <div class="life"></div>
+                <div class="life"></div>
+            </div>
+        </div>
+        
+        <div id="environment-label">Environment Health</div>
+        <div class="environment-bar">
+            <div id="environment-fill"></div>
+        </div>
+        
+        <div class="ground"></div>
+        <div class="grass"></div>
+        
+        <div id="player">
+            <div class="player-body"></div>
+            <div class="player-head">
+                <div class="player-eye left"></div>
+                <div class="player-eye right"></div>
+                <div class="player-mouth"></div>
+            </div>
+            <div class="player-leg left"></div>
+            <div class="player-leg right"></div>
+        </div>
+        
+        <div id="start-screen">
+            <h1>Eco-Planter</h1>
+            <p>Help the boy plant trees and flowers to restore the environment!</p>
+            <p>Avoid pollutants and waste that harm the ecosystem.</p>
+            <div id="instructions">
+                <p>Use Arrow Keys to move the character</p>
+                <p>Press SPACE to plant when standing on a brown spot</p>
+                <p>Complete each level before time runs out</p>
+            </div>
+            <button id="start-button">Start Game</button>
+        </div>
+        
+        <div id="game-over">
+            <h1 id="game-outcome">Game Over</h1>
+            <p id="final-score">Your score: 0</p>
+            <p id="game-message">The environment needs more help!</p>
+            <button id="restart-button">Play Again</button>
+        </div>
+    </div>
+
+    <script src="js/life.js"></script>
+</body>
+</html>

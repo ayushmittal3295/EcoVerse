@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Footprint Quiz - EcoLearn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-light: #80e27e;
+            --primary-dark: #087f23;
+            --secondary: #FF9800;
+            --secondary-light: #ffc947;
+            --secondary-dark: #c66900;
+            --accent: #2196F3;
+            --accent-light: #6ec6ff;
+            --accent-dark: #0069c0;
+            --text: #263238;
+            --text-light: #78909c;
+            --background: #f9fbe7;
+            --surface: #ffffff;
+            --error: #f44336;
+            --success: #66bb6a;
+            --warning: #ffa726;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--background);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        /* Header */
+        .quiz-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover {
+            color: var(--secondary-light);
+        }
+
+        .back-btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* Quiz Container */
+        .quiz-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            flex: 1;
+        }
+
+        .quiz-card {
+            background: var(--surface);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .quiz-header-card {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-light) 100%);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text);
+        }
+
+        .quiz-header-card h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        .quiz-header-card p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .quiz-content {
+            padding: 2rem;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-bottom: 2rem;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background-color: var(--background);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Question Styles */
+        .question-container {
+            margin-bottom: 2rem;
+        }
+
+        .question-number {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .option {
+            background-color: var(--background);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            background-color: rgba(76, 175, 80, 0.1);
+            border-color: var(--primary);
+        }
+
+        .option.selected {
+            background-color: rgba(76, 175, 80, 0.2);
+            border-color: var(--primary);
+        }
+
+        .option-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-weight: bold;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .option-text {
+            flex: 1;
+        }
+
+        /* Navigation Buttons */
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--background);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* Results Screen */
+        .results-container {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .results-header {
+            margin-bottom: 2rem;
+        }
+
+        .results-icon {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .results-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+
+        .results-score {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .results-description {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .carbon-footprint {
+            background-color: var(--background);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .carbon-footprint h3 {
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .footprint-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .footprint-description {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .tips-container {
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .tips-container h3 {
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .tips-list {
+            list-style-type: none;
+        }
+
+        .tips-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--background);
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .tips-list li:last-child {
+            border-bottom: none;
+        }
+
+        .tip-icon {
+            color: var(--primary);
+            margin-right: 1rem;
+            margin-top: 0.2rem;
+        }
+
+        /* Footer */
+        .quiz-footer {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: auto;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .quiz-container {
+                padding: 0 1rem;
+            }
+            
+            .quiz-header-card h1 {
+                font-size: 1.7rem;
+            }
+            
+            .quiz-content {
+                padding: 1.5rem;
+            }
+            
+            .question-text {
+                font-size: 1.1rem;
+            }
+            
+            .quiz-navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .quiz-header {
+                padding: 1rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .quiz-header-card {
+                padding: 1.5rem;
+            }
+            
+            .quiz-header-card h1 {
+                font-size: 1.5rem;
+            }
+            
+            .option {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="quiz-header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>EcoLearn</span>
+            </div>
+            <a href="dashboard.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </a>
+        </div>
+    </header>
+
+    <!-- Quiz Container -->
+    <div class="quiz-container">
+        <div class="quiz-card">
+            <div class="quiz-header-card">
+                <h1>Carbon Footprint Quiz</h1>
+                <p>Discover your environmental impact and learn how to reduce it</p>
+            </div>
+
+            <div class="quiz-content">
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span>Question <span id="current-question">1</span> of <span id="total-questions">10</span></span>
+                        <span id="progress-percent">10%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" id="progress-bar"></div>
+                    </div>
+                </div>
+
+                <!-- Question Container -->
+                <div class="question-container" id="question-container">
+                    <div class="question-number" id="question-number">Question 1</div>
+                    <h2 class="question-text" id="question-text">How do you typically travel to work or school?</h2>
+                    
+                    <div class="options-container" id="options-container">
+                        <!-- Options will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Results Container (Initially Hidden) -->
+                <div class="results-container" id="results-container" style="display: none;">
+                    <div class="results-header">
+                        <div class="results-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h2 class="results-title">Your Carbon Footprint Results</h2>
+                        <div class="results-score" id="results-score">0/10</div>
+                        <p class="results-description" id="results-description">Based on your answers, here's your environmental impact assessment</p>
+                    </div>
+
+                    <div class="carbon-footprint">
+                        <h3>Your Estimated Carbon Footprint</h3>
+                        <div class="footprint-value" id="footprint-value">8.5 tons CO₂/year</div>
+                        <p class="footprint-description" id="footprint-description">This is higher than the global average of 4.8 tons per person</p>
+                    </div>
+
+                    <div class="tips-container">
+                        <h3>Tips to Reduce Your Carbon Footprint</h3>
+                        <ul class="tips-list" id="tips-list">
+                            <!-- Tips will be populated by JavaScript -->
+                        </ul>
+                    </div>
+
+                    <div class="quiz-navigation">
+                        <button class="btn btn-secondary" id="retry-btn">
+                            <i class="fas fa-redo"></i>
+                            Retry Quiz
+                        </button>
+                        <button class="btn btn-primary" id="dashboard-btn">
+                            <i class="fas fa-home"></i>
+                            Back to Dashboard
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="quiz-navigation" id="quiz-navigation">
+                    <button class="btn btn-secondary" id="prev-btn" disabled>
+                        <i class="fas fa-arrow-left"></i>
+                        Previous
+                    </button>
+                    <button class="btn btn-primary" id="next-btn">
+                        Next
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="quiz-footer">
+        <p>&copy; 2023 EcoLearn. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Quiz questions and answers
+        const quizQuestions = [
+            {
+                question: "How do you typically travel to work or school?",
+                options: [
+                    { text: "Walk, bike, or public transport", value: 1 },
+                    { text: "Carpool or hybrid/electric vehicle", value: 2 },
+                    { text: "Regular gasoline/diesel car (alone)", value: 3 },
+                    { text: "SUV or large vehicle", value: 4 }
+                ]
+            },
+            {
+                question: "How often do you eat meat?",
+                options: [
+                    { text: "Vegetarian/Vegan", value: 1 },
+                    { text: "A few times a week", value: 2 },
+                    { text: "Once a day", value: 3 },
+                    { text: "Multiple times a day", value: 4 }
+                ]
+            },
+            {
+                question: "What is your home's primary heating source?",
+                options: [
+                    { text: "Renewable energy (solar, geothermal)", value: 1 },
+                    { text: "Electric heat pump", value: 2 },
+                    { text: "Natural gas", value: 3 },
+                    { text: "Oil or propane", value: 4 }
+                ]
+            },
+            {
+                question: "How often do you fly?",
+                options: [
+                    { text: "Rarely or never", value: 1 },
+                    { text: "Once a year (short haul)", value: 2 },
+                    { text: "A few times a year (short haul)", value: 3 },
+                    { text: "Regularly (long haul)", value: 4 }
+                ]
+            },
+            {
+                question: "What is your household size?",
+                options: [
+                    { text: "4+ people", value: 1 },
+                    { text: "3 people", value: 2 },
+                    { text: "2 people", value: 3 },
+                    { text: "1 person", value: 4 }
+                ]
+            },
+            {
+                question: "How energy efficient is your home?",
+                options: [
+                    { text: "Highly efficient (new build, good insulation)", value: 1 },
+                    { text: "Moderately efficient", value: 2 },
+                    { text: "Somewhat inefficient", value: 3 },
+                    { text: "Very inefficient (old building, poor insulation)", value: 4 }
+                ]
+            },
+            {
+                question: "How much do you recycle?",
+                options: [
+                    { text: "Comprehensively recycle and compost", value: 1 },
+                    { text: "Recycle most items", value: 2 },
+                    { text: "Recycle some items", value: 3 },
+                    { text: "Rarely or never recycle", value: 4 }
+                ]
+            },
+            {
+                question: "How often do you buy new clothes?",
+                options: [
+                    { text: "Rarely, mostly second-hand", value: 1 },
+                    { text: "A few times a year", value: 2 },
+                    { text: "Monthly", value: 3 },
+                    { text: "Frequently (fast fashion)", value: 4 }
+                ]
+            },
+            {
+                question: "What type of products do you typically buy?",
+                options: [
+                    { text: "Mostly local, seasonal, and package-free", value: 1 },
+                    { text: "Mix of sustainable and conventional", value: 2 },
+                    { text: "Mostly conventional products", value: 3 },
+                    { text: "Lots of imported and heavily packaged goods", value: 4 }
+                ]
+            },
+            {
+                question: "How do you use electricity at home?",
+                options: [
+                    { text: "Renewable energy and energy-saving habits", value: 1 },
+                    { text: "Conscious about turning off lights/appliances", value: 2 },
+                    { text: "Somewhat conscious but could improve", value: 3 },
+                    { text: "Leave lights/appliances on frequently", value: 4 }
+                ]
+            }
+        ];
+
+        // Tips for reducing carbon footprint
+        const tips = [
+            "Switch to renewable energy sources for your home",
+            "Reduce meat consumption and eat more plant-based foods",
+            "Use public transportation, bike, or walk instead of driving",
+            "Improve home insulation to reduce heating/cooling needs",
+            "Fly less and choose direct flights when possible",
+            "Buy local and seasonal food to reduce transportation emissions",
+            "Reduce, reuse, and recycle as much as possible",
+            "Invest in energy-efficient appliances and LED lighting",
+            "Reduce water consumption, especially hot water",
+            "Support companies with strong environmental policies"
+        ];
+
+        // DOM Elements
+        const questionContainer = document.getElementById('question-container');
+        const resultsContainer = document.getElementById('results-container');
+        const questionText = document.getElementById('question-text');
+        const questionNumber = document.getElementById('question-number');
+        const optionsContainer = document.getElementById('options-container');
+        const currentQuestionEl = document.getElementById('current-question');
+        const totalQuestionsEl = document.getElementById('total-questions');
+        const progressBar = document.getElementById('progress-bar');
+        const progressPercent = document.getElementById('progress-percent');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const quizNavigation = document.getElementById('quiz-navigation');
+        const resultsScore = document.getElementById('results-score');
+        const resultsDescription = document.getElementById('results-description');
+        const footprintValue = document.getElementById('footprint-value');
+        const footprintDescription = document.getElementById('footprint-description');
+        const tipsList = document.getElementById('tips-list');
+        const retryBtn = document.getElementById('retry-btn');
+        const dashboardBtn = document.getElementById('dashboard-btn');
+
+        // Quiz state
+        let currentQuestion = 0;
+        let userAnswers = [];
+        let totalScore = 0;
+
+        // Initialize quiz
+        function initQuiz() {
+            totalQuestionsEl.textContent = quizQuestions.length;
+            showQuestion(currentQuestion);
+            updateProgress();
+        }
+
+        // Show current question
+        function showQuestion(index) {
+            const question = quizQuestions[index];
+            questionText.textContent = question.question;
+            currentQuestionEl.textContent = index + 1;
+            questionNumber.textContent = `Question ${index + 1}`;
+            
+            // Clear previous options
+            optionsContainer.innerHTML = '';
+            
+            // Add new options
+            question.options.forEach((option, i) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                if (userAnswers[index] === i) {
+                    optionElement.classList.add('selected');
+                }
+                
+                optionElement.innerHTML = `
+                    <div class="option-icon">${String.fromCharCode(65 + i)}</div>
+                    <div class="option-text">${option.text}</div>
+                `;
+                
+                optionElement.addEventListener('click', () => selectOption(i));
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Update navigation buttons
+            prevBtn.disabled = index === 0;
+            nextBtn.textContent = index === quizQuestions.length - 1 ? 'Submit' : 'Next';
+        }
+
+        // Select an option
+        function selectOption(optionIndex) {
+            userAnswers[currentQuestion] = optionIndex;
+            
+            // Update UI to show selected option
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, i) => {
+                if (i === optionIndex) {
+                    option.classList.add('selected');
+                } else {
+                    option.classList.remove('selected');
+                }
+            });
+            
+            // Enable next button if not already enabled
+            if (nextBtn.disabled) {
+                nextBtn.disabled = false;
+            }
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / quizQuestions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            progressPercent.textContent = `${Math.round(progress)}%`;
+        }
+
+        // Navigate to next question
+        function nextQuestion() {
+            if (userAnswers[currentQuestion] === undefined) {
+                alert('Please select an answer before proceeding.');
+                return;
+            }
+            
+            if (currentQuestion < quizQuestions.length - 1) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+                updateProgress();
+            } else {
+                calculateResults();
+                showResults();
+            }
+        }
+
+        // Navigate to previous question
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+                updateProgress();
+            }
+        }
+
+        // Calculate quiz results
+        function calculateResults() {
+            totalScore = 0;
+            userAnswers.forEach((answerIndex, questionIndex) => {
+                if (answerIndex !== undefined) {
+                    totalScore += quizQuestions[questionIndex].options[answerIndex].value;
+                }
+            });
+            
+            // Calculate carbon footprint based on score
+            // Score range: 10 (best) to 40 (worst)
+            const minScore = quizQuestions.length * 1; // All best answers
+            const maxScore = quizQuestions.length * 4; // All worst answers
+            
+            // Normalize to a footprint value between 2 and 20 tons
+            const normalizedScore = ((totalScore - minScore) / (maxScore - minScore)) * 18 + 2;
+            
+            return normalizedScore.toFixed(1);
+        }
+
+        // Show results screen
+        function showResults() {
+            const carbonFootprint = calculateResults();
+            
+            // Update results UI
+            resultsScore.textContent = `${totalScore}/${quizQuestions.length * 4}`;
+            footprintValue.textContent = `${carbonFootprint} tons CO₂/year`;
+            
+            // Set description based on footprint
+            if (carbonFootprint < 6) {
+                footprintDescription.textContent = "This is lower than the global average of 4.8 tons per person. Great job!";
+                resultsDescription.textContent = "You're doing an excellent job minimizing your environmental impact!";
+            } else if (carbonFootprint < 10) {
+                footprintDescription.textContent = "This is around the global average of 4.8 tons per person.";
+                resultsDescription.textContent = "You're on the right track, but there's room for improvement.";
+            } else {
+                footprintDescription.textContent = "This is higher than the global average of 4.8 tons per person.";
+                resultsDescription.textContent = "There are many opportunities to reduce your environmental impact.";
+            }
+            
+            // Add tips
+            tipsList.innerHTML = '';
+            tips.forEach(tip => {
+                const tipItem = document.createElement('li');
+                tipItem.innerHTML = `
+                    <i class="fas fa-lightbulb tip-icon"></i>
+                    <span>${tip}</span>
+                `;
+                tipsList.appendChild(tipItem);
+            });
+            
+            // Show results, hide question
+            questionContainer.style.display = 'none';
+            quizNavigation.style.display = 'none';
+            resultsContainer.style.display = 'block';
+        }
+
+        // Reset quiz
+        function resetQuiz() {
+            currentQuestion = 0;
+            userAnswers = [];
+            totalScore = 0;
+            
+            questionContainer.style.display = 'block';
+            quizNavigation.style.display = 'flex';
+            resultsContainer.style.display = 'none';
+            
+            showQuestion(currentQuestion);
+            updateProgress();
+        }
+
+        // Event listeners
+        prevBtn.addEventListener('click', prevQuestion);
+        nextBtn.addEventListener('click', nextQuestion);
+        retryBtn.addEventListener('click', resetQuiz);
+        dashboardBtn.addEventListener('click', () => {
+            window.location.href = 'dashboard.html';
+        });
+
+        // Initialize the quiz
+        document.addEventListener('DOMContentLoaded', initQuiz);
+    </script>
+</body>
+</html>

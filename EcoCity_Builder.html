@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoCity Builder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        header {
+            background: linear-gradient(to right, #2c3e50, #4ca1af);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .game-area {
+            display: flex;
+            min-height: 600px;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: #34495e;
+            color: white;
+            padding: 15px;
+        }
+        
+        .resources {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .resource {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+        }
+        
+        .meter {
+            height: 20px;
+            background: #555;
+            border-radius: 10px;
+            margin: 5px 0;
+            overflow: hidden;
+        }
+        
+        .meter-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s;
+        }
+        
+        .air-quality .meter-fill { background: #2ecc71; }
+        .water-quality .meter-fill { background: #3498db; }
+        .happiness .meter-fill { background: #f1c40f; }
+        
+        .build-menu {
+            margin-top: 20px;
+        }
+        
+        .build-option {
+            background: #2c3e50;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .build-option:hover {
+            background: #1abc9c;
+        }
+        
+        .build-option img {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+        }
+        
+        .game-map {
+            flex: 1;
+            background: #ecf0f1;
+            padding: 15px;
+            display: grid;
+            grid-template-columns: repeat(20, 1fr);
+            grid-template-rows: repeat(15, 1fr);
+            gap: 2px;
+        }
+        
+        .cell {
+            background: #d5dbdb;
+            border-radius: 3px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        
+        .cell:hover {
+            opacity: 0.8;
+            transform: scale(0.95);
+        }
+        
+        .grass { background: #7dcea0; }
+        .tree { background: #27ae60; }
+        .water { background: #3498db; }
+        .house { background: #e74c3c; }
+        .factory { background: #7f8c8d; }
+        .road { background: #bdc3c7; }
+        .park { background: #2ecc71; }
+        .power-plant { background: #f39c12; }
+        .demolish { background: #ff7979; }
+        
+        .info-panel {
+            padding: 15px;
+            background: #2c3e50;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .message-log {
+            width: 70%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+        
+        .message {
+            margin: 5px 0;
+            padding: 5px;
+            border-left: 3px solid #1abc9c;
+            font-size: 0.9rem;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .btn-demolish {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn-demolish:hover {
+            background: #c0392b;
+        }
+        
+        .btn-settings {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-settings:hover {
+            background: #2980b9;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            background: #ecf0f1;
+            border-top: 2px solid #bdc3c7;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        .warning {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .game-area {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+            
+            .game-map {
+                min-height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>EcoCity Builder</h1>
+            <p>Build a thriving city while protecting the environment</p>
+        </header>
+        
+        <div class="game-area">
+            <div class="sidebar">
+                <div class="resources">
+                    <h3>Resources & Metrics</h3>
+                    <div class="resource">
+                        <span>Money:</span>
+                        <span id="money">$10000</span>
+                    </div>
+                    <div class="resource">
+                        <span>Population:</span>
+                        <span id="population">0</span>
+                    </div>
+                    
+                    <h4>Air Quality</h4>
+                    <div class="meter air-quality">
+                        <div class="meter-fill" id="air-quality-meter" style="width: 100%"></div>
+                    </div>
+                    
+                    <h4>Water Quality</h4>
+                    <div class="meter water-quality">
+                        <div class="meter-fill" id="water-quality-meter" style="width: 100%"></div>
+                    </div>
+                    
+                    <h4>Happiness</h4>
+                    <div class="meter happiness">
+                        <div class="meter-fill" id="happiness-meter" style="width: 100%"></div>
+                    </div>
+                </div>
+                
+                <div class="build-menu">
+                    <h3>Build Options</h3>
+                    <div class="build-option" data-type="house">
+                        <span>🏠</span> House ($500) - +4 Population
+                    </div>
+                    <div class="build-option" data-type="road">
+                        <span>🛣️</span> Road ($100) - Connects buildings
+                    </div>
+                    <div class="build-option" data-type="factory">
+                        <span>🏭</span> Factory ($1000) - +$200 income, -Air/Water Quality
+                    </div>
+                    <div class="build-option" data-type="park">
+                        <span>🌳</span> Park ($300) - +Happiness, +Air Quality
+                    </div>
+                    <div class="build-option" data-type="power-plant">
+                        <span>⚡</span> Power Plant ($1500) - Powers city, -Air Quality
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-map" id="game-map">
+                <!-- Map cells will be generated by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="info-panel">
+            <div class="message-log" id="message-log">
+                <div class="message">Welcome to EcoCity Builder! Start by placing houses and roads.</div>
+            </div>
+            <div class="controls">
+                <button class="btn-demolish" id="demolish-btn">Demolish Mode</button>
+                <button class="btn-settings" id="settings-btn">Settings</button>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value" id="income-value">$0</div>
+                <div class="stat-label">Income / Minute</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="pollution-value">0%</div>
+                <div class="stat-label">Pollution</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="approval-value">100%</div>
+                <div class="stat-label">Approval Rating</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="temperature-value">72°F</div>
+                <div class="stat-label">Temperature</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game state
+        const gameState = {
+            money: 10000,
+            population: 0,
+            airQuality: 100,
+            waterQuality: 100,
+            happiness: 100,
+            income: 0,
+            pollution: 0,
+            approval: 100,
+            temperature: 72,
+            selectedBuilding: null,
+            demolishMode: false,
+            buildings: [],
+            map: [],
+            mapSize: { rows: 15, cols: 20 },
+            costs: {
+                house: 500,
+                road: 100,
+                factory: 1000,
+                park: 300,
+                'power-plant': 1500
+            },
+            messages: ['Welcome to EcoCity Builder! Start by placing houses and roads.']
+        };
+
+        // Initialize the game
+        function initGame() {
+            createMap();
+            renderMap();
+            updateUI();
+            setInterval(gameLoop, 2000);
+        }
+
+        // Create the game map
+        function createMap() {
+            const { rows, cols } = gameState.mapSize;
+            
+            // Initialize empty map
+            for (let r = 0; r < rows; r++) {
+                gameState.map[r] = [];
+                for (let c = 0; c < cols; c++) {
+                    // Create a river in the middle
+                    if (c === Math.floor(cols / 2) && r > 3 && r < rows - 3) {
+                        gameState.map[r][c] = 'water';
+                    } 
+                    // Add some trees
+                    else if (Math.random() > 0.7 && r > 2 && r < rows - 2 && c > 2 && c < cols - 2) {
+                        gameState.map[r][c] = 'tree';
+                    }
+                    // Default to grass
+                    else {
+                        gameState.map[r][c] = 'grass';
+                    }
+                }
+            }
+        }
+
+        // Render the game map
+        function renderMap() {
+            const mapElement = document.getElementById('game-map');
+            mapElement.innerHTML = '';
+            
+            const { rows, cols } = gameState.mapSize;
+            
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    const cell = document.createElement('div');
+                    cell.className = `cell ${gameState.map[r][c]}`;
+                    cell.dataset.row = r;
+                    cell.dataset.col = c;
+                    
+                    // Add emoji for cell type
+                    switch (gameState.map[r][c]) {
+                        case 'tree': cell.textContent = '🌲'; break;
+                        case 'water': cell.textContent = '💧'; break;
+                        case 'house': cell.textContent = '🏠'; break;
+                        case 'road': cell.textContent = '🛣️'; break;
+                        case 'factory': cell.textContent = '🏭'; break;
+                        case 'park': cell.textContent = '🌳'; break;
+                        case 'power-plant': cell.textContent = '⚡'; break;
+                        default: cell.textContent = '';
+                    }
+                    
+                    cell.addEventListener('click', () => handleCellClick(r, c));
+                    mapElement.appendChild(cell);
+                }
+            }
+        }
+
+        // Handle cell click
+        function handleCellClick(row, col) {
+            if (gameState.demolishMode) {
+                demolishBuilding(row, col);
+                return;
+            }
+            
+            if (!gameState.selectedBuilding) return;
+            
+            const cellType = gameState.map[row][col];
+            
+            // Can only build on grass
+            if (cellType !== 'grass') {
+                addMessage('Cannot build here. Only on grass.');
+                return;
+            }
+            
+            // Check if player has enough money
+            const cost = gameState.costs[gameState.selectedBuilding];
+            if (gameState.money < cost) {
+                addMessage(`Not enough money. Need $${cost} to build.`);
+                return;
+            }
+            
+            // Build the selected building
+            gameState.map[row][col] = gameState.selectedBuilding;
+            gameState.money -= cost;
+            
+            // Record the building
+            gameState.buildings.push({
+                type: gameState.selectedBuilding,
+                row,
+                col
+            });
+            
+            // Update population if house was built
+            if (gameState.selectedBuilding === 'house') {
+                gameState.population += 4;
+            }
+            
+            addMessage(`Built ${gameState.selectedBuilding} at (${row}, ${col}) for $${cost}.`);
+            renderMap();
+            updateUI();
+        }
+
+        // Demolish a building
+        function demolishBuilding(row, col) {
+            const cellType = gameState.map[row][col];
+            
+            // Can't demolish natural features
+            if (cellType === 'grass' || cellType === 'tree' || cellType === 'water') {
+                addMessage('Cannot demolish natural features.');
+                return;
+            }
+            
+            // Get refund (50% of original cost)
+            const refund = Math.floor(gameState.costs[cellType] * 0.5);
+            gameState.money += refund;
+            
+            // Update population if house was demolished
+            if (cellType === 'house') {
+                gameState.population = Math.max(0, gameState.population - 4);
+            }
+            
+            // Remove building from records
+            gameState.buildings = gameState.buildings.filter(b => 
+                !(b.row === row && b.col === col)
+            );
+            
+            // Revert to grass
+            gameState.map[row][col] = 'grass';
+            
+            addMessage(`Demolished ${cellType} at (${row}, ${col}) for $${refund} refund.`);
+            renderMap();
+            updateUI();
+        }
+
+        // Game loop
+        function gameLoop() {
+            // Calculate income
+            calculateIncome();
+            
+            // Update environmental factors
+            updateEnvironmentalFactors();
+            
+            // Update UI
+            updateUI();
+        }
+
+        // Calculate income
+        function calculateIncome() {
+            // Count factories and houses
+            const factories = gameState.buildings.filter(b => b.type === 'factory').length;
+            const houses = gameState.buildings.filter(b => b.type === 'house').length;
+            
+            // Base income from factories
+            gameState.income = factories * 200;
+            
+            // Subtract maintenance costs
+            const maintenance = houses * 10 + factories * 50;
+            gameState.income -= maintenance;
+            
+            // Add to money
+            gameState.money += gameState.income;
+        }
+
+        // Update environmental factors
+        function updateEnvironmentalFactors() {
+            // Count polluting buildings
+            const factories = gameState.buildings.filter(b => b.type === 'factory').length;
+            const powerPlants = gameState.buildings.filter(b => b.type === 'power-plant').length;
+            const parks = gameState.buildings.filter(b => b.type === 'park').length;
+            const trees = gameState.map.flat().filter(cell => cell === 'tree').length;
+            
+            // Calculate pollution
+            gameState.pollution = Math.min(100, factories * 15 + powerPlants * 20 - parks * 5 - trees * 2);
+            
+            // Update air and water quality based on pollution
+            gameState.airQuality = Math.max(0, 100 - gameState.pollution);
+            gameState.waterQuality = Math.max(0, 100 - gameState.pollution * 0.8);
+            
+            // Update temperature based on pollution and trees
+            gameState.temperature = 72 + (gameState.pollution * 0.3) - (trees * 0.1);
+            
+            // Update happiness based on various factors
+            const pollutionImpact = gameState.pollution * 0.5;
+            const parkImpact = parks * 2;
+            const treeImpact = trees * 0.5;
+            
+            gameState.happiness = Math.max(0, 100 - pollutionImpact + parkImpact + treeImpact);
+            gameState.approval = gameState.happiness;
+            
+            // Add warnings if values are critical
+            if (gameState.airQuality < 30) {
+                addMessage('Warning: Air quality is critical! Residents are having trouble breathing.', true);
+            }
+            
+            if (gameState.waterQuality < 30) {
+                addMessage('Warning: Water quality is critical! River is contaminated.', true);
+            }
+            
+            if (gameState.happiness < 30) {
+                addMessage('Warning: Happiness is critically low! People are considering moving out.', true);
+            }
+            
+            // Check if people are moving out
+            if (gameState.happiness < 20 && gameState.population > 0) {
+                const movedOut = Math.floor(Math.random() * 3) + 1;
+                gameState.population = Math.max(0, gameState.population - movedOut);
+                addMessage(`${movedOut} people moved out due to low happiness!`, true);
+            }
+        }
+
+        // Update the UI
+        function updateUI() {
+            // Update resources
+            document.getElementById('money').textContent = `$${gameState.money}`;
+            document.getElementById('population').textContent = gameState.population;
+            
+            // Update meters
+            document.getElementById('air-quality-meter').style.width = `${gameState.airQuality}%`;
+            document.getElementById('water-quality-meter').style.width = `${gameState.waterQuality}%`;
+            document.getElementById('happiness-meter').style.width = `${gameState.happiness}%`;
+            
+            // Update stats
+            document.getElementById('income-value').textContent = `$${gameState.income}`;
+            document.getElementById('pollution-value').textContent = `${gameState.pollution}%`;
+            document.getElementById('approval-value').textContent = `${gameState.approval}%`;
+            document.getElementById('temperature-value').textContent = `${gameState.temperature.toFixed(1)}°F`;
+            
+            // Color code values
+            colorCodeValue('income-value', gameState.income >= 0);
+            colorCodeValue('pollution-value', gameState.pollution < 50);
+            colorCodeValue('approval-value', gameState.approval >= 50);
+            colorCodeValue('temperature-value', gameState.temperature < 80);
+        }
+
+        // Color code value based on condition
+        function colorCodeValue(elementId, goodCondition) {
+            const element = document.getElementById(elementId);
+            if (goodCondition) {
+                element.classList.remove('warning');
+            } else {
+                element.classList.add('warning');
+            }
+        }
+
+        // Add message to log
+        function addMessage(text, isWarning = false) {
+            const messageLog = document.getElementById('message-log');
+            const message = document.createElement('div');
+            message.className = 'message';
+            if (isWarning) message.classList.add('warning');
+            message.textContent = text;
+            messageLog.appendChild(message);
+            
+            // Scroll to bottom
+            messageLog.scrollTop = messageLog.scrollHeight;
+            
+            // Keep only last 5 messages
+            const messages = messageLog.querySelectorAll('.message');
+            if (messages.length > 5) {
+                messages[0].remove();
+            }
+            
+            // Also add to game state for persistence
+            gameState.messages.push(text);
+            if (gameState.messages.length > 10) {
+                gameState.messages.shift();
+            }
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Build option clicks
+            document.querySelectorAll('.build-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    gameState.selectedBuilding = option.dataset.type;
+                    gameState.demolishMode = false;
+                    addMessage(`Selected: ${option.dataset.type}`);
+                });
+            });
+            
+            // Demolish button
+            document.getElementById('demolish-btn').addEventListener('click', () => {
+                gameState.demolishMode = !gameState.demolishMode;
+                gameState.selectedBuilding = null;
+                
+                const btn = document.getElementById('demolish-btn');
+                if (gameState.demolishMode) {
+                    btn.style.background = '#c0392b';
+                    addMessage('Demolish mode activated. Click on buildings to demolish.');
+                } else {
+                    btn.style.background = '#e74c3c';
+                    addMessage('Demolish mode deactivated.');
+                }
+            });
+            
+            // Settings button
+            document.getElementById('settings-btn').addEventListener('click', () => {
+                alert('Game settings would go here. In a full version, you could adjust tax rates and other settings.');
+            });
+        }
+
+        // Initialize the game when loaded
+        window.onload = function() {
+            initGame();
+            setupEventListeners();
+        };
+    </script>
+</body>
+</html>

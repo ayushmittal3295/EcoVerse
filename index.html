@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoLearn - Environmental Education for Kids</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-seedling"></i>
+                <span>EcoLearn</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="#features" class="nav-link">Features</a></li>
+                <li class="nav-item"><a href="#games" class="nav-link">Games & Quizzes</a></li>
+                <li class="nav-item"><a href="#impact" class="nav-link">Impact</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                 <li class="nav-item"><a href="login.html" class="nav-link">Login</a></li>
+                <li class="nav-item"><a href="#profile" class="nav-link profile-link">
+                    <i class="fas fa-user"></i>
+                </a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="decoration circle circle-1"></div>
+        <div class="decoration circle circle-2"></div>
+        <div class="floating-animal animal-1">
+            <i class="fas fa-dragon"></i>
+        </div>
+        <div class="floating-animal animal-2">
+            <i class="fas fa-frog"></i>
+        </div>
+        <div class="floating-animal animal-3">
+            <i class="fas fa-kiwi-bird"></i>
+        </div>
+        
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Transforming Environmental Education Through Experience</h1>
+                <p class="hero-description">An interactive platform that makes sustainability education engaging, practical, and impactful for students across India.</p>
+                <div class="hero-buttons">
+                  <button class="btn btn-primary btn-fun" onclick="window.location.href='login.html'">Get Started</button>
+                  <button class="btn btn-secondary btn-fun">Learn More</button>
+                </div>
+                <!-- <div class="hero-stats">
+                    <div class="stat">
+                        <h3 data-count="15328">15,328</h3>
+                        <p>Students Engaged</p>
+                    </div>
+                    <div class="stat">
+                        <h3 data-count="4562">4,562</h3>
+                        <p>Trees Planted</p>
+                    </div>
+                    <div class="stat">
+                        <h3 data-count="287">287</h3>
+                        <p>Schools Participating</p>
+                    </div>
+                </div> -->
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Environmental Education" class="quiz-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Platform Features</h2>
+            <p class="section-subtitle">Designed to make environmental learning engaging and effective</p>
+            
+            <div class="features-grid">
+                <div class="feature-card kid-friendly-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>Gamified Learning</h3>
+                    <p>Interactive lessons, challenges, and quizzes that make learning about the environment fun and engaging.</p>
+                </div>
+                
+                <div class="feature-card kid-friendly-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3>Real-world Tasks</h3>
+                    <p>Practical activities like tree-planting, waste segregation, and energy conservation with tracking.</p>
+                </div>
+                
+                <div class="feature-card kid-friendly-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>Eco-points & Rewards</h3>
+                    <p>Earn points for sustainable practices, compete with schools, and get digital badges.</p>
+                </div>
+                
+                <div class="feature-card kid-friendly-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Progress Tracking</h3>
+                    <p>Monitor your environmental impact and see how your actions contribute to larger sustainability goals.</p>
+                </div>
+                
+                <div class="feature-card kid-friendly-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Community Engagement</h3>
+                    <p>Connect with other students, schools, and environmental organizations to amplify your impact.</p>
+                </div>
+                
+                <div class="feature-card kid-friendly-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>Curriculum Alignment</h3>
+                    <p>Content aligned with NEP 2020 and SDG goals, supporting formal education requirements.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Games & Quizzes Section -->
+    <section id="games" class="games">
+        <div class="container">
+            <h2 class="section-title">Games & Quizzes</h2>
+            <p class="section-subtitle">Learn through play and earn eco-points and badges</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3>Quizzes</h3>
+                    <p>Test your knowledge about the environment with fun, bite-sized quizzes designed to make learning easy.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-puzzle-piece"></i>
+                    </div>
+                    <h3>Puzzles</h3>
+                    <p>Challenge yourself with eco-themed puzzles that match items, solve problems, and boost critical thinking.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-vr-cardboard"></i>
+                    </div>
+                    <h3>Simulations</h3>
+                    <p>Explore real-world scenarios in interactive simulations where your choices impact the environment.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>Action Games</h3>
+                    <p>Engage in fast-paced eco-missions where you take action to protect and restore nature.</p>
+                </div>
+            </div>
+            
+            <div class="badges-section">
+                <h3>Earn Badges</h3>
+                <p>Collect badges by completing games and challenges</p>
+                
+                <div class="badges-grid">
+                    <div class="badge-card kid-friendly-card">
+                        <div class="badge-icon">
+                            <i class="fas fa-recycle"></i>
+                        </div>
+                        <h4>Recycling Expert</h4>
+                        <p>Complete all recycling challenges</p>
+                    </div>
+                    
+                    <div class="badge-card kid-friendly-card">
+                        <div class="badge-icon">
+                            <i class="fas fa-tree"></i>
+                        </div>
+                        <h4>Tree Guardian</h4>
+                        <p>Plant 10 virtual trees</p>
+                    </div>
+                    
+                    <div class="badge-card kid-friendly-card">
+                        <div class="badge-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h4>Eco Scholar</h4>
+                        <p>Score 100% on 5 quizzes</p>
+                    </div>
+                    
+                    <div class="badge-card kid-friendly-card">
+                        <div class="badge-icon">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <h4>Climate Champion</h4>
+                        <p>Earn 500 eco-points</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Modal -->
+    <div id="quiz-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="quiz-container">
+                <h2>Eco Knowledge Quiz</h2>
+                <div class="quiz-progress">
+                    <div class="progress-bar">
+                        <div class="progress"></div>
+                    </div>
+                    <span class="progress-text">Question <span id="current-question">1</span> of 5</span>
+                </div>
+                
+                <div class="quiz-question">
+                    <h3 id="question-text">What is the largest source of renewable energy worldwide?</h3>
+                    <div class="quiz-options">
+                        <div class="option">Solar Power</div>
+                        <div class="option">Wind Energy</div>
+                        <div class="option">Hydropower</div>
+                        <div class="option">Biomass</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-controls">
+                    <button class="btn btn-secondary btn-fun" id="prev-btn">Previous</button>
+                    <button class="btn btn-primary btn-fun" id="next-btn">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Impact Section -->
+    <section id="impact" class="impact">
+        <div class="container">
+            <h2 class="section-title">Our Impact</h2>
+            <p class="section-subtitle">Transforming environmental education across India</p>
+            
+            <div class="impact-content">
+                <div class="impact-stats">
+                    <div class="stat kid-friendly-card">
+                        <h4 data-count="70">70%</h4>
+                        <p>Increase in student engagement with gamified learning</p>
+                    </div>
+                    <div class="stat kid-friendly-card">
+                        <h4 data-count="200">200+</h4>
+                        <p>Schools implementing our platform</p>
+                    </div>
+                    <div class="stat kid-friendly-card">
+                        <h4 data-count="15000">15k</h4>
+                        <p>Students actively participating</p>
+                    </div>
+                    <div class="stat kid-friendly-card">
+                        <h4 data-count="10000">10k+</h4>
+                        <p>Trees planted through platform initiatives</p>
+                    </div>
+                </div>
+                
+                <div class="impact-description">
+                    <p>Our platform addresses the critical gap between theoretical environmental education and practical application. By making sustainability tangible and rewarding, we're fostering a generation of environmentally conscious citizens.</p>
+                    
+                    <p>Aligned with India's SDG goals and NEP 2020's emphasis on experiential learning, EcoLearn creates lasting behavioral change that extends from students to families and communities.</p>
+                    
+                    <div class="impact-beneficiaries">
+                        <h4>Key Beneficiaries:</h4>
+                        <ul>
+                            <li><i class="fas fa-check"></i> School and college students</li>
+                            <li><i class="fas fa-check"></i> Teachers and eco-club coordinators</li>
+                            <li><i class="fas fa-check"></i> Environmental NGOs</li>
+                            <li><i class="fas fa-check"></i> Government departments</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Users Say</h2>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card kid-friendly-card">
+                    <div class="testimonial-content">
+                        <p>"EcoLearn has transformed how we approach environmental education. Our students are now actively involved in sustainability projects."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Teacher">
+                        <div>
+                            <h4>Priya Sharma</h4>
+                            <p>Eco-club Coordinator, Delhi</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card kid-friendly-card">
+                    <div class="testimonial-content">
+                        <p>"The gamification elements make learning about the environment so much fun! I've reduced my plastic usage thanks to the challenges."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Student">
+                        <div>
+                            <h4>Rahul Mehta</h4>
+                            <p>Student, Mumbai</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card kid-friendly-card">
+                    <div class="testimonial-content">
+                        <p>"This platform has helped our NGO connect with schools and measure the real impact of our environmental initiatives."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="NGO Representative">
+                        <div>
+                            <h4>Anil Patel</h4>
+                            <p>GreenFuture NGO, Bangalore</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to transform environmental education?</h2>
+                <p>Join schools across India in creating a sustainable future through experiential learning.</p>
+                <button class="btn btn-primary btn-fun">Get Started Today</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-seedling"></i>
+                        <span>EcoLearn</span>
+                    </div>
+                    <p>Making environmental education engaging, practical, and impactful for students across India.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#games">Games & Quizzes</a></li>
+                        <li><a href="#impact">Impact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">For Teachers</a></li>
+                        <li><a href="#">For Students</a></li>
+                        <li><a href="#">Lesson Plans</a></li>
+                        <li><a href="#">Research</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section contact">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> info@ecolearn.com</li>
+                        <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+                        <li><i class="fas fa-map-marker-alt"></i> New Delhi, India</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 EcoLearn. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

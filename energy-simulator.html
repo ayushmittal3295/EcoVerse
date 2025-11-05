@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renewable Energy Simulator - EcoLearn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-light: #80e27e;
+            --primary-dark: #087f23;
+            --secondary: #2196F3;
+            --secondary-light: #6ec6ff;
+            --secondary-dark: #0069c0;
+            --accent: #FF9800;
+            --accent-light: #ffc947;
+            --accent-dark: #c66900;
+            --text: #263238;
+            --text-light: #78909c;
+            --background: #f9fbe7;
+            --surface: #ffffff;
+            --error: #f44336;
+            --success: #66bb6a;
+            --warning: #ffa726;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--background);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        /* Header */
+        .simulator-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover {
+            color: var(--secondary-light);
+        }
+
+        .back-btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* Simulator Container */
+        .simulator-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            flex: 1;
+        }
+
+        .simulator-card {
+            background: var(--surface);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .simulator-header-card {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-light) 100%);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text);
+        }
+
+        .simulator-header-card h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        .simulator-header-card p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .simulator-content {
+            padding: 2rem;
+        }
+
+        /* Energy Sources */
+        .energy-sources {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .energy-source {
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .energy-source:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .energy-source.active {
+            border-color: var(--primary);
+            background-color: rgba(76, 175, 80, 0.05);
+        }
+
+        .energy-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .solar .energy-icon {
+            color: #FFC107;
+        }
+
+        .wind .energy-icon {
+            color: #2196F3;
+        }
+
+        .hydro .energy-icon {
+            color: #03A9F4;
+        }
+
+        .geothermal .energy-icon {
+            color: #FF5722;
+        }
+
+        .energy-source h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .energy-source p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .power-output {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Simulation Area */
+        .simulation-area {
+            background-color: var(--background);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .simulation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .simulation-controls {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .simulation-visual {
+            position: relative;
+            height: 300px;
+            background: linear-gradient(to bottom, #87CEEB, #E0F7FA);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Solar Simulation */
+        .sun {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #FFEB3B, #FFC107);
+            border-radius: 50%;
+            box-shadow: 0 0 20px #FFC107;
+        }
+
+        .solar-panels {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .solar-panel {
+            width: 80px;
+            height: 120px;
+            background: linear-gradient(45deg, #263238, #37474F);
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .solar-panel::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 235, 59, 0.3), transparent);
+            animation: solarGlow 3s infinite;
+        }
+
+        @keyframes solarGlow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Wind Simulation */
+        .wind-turbines {
+            position: absolute;
+            bottom: 20px;
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+
+        .wind-turbine {
+            position: relative;
+            width: 80px;
+            height: 200px;
+        }
+
+        .turbine-tower {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 150px;
+            background-color: #78909C;
+        }
+
+        .turbine-blades {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            animation: windSpin 3s linear infinite;
+        }
+
+        .blade {
+            position: absolute;
+            width: 60px;
+            height: 10px;
+            background-color: #37474F;
+            border-radius: 5px;
+        }
+
+        .blade:nth-child(1) { transform: rotate(0deg); }
+        .blade:nth-child(2) { transform: rotate(120deg); }
+        .blade:nth-child(3) { transform: rotate(240deg); }
+
+        @keyframes windSpin {
+            from { transform: translateX(-50%) rotate(0deg); }
+            to { transform: translateX(-50%) rotate(360deg); }
+        }
+
+        /* Hydro Simulation */
+        .hydro-dam {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 150px;
+            background: linear-gradient(to right, #78909C, #546E7A);
+            border-radius: 10px 10px 0 0;
+        }
+
+        .water-flow {
+            position: absolute;
+            bottom: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 0;
+            background: linear-gradient(to bottom, #2196F3, #03A9F4);
+            border-radius: 0 0 25px 25px;
+            transition: height 0.5s;
+        }
+
+        .turbine-house {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 80px;
+            background-color: #B0BEC5;
+            border-radius: 10px 10px 0 0;
+        }
+
+        /* Stats Panel */
+        .stats-panel {
+            background-color: var(--surface);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1rem;
+            background-color: var(--background);
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Impact Section */
+        .impact-section {
+            background-color: var(--background);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .impact-card {
+            background-color: var(--surface);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .impact-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--background);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* Footer */
+        .simulator-footer {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: auto;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .simulator-container {
+                padding: 0 1rem;
+            }
+            
+            .simulator-header-card h1 {
+                font-size: 1.7rem;
+            }
+            
+            .simulator-content {
+                padding: 1.5rem;
+            }
+            
+            .energy-sources {
+                grid-template-columns: 1fr;
+            }
+            
+            .simulation-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .simulation-controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .simulator-header {
+                padding: 1rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .simulator-header-card {
+                padding: 1.5rem;
+            }
+            
+            .simulator-header-card h1 {
+                font-size: 1.5rem;
+            }
+            
+            .simulation-visual {
+                height: 200px;
+            }
+            
+            .impact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="simulator-header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>EcoLearn</span>
+            </div>
+            <a href="dashboard.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </a>
+        </div>
+    </header>
+
+    <!-- Simulator Container -->
+    <div class="simulator-container">
+        <div class="simulator-card">
+            <div class="simulator-header-card">
+                <h1>Renewable Energy Simulator</h1>
+                <p>Explore different renewable energy sources and see how they power our world!</p>
+            </div>
+
+            <div class="simulator-content">
+                <!-- Energy Sources -->
+                <div class="energy-sources" id="energy-sources">
+                    <div class="energy-source solar active" data-source="solar">
+                        <div class="energy-icon">
+                            <i class="fas fa-sun"></i>
+                        </div>
+                        <h3>Solar Power</h3>
+                        <p>Convert sunlight into electricity using solar panels</p>
+                        <div class="power-output">0 kW</div>
+                    </div>
+                    
+                    <div class="energy-source wind" data-source="wind">
+                        <div class="energy-icon">
+                            <i class="fas fa-wind"></i>
+                        </div>
+                        <h3>Wind Power</h3>
+                        <p>Harness wind energy with turbines</p>
+                        <div class="power-output">0 kW</div>
+                    </div>
+                    
+                    <div class="energy-source hydro" data-source="hydro">
+                        <div class="energy-icon">
+                            <i class="fas fa-water"></i>
+                        </div>
+                        <h3>Hydro Power</h3>
+                        <p>Generate electricity from flowing water</p>
+                        <div class="power-output">0 kW</div>
+                    </div>
+                    
+                    <div class="energy-source geothermal" data-source="geothermal">
+                        <div class="energy-icon">
+                            <i class="fas fa-mountain"></i>
+                        </div>
+                        <h3>Geothermal</h3>
+                        <p>Use heat from inside the Earth</p>
+                        <div class="power-output">0 kW</div>
+                    </div>
+                </div>
+
+                <!-- Simulation Area -->
+                <div class="simulation-area">
+                    <div class="simulation-header">
+                        <h2 id="simulation-title">Solar Energy Simulation</h2>
+                        <div class="simulation-controls">
+                            <button class="btn btn-primary" id="start-simulation">
+                                <i class="fas fa-play"></i>
+                                Start Simulation
+                            </button>
+                            <button class="btn btn-secondary" id="reset-simulation">
+                                <i class="fas fa-redo"></i>
+                                Reset
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="simulation-visual" id="simulation-visual">
+                        <!-- Solar Simulation (Default) -->
+                        <div class="sun"></div>
+                        <div class="solar-panels">
+                            <div class="solar-panel"></div>
+                            <div class="solar-panel"></div>
+                            <div class="solar-panel"></div>
+                        </div>
+                        
+                        <!-- Wind Simulation (Hidden by default) -->
+                        <div class="wind-turbines" style="display: none;">
+                            <div class="wind-turbine">
+                                <div class="turbine-tower"></div>
+                                <div class="turbine-blades">
+                                    <div class="blade"></div>
+                                    <div class="blade"></div>
+                                    <div class="blade"></div>
+                                </div>
+                            </div>
+                            <div class="wind-turbine">
+                                <div class="turbine-tower"></div>
+                                <div class="turbine-blades">
+                                    <div class="blade"></div>
+                                    <div class="blade"></div>
+                                    <div class="blade"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Hydro Simulation (Hidden by default) -->
+                        <div class="hydro-simulation" style="display: none;">
+                            <div class="hydro-dam"></div>
+                            <div class="water-flow" id="water-flow"></div>
+                            <div class="turbine-house"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Stats Panel -->
+                    <div class="stats-panel">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value" id="power-output">0 kW</div>
+                                <div class="stat-label">Power Output</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="homes-powered">0</div>
+                                <div class="stat-label">Homes Powered</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="co2-saved">0 kg</div>
+                                <div class="stat-label">CO₂ Saved</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="efficiency">0%</div>
+                                <div class="stat-label">Efficiency</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Impact Section -->
+                <div class="impact-section">
+                    <h2>Environmental Impact</h2>
+                    <div class="impact-grid">
+                        <div class="impact-card">
+                            <div class="impact-icon">
+                                <i class="fas fa-tree"></i>
+                            </div>
+                            <h3>Clean Air</h3>
+                            <p>Renewable energy produces no air pollution</p>
+                        </div>
+                        <div class="impact-card">
+                            <div class="impact-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <h3>Water Conservation</h3>
+                            <p>Uses significantly less water than fossil fuels</p>
+                        </div>
+                        <div class="impact-card">
+                            <div class="impact-icon">
+                                <i class="fas fa-globe-americas"></i>
+                            </div>
+                            <h3>Climate Protection</h3>
+                            <p>Helps reduce greenhouse gas emissions</p>
+                        </div>
+                        <div class="impact-card">
+                            <div class="impact-icon">
+                                <i class="fas fa-infinity"></i>
+                            </div>
+                            <h3>Sustainable</h3>
+                            <p>Energy sources that never run out</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="simulator-footer">
+        <p>&copy; 2023 EcoLearn. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Energy source data
+        const energySources = {
+            solar: {
+                name: "Solar Energy",
+                maxPower: 250, // kW
+                homesPerKW: 4,
+                co2PerKWH: 0.5, // kg
+                efficiencyRange: [15, 22], // %
+                simulation: "solar",
+                fact: "The amount of sunlight that hits the Earth in one hour could power the entire world for a year!"
+            },
+            wind: {
+                name: "Wind Energy",
+                maxPower: 2000, // kW
+                homesPerKW: 3,
+                co2PerKWH: 0.4, // kg
+                efficiencyRange: [35, 45], // %
+                simulation: "wind",
+                fact: "A single wind turbine can power up to 1,500 homes!"
+            },
+            hydro: {
+                name: "Hydro Power",
+                maxPower: 5000, // kW
+                homesPerKW: 2,
+                co2PerKWH: 0.3, // kg
+                efficiencyRange: [80, 90], // %
+                simulation: "hydro",
+                fact: "Hydropower is the largest source of renewable electricity in the world!"
+            },
+            geothermal: {
+                name: "Geothermal Energy",
+                maxPower: 100, // kW
+                homesPerKW: 5,
+                co2PerKWH: 0.2, // kg
+                efficiencyRange: [10, 15], // %
+                simulation: "solar", // Using solar visualization for now
+                fact: "Geothermal energy comes from the heat deep within the Earth - it's like using the planet's natural warmth!"
+            }
+        };
+
+        // DOM Elements
+        const energySourcesContainer = document.getElementById('energy-sources');
+        const simulationTitle = document.getElementById('simulation-title');
+        const simulationVisual = document.getElementById('simulation-visual');
+        const startSimulationBtn = document.getElementById('start-simulation');
+        const resetSimulationBtn = document.getElementById('reset-simulation');
+        const powerOutputDisplay = document.getElementById('power-output');
+        const homesPoweredDisplay = document.getElementById('homes-powered');
+        const co2SavedDisplay = document.getElementById('co2-saved');
+        const efficiencyDisplay = document.getElementById('efficiency');
+
+        // Simulation state
+        let currentSource = 'solar';
+        let simulationActive = false;
+        let simulationInterval;
+        let currentPower = 0;
+        let simulationTime = 0;
+
+        // Initialize the simulator
+        function initSimulator() {
+            // Add event listeners to energy source cards
+            const sourceCards = document.querySelectorAll('.energy-source');
+            sourceCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const source = this.getAttribute('data-source');
+                    selectEnergySource(source);
+                });
+            });
+            
+            // Add event listeners to control buttons
+            startSimulationBtn.addEventListener('click', toggleSimulation);
+            resetSimulationBtn.addEventListener('click', resetSimulation);
+        }
+
+        // Select an energy source
+        function selectEnergySource(source) {
+            // Update active state
+            const sourceCards = document.querySelectorAll('.energy-source');
+            sourceCards.forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelector(`.energy-source[data-source="${source}"]`).classList.add('active');
+            
+            // Update current source
+            currentSource = source;
+            
+            // Update simulation title
+            simulationTitle.textContent = `${energySources[source].name} Simulation`;
+            
+            // Update visualization
+            updateVisualization(source);
+            
+            // Reset simulation if active
+            if (simulationActive) {
+                resetSimulation();
+            }
+        }
+
+        // Update visualization based on selected energy source
+        function updateVisualization(source) {
+            // Hide all visualizations
+            const solarPanels = document.querySelector('.solar-panels');
+            const windTurbines = document.querySelector('.wind-turbines');
+            const hydroSimulation = document.querySelector('.hydro-simulation');
+            
+            solarPanels.style.display = 'none';
+            windTurbines.style.display = 'none';
+            hydroSimulation.style.display = 'none';
+            
+            // Show appropriate visualization
+            switch(energySources[source].simulation) {
+                case 'solar':
+                    solarPanels.style.display = 'flex';
+                    break;
+                case 'wind':
+                    windTurbines.style.display = 'flex';
+                    break;
+                case 'hydro':
+                    hydroSimulation.style.display = 'block';
+                    // Reset water flow
+                    document.getElementById('water-flow').style.height = '0px';
+                    break;
+            }
+        }
+
+        // Toggle simulation on/off
+        function toggleSimulation() {
+            if (simulationActive) {
+                stopSimulation();
+            } else {
+                startSimulation();
+            }
+        }
+
+        // Start the simulation
+        function startSimulation() {
+            simulationActive = true;
+            simulationTime = 0;
+            startSimulationBtn.innerHTML = '<i class="fas fa-pause"></i> Pause Simulation';
+            
+            // Start simulation loop
+            simulationInterval = setInterval(updateSimulation, 100);
+        }
+
+        // Stop the simulation
+        function stopSimulation() {
+            simulationActive = false;
+            startSimulationBtn.innerHTML = '<i class="fas fa-play"></i> Resume Simulation';
+            clearInterval(simulationInterval);
+        }
+
+        // Reset the simulation
+        function resetSimulation() {
+            stopSimulation();
+            currentPower = 0;
+            simulationTime = 0;
+            
+            // Reset displays
+            powerOutputDisplay.textContent = '0 kW';
+            homesPoweredDisplay.textContent = '0';
+            co2SavedDisplay.textContent = '0 kg';
+            efficiencyDisplay.textContent = '0%';
+            
+            // Reset button text
+            startSimulationBtn.innerHTML = '<i class="fas fa-play"></i> Start Simulation';
+            
+            // Reset visual elements
+            if (currentSource === 'hydro') {
+                document.getElementById('water-flow').style.height = '0px';
+            }
+        }
+
+        // Update simulation state
+        function updateSimulation() {
+            if (!simulationActive) return;
+            
+            simulationTime += 0.1;
+            const source = energySources[currentSource];
+            
+            // Calculate power output (simulate realistic fluctuations)
+            const targetPower = source.maxPower;
+            const progress = Math.min(1, simulationTime / 5); // Ramp up over 5 seconds
+            
+            // Add some random fluctuation to make it more realistic
+            const fluctuation = 0.9 + Math.random() * 0.2;
+            currentPower = Math.min(targetPower * progress * fluctuation, targetPower);
+            
+            // Update displays
+            powerOutputDisplay.textContent = `${Math.round(currentPower)} kW`;
+            
+            // Calculate homes powered
+            const homesPowered = Math.round(currentPower * source.homesPerKW);
+            homesPoweredDisplay.textContent = homesPowered.toLocaleString();
+            
+            // Calculate CO2 saved (cumulative)
+            const co2Saved = Math.round(simulationTime * currentPower * source.co2PerKWH);
+            co2SavedDisplay.textContent = `${co2Saved} kg`;
+            
+            // Calculate efficiency (varies based on source)
+            const minEff = source.efficiencyRange[0];
+            const maxEff = source.efficiencyRange[1];
+            const efficiency = minEff + (maxEff - minEff) * progress;
+            efficiencyDisplay.textContent = `${Math.round(efficiency)}%`;
+            
+            // Update source card power output
+            const sourceCard = document.querySelector(`.energy-source[data-source="${currentSource}"] .power-output`);
+            sourceCard.textContent = `${Math.round(currentPower)} kW`;
+            
+            // Update visual elements based on power
+            updateVisualEffects(currentPower / source.maxPower);
+        }
+
+        // Update visual effects based on power level
+        function updateVisualEffects(powerLevel) {
+            const source = energySources[currentSource];
+            
+            switch(source.simulation) {
+                case 'solar':
+                    // Adjust solar panel glow based on power
+                    const solarPanels = document.querySelectorAll('.solar-panel');
+                    solarPanels.forEach(panel => {
+                        panel.style.opacity = 0.3 + (powerLevel * 0.7);
+                    });
+                    break;
+                    
+                case 'wind':
+                    // Adjust wind turbine speed based on power
+                    const turbineBlades = document.querySelectorAll('.turbine-blades');
+                    const animationDuration = 3 - (powerLevel * 2); // Faster with more power
+                    turbineBlades.forEach(blades => {
+                        blades.style.animationDuration = `${animationDuration}s`;
+                    });
+                    break;
+                    
+                case 'hydro':
+                    // Adjust water flow based on power
+                    const waterFlow = document.getElementById('water-flow');
+                    const flowHeight = 100 * powerLevel;
+                    waterFlow.style.height = `${flowHeight}px`;
+                    break;
+            }
+        }
+
+        // Initialize the simulator when page loads
+        document.addEventListener('DOMContentLoaded', initSimulator);
+    </script>
+</body>
+</html>
