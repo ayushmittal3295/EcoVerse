@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoLearn - Profile</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>EcoLearn - My Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/profile.css">
 </head>
@@ -18,11 +18,12 @@
             </div>
             <ul class="nav-menu">
                 <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="#features" class="nav-link">Features</a></li>
-                <li class="nav-item"><a href="#games" class="nav-link">Games & Quizzes</a></li>
-                <li class="nav-item"><a href="#impact" class="nav-link">Impact</a></li>
-                <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
-                <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li class="nav-item"><a href="games.html" class="nav-link">Games & Quizzes</a></li>
+                <li class="nav-item"><a href="challenges.html" class="nav-link">Challenges</a></li>
+                <li class="nav-item"><a href="achievements.html" class="nav-link">Achievements</a></li>
+                <li class="nav-item"><a href="progress.html" class="nav-link">Progress</a></li>
+                <li class="nav-item"><a href="profile.html" class="nav-link active">Profile</a></li>
                 <li class="nav-item"><a href="profile.html" class="nav-link profile-link">
                     <i class="fas fa-user"></i>
                     <span class="points-badge" id="nav-points">0</span>
@@ -40,8 +41,8 @@
         </div>
     </nav>
 
-    <!-- Dashboard Layout -->
-    <div class="dashboard-container">
+    <!-- Profile Container -->
+    <div class="profile-container">
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
@@ -64,6 +65,30 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="games.html">
+                            <i class="fas fa-gamepad"></i>
+                            <span>Games & Quizzes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="challenges.html">
+                            <i class="fas fa-tasks"></i>
+                            <span>Challenges</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="achievements.html">
+                            <i class="fas fa-trophy"></i>
+                            <span>Achievements</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="progress.html">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Progress</span>
+                        </a>
+                    </li>
                     <li class="nav-item active">
                         <a href="profile.html">
                             <i class="fas fa-user"></i>
@@ -71,37 +96,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#games-section">
-                            <i class="fas fa-gamepad"></i>
-                            <span>Games & Quizzes</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#">
-                            <i class="fas fa-tasks"></i>
-                            <span>Challenges</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#">
-                            <i class="fas fa-trophy"></i>
-                            <span>Achievements</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#">
-                            <i class="fas fa-chart-line"></i>
-                            <span>Progress</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#">
-                            <i class="fas fa-users"></i>
-                            <span>Community</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#">
+                        <a href="settings.html">
                             <i class="fas fa-cog"></i>
                             <span>Settings</span>
                         </a>
@@ -114,7 +109,7 @@
                     <h4>Your Eco Points</h4>
                     <div class="points-display" id="user-points">0</div>
                 </div>
-                <button class="btn btn-primary redeem-btn">Redeem Rewards</button>
+                <a href="rewards.html" class="btn btn-primary redeem-btn">Redeem Rewards</a>
             </div>
         </aside>
 
@@ -122,115 +117,369 @@
         <main class="main-content">
             <!-- Profile Header -->
             <section class="profile-header">
-                <div class="profile-avatar">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div class="profile-details">
-                    <h1 id="profile-name">Loading...</h1>
-                    <p id="profile-email">Loading...</p>
-                    <p id="member-since">Member since Loading...</p>
-                    <span class="level-badge" id="profile-level">Level 1 Eco Learner</span>
-                </div>
-            </section>
-
-            <!-- Stats Overview -->
-            <section class="stats-overview">
-                <div class="stat">
-                    <div class="stat-icon">
-                        <i class="fas fa-check-circle"></i>
+                <div class="header-content">
+                    <div class="avatar-section">
+                        <div class="avatar-container">
+                            <div class="avatar-large" id="profile-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <button class="edit-avatar-btn" id="edit-avatar-btn">
+                                <i class="fas fa-camera"></i>
+                            </button>
+                        </div>
+                        <div class="avatar-info">
+                            <h1 id="profile-name">Loading...</h1>
+                            <p id="profile-title">Eco Learner</p>
+                            <div class="member-since">
+                                <i class="fas fa-calendar"></i>
+                                <span>Member since <span id="join-date">2023</span></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="stat-info">
-                        <h3 id="profile-completed">0</h3>
-                        <p>Completed Challenges</p>
-                    </div>
-                </div>
-                <div class="stat">
-                    <div class="stat-icon">
-                        <i class="fas fa-medal"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="profile-badges">0</h3>
-                        <p>Badges Earned</p>
-                    </div>
-                </div>
-                <div class="stat">
-                    <div class="stat-icon">
-                        <i class="fas fa-leaf"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="profile-trees">0</h3>
-                        <p>Trees Planted</p>
-                    </div>
-                </div>
-                <div class="stat">
-                    <div class="stat-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 id="profile-time">0h</h3>
-                        <p>Learning Time</p>
+                    <div class="profile-stats">
+                        <div class="stat-card">
+                            <div class="stat-value" id="total-points">0</div>
+                            <div class="stat-label">Total Points</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="streak-count">0</div>
+                            <div class="stat-label">Day Streak</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="rank-position">#-</div>
+                            <div class="stat-label">Global Rank</div>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Badges Section -->
-            <section class="badges-section">
-                <div class="section-header">
-                    <h2>Your Badges</h2>
-                    <a href="#" class="view-all">View All</a>
+            <!-- Profile Tabs -->
+            <section class="profile-tabs">
+                <div class="tabs-header">
+                    <button class="tab-btn active" data-tab="overview">Overview</button>
+                    <button class="tab-btn" data-tab="achievements">Achievements</button>
+                    <button class="tab-btn" data-tab="activity">Activity</button>
+                    <button class="tab-btn" data-tab="settings">Settings</button>
                 </div>
-                <div class="badges-grid" id="badges-grid">
-                    <!-- Badges will be loaded dynamically -->
-                </div>
-            </section>
 
-            <!-- Recent Activity -->
-            <section class="recent-activity">
-                <div class="section-header">
-                    <h2>Recent Activity</h2>
-                    <a href="#" class="view-all">View All</a>
-                </div>
-                <div class="activity-list" id="activity-list">
-                    <!-- Activities will be loaded dynamically -->
-                </div>
-            </section>
+                <!-- Overview Tab -->
+                <div class="tab-content active" id="overview-tab">
+                    <div class="overview-grid">
+                        <!-- Progress Section -->
+                        <div class="overview-card progress-card">
+                            <h3><i class="fas fa-chart-line"></i> Learning Progress</h3>
+                            <div class="progress-stats">
+                                <div class="progress-item">
+                                    <span class="progress-label">Level Progress</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="level-progress-bar" style="width: 0%"></div>
+                                    </div>
+                                    <span class="progress-text" id="level-progress-text">0%</span>
+                                </div>
+                                <div class="progress-item">
+                                    <span class="progress-label">Games Completed</span>
+                                    <span class="progress-value" id="games-completed">0</span>
+                                </div>
+                                <div class="progress-item">
+                                    <span class="progress-label">Challenges Completed</span>
+                                    <span class="progress-value" id="challenges-completed">0</span>
+                                </div>
+                                <div class="progress-item">
+                                    <span class="progress-label">Learning Time</span>
+                                    <span class="progress-value" id="total-learning-time">0h</span>
+                                </div>
+                            </div>
+                        </div>
 
-            <!-- Progress Section -->
-            <section class="progress-section">
-                <div class="section-header">
-                    <h2>Your Learning Progress</h2>
+                        <!-- Environmental Impact -->
+                        <div class="overview-card impact-card">
+                            <h3><i class="fas fa-earth-americas"></i> Environmental Impact</h3>
+                            <div class="impact-stats">
+                                <div class="impact-item">
+                                    <div class="impact-icon">
+                                        <i class="fas fa-tree"></i>
+                                    </div>
+                                    <div class="impact-info">
+                                        <h4 id="trees-planted">0</h4>
+                                        <p>Trees Planted</p>
+                                    </div>
+                                </div>
+                                <div class="impact-item">
+                                    <div class="impact-icon">
+                                        <i class="fas fa-cloud"></i>
+                                    </div>
+                                    <div class="impact-info">
+                                        <h4 id="co2-reduced">0kg</h4>
+                                        <p>CO₂ Reduced</p>
+                                    </div>
+                                </div>
+                                <div class="impact-item">
+                                    <div class="impact-icon">
+                                        <i class="fas fa-tint"></i>
+                                    </div>
+                                    <div class="impact-info">
+                                        <h4 id="water-saved">0L</h4>
+                                        <p>Water Saved</p>
+                                    </div>
+                                </div>
+                                <div class="impact-item">
+                                    <div class="impact-icon">
+                                        <i class="fas fa-recycle"></i>
+                                    </div>
+                                    <div class="impact-info">
+                                        <h4 id="waste-recycled">0kg</h4>
+                                        <p>Waste Recycled</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Badges -->
+                        <div class="overview-card badges-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-trophy"></i> Recent Badges</h3>
+                                <a href="achievements.html" class="view-all">View All</a>
+                            </div>
+                            <div class="badges-grid" id="recent-badges">
+                                <!-- Badges will be loaded here -->
+                            </div>
+                        </div>
+
+                        <!-- Skills Overview -->
+                        <div class="overview-card skills-card">
+                            <h3><i class="fas fa-star"></i> Eco Skills</h3>
+                            <div class="skills-list">
+                                <div class="skill-item">
+                                    <span class="skill-name">Recycling Knowledge</span>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 75%"></div>
+                                    </div>
+                                    <span class="skill-percent">75%</span>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">Energy Conservation</span>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 60%"></div>
+                                    </div>
+                                    <span class="skill-percent">60%</span>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">Water Preservation</span>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 45%"></div>
+                                    </div>
+                                    <span class="skill-percent">45%</span>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">Climate Awareness</span>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 80%"></div>
+                                    </div>
+                                    <span class="skill-percent">80%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="progress-content">
-                    <div class="progress-chart">
-                        <div class="chart-header">
-                            <h3>Weekly Activity</h3>
-                            <select id="time-range">
-                                <option value="week">This Week</option>
-                                <option value="month">This Month</option>
-                                <option value="year">This Year</option>
+
+                <!-- Achievements Tab -->
+                <div class="tab-content" id="achievements-tab">
+                    <div class="achievements-header">
+                        <h2>Your Achievements</h2>
+                        <div class="achievements-stats">
+                            <div class="achievement-stat">
+                                <span class="stat-number" id="total-badges">0</span>
+                                <span class="stat-label">Badges Earned</span>
+                            </div>
+                            <div class="achievement-stat">
+                                <span class="stat-number" id="rare-badges">0</span>
+                                <span class="stat-label">Rare Badges</span>
+                            </div>
+                            <div class="achievement-stat">
+                                <span class="stat-number" id="completion-rate">0%</span>
+                                <span class="stat-label">Completion Rate</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="achievements-grid" id="achievements-grid">
+                        <!-- Achievements will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Activity Tab -->
+                <div class="tab-content" id="activity-tab">
+                    <div class="activity-header">
+                        <h2>Recent Activity</h2>
+                        <div class="activity-filters">
+                            <select id="activity-filter">
+                                <option value="all">All Activities</option>
+                                <option value="games">Games</option>
+                                <option value="challenges">Challenges</option>
+                                <option value="learning">Learning</option>
+                                <option value="achievements">Achievements</option>
                             </select>
                         </div>
-                        <div class="chart-container">
-                            <canvas id="activityChart"></canvas>
-                        </div>
                     </div>
-                    <div class="badges-display">
-                        <h3>Next Level Progress</h3>
-                        <div class="progress-container" style="height: 10px; background: #E0E0E0; border-radius: 5px; margin: 15px 0; overflow: hidden;">
-                            <div class="progress-bar" id="level-progress" style="height: 100%; background: linear-gradient(to right, #4CAF50, #2E7D32); width: 0%;"></div>
+                    <div class="activity-timeline" id="activity-timeline">
+                        <!-- Activity items will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Settings Tab -->
+                <div class="tab-content" id="settings-tab">
+                    <div class="settings-grid">
+                        <!-- Profile Settings -->
+                        <div class="settings-card">
+                            <h3><i class="fas fa-user-edit"></i> Profile Settings</h3>
+                            <form class="settings-form" id="profile-form">
+                                <div class="form-group">
+                                    <label for="display-name">Display Name</label>
+                                    <input type="text" id="display-name" name="displayName" placeholder="Enter your display name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" placeholder="Enter your email" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bio">Bio</label>
+                                    <textarea id="bio" name="bio" placeholder="Tell us about yourself and your eco-journey..." rows="4"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </form>
                         </div>
-                        <p style="text-align: center; color: var(--gray); font-size: 0.9rem;" id="level-text">0% to Level 2</p>
-                        <p style="text-align: center; margin-top: 10px;" id="points-text">0/100 points</p>
+
+                        <!-- Notification Settings -->
+                        <div class="settings-card">
+                            <h3><i class="fas fa-bell"></i> Notification Settings</h3>
+                            <div class="notification-settings">
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <h4>Game Notifications</h4>
+                                        <p>Get notified about new games and challenges</p>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <h4>Progress Updates</h4>
+                                        <p>Receive updates about your learning progress</p>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <h4>Community Activities</h4>
+                                        <p>Notifications about community events and leaderboards</p>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <h4>Email Newsletter</h4>
+                                        <p>Receive eco-tips and platform updates via email</p>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Account Settings -->
+                        <div class="settings-card">
+                            <h3><i class="fas fa-shield-alt"></i> Account Settings</h3>
+                            <div class="account-actions">
+                                <button class="btn btn-secondary" id="change-password-btn">
+                                    <i class="fas fa-key"></i>
+                                    Change Password
+                                </button>
+                                <button class="btn btn-secondary" id="privacy-settings-btn">
+                                    <i class="fas fa-lock"></i>
+                                    Privacy Settings
+                                </button>
+                                <button class="btn btn-danger" id="delete-account-btn">
+                                    <i class="fas fa-trash"></i>
+                                    Delete Account
+                                </button>
+                            </div>
+                            <div class="account-info">
+                                <h4>Account Information</h4>
+                                <div class="info-item">
+                                    <span class="info-label">Account Created:</span>
+                                    <span class="info-value" id="account-created">-</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Last Login:</span>
+                                    <span class="info-value" id="last-login">-</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Account Status:</span>
+                                    <span class="info-value status-active">Active</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
         </main>
     </div>
 
+    <!-- Edit Avatar Modal -->
+    <div class="modal" id="avatar-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Profile Picture</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="avatar-options">
+                    <div class="avatar-option selected">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="avatar-option">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <div class="avatar-option">
+                        <i class="fas fa-earth-americas"></i>
+                    </div>
+                    <div class="avatar-option">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <div class="avatar-option">
+                        <i class="fas fa-recycle"></i>
+                    </div>
+                    <div class="avatar-option">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                </div>
+                <div class="upload-option">
+                    <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+                    <label for="avatar-upload" class="btn btn-secondary">
+                        <i class="fas fa-upload"></i>
+                        Upload Photo
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-avatar">Cancel</button>
+                <button class="btn btn-primary" id="save-avatar">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Firebase App and Auth -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/profile.js"></script>
 </body>
 </html>

@@ -13,41 +13,456 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
+// Global variables
+let currentUserId = null;
+let userData = null;
+
 // Check authentication state
 auth.onAuthStateChanged(async (user) => {
     if (!user) {
-        // User is not logged in, redirect to login page
         window.location.href = "login.html";
         return;
     }
     
-    // User is logged in, load their data
+    currentUserId = user.uid;
+    
     try {
-        // Get user data from server
         const response = await fetch(`/api/user/data?uid=${user.uid}`);
         const userData = await response.json();
         
         if (response.ok) {
-            // Populate profile with user data
-            populateProfile(user, userData);
-            initializeProfileFunctionality(user.uid);
+            initializeProfile(user, userData);
         } else {
-            console.error("Failed to fetch user data:", userData.error);
-            // Create a new user record if it doesn't exist
             await createUserRecord(user);
-            // Load default data
-            populateProfile(user, getDefaultUserData());
-            initializeProfileFunctionality(user.uid);
+            initializeProfile(user, getDefaultUserData());
         }
     } catch (error) {
         console.error("Error loading user data:", error);
-        // Load default data as fallback
-        populateProfile(user, getDefaultUserData());
-        initializeProfileFunctionality(user.uid);
+        initializeProfile(user, getDefaultUserData());
     }
 });
 
-// Function to create a new user record
+// Initialize profile page
+function initializeProfile(user, userData) {
+    populateProfileData(user, userData);
+    setupTabNavigation();
+    setupEventListeners();
+    loadRecentBadges(userData.badges);
+    loadAchievements(userData.achievements);
+    loadActivityTimeline(userData.activities);
+}
+
+// Populate profile data
+function populateProfileData(user, data) {
+    // User info
+    document.getElementById('user-name').textContent = user.displayName || user.email.split('@')[0];
+    document.getElementById('profile-name').textContent = user.displayName || user.email.split('@')[0];
+    document.getElementById('user-level').textContent = `Level ${data.level || 1} ${getLevelTitle(data.level || 1)}`;
+    document.getElementById('profile-title').textContent = getLevelTitle(data.level || 1);
+    
+    // Points and stats
+    document.getElementById('user-points').textContent = data.points || 0;
+    document.getElementById('nav-points').textContent = data.points || 0;
+    document.getElementById('total-points').textContent = data.points || 0;
+    document.getElementById('streak-count').textContent = data.streak || 0;
+    document.getElementById('rank-position').textContent = data.rank ? `#${data.rank}` : '#-';
+    
+    // Progress stats
+    document.getElementById('games-completed').textContent = data.gamesCompleted || 0;
+    document.getElementById('challenges-completed').textContent = data.completedChallenges || 0;
+    document.getElementById('total-learning-time').textContent = `${data.learningTime || 0}h`;
+    
+    // Environmental impact
+    document.getElementById('trees-planted').textContent = data.treesPlanted || 0;
+    document.getElementById('co2-reduced').textContent = `${data.co2Reduced || 0}kg`;
+    document.getElementById('water-saved').textContent = `${data.waterSaved || 0}L`;
+    document.getElementById('waste-recycled').textContent = `${data.wasteRecycled || 0}kg`;
+    
+    // Level progress
+    updateLevelProgress(data.points || 0, data.level || 1);
+    
+    // Account info
+    document.getElementById('email').value = user.email;
+    document.getElementById('display-name').value = user.displayName || user.email.split('@')[0];
+    document.getElementById('bio').value = data.bio || '';
+    document.getElementById('join-date').textContent = new Date(user.metadata.creationTime).getFullYear();
+    document.getElementById('account-created').textContent = new Date(user.metadata.creationTime).toLocaleDateString();
+    document.getElementById('last-login').textContent = new Date(user.metadata.lastSignInTime).toLocaleDateString();
+    
+    // Achievements stats
+    document.getElementById('total-badges').textContent = data.badges ? data.badges.length : 0;
+    document.getElementById('rare-badges').textContent = data.rareBadges || 0;
+    document.getElementById('completion-rate').textContent = `${data.completionRate || 0}%`;
+}
+
+// Update level progress
+function updateLevelProgress(points, level) {
+    const levelThresholds = [0, 100, 250, 500, 1000, 2000];
+    const currentThreshold = levelThresholds[level - 1] || 0;
+    const nextThreshold = levelThresholds[level] || 3000;
+    const progress = ((points - currentThreshold) / (nextThreshold - currentThreshold)) * 100;
+    
+    const progressBar = document.getElementById('level-progress-bar');
+    const progressText = document.getElementById('level-progress-text');
+    
+    progressBar.style.width = `${Math.min(progress, 100)}%`;
+    progressText.textContent = `${Math.round(progress)}%`;
+}
+
+// Get level title
+function getLevelTitle(level) {
+    const titles = ['Eco Learner', 'Eco Explorer', 'Eco Enthusiast', 'Eco Warrior', 'Eco Champion', 'Eco Master'];
+    return titles[level - 1] || 'Eco Legend';
+}
+
+// Setup tab navigation
+function setupTabNavigation() {
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabId = btn.getAttribute('data-tab');
+            
+            // Remove active class from all buttons and contents
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+            
+            // Add active class to current button and content
+            btn.classList.add('active');
+            document.getElementById(`${tabId}-tab`).classList.add('active');
+        });
+    });
+}
+
+// Load recent badges
+function loadRecentBadges(badges) {
+    const badgesGrid = document.getElementById('recent-badges');
+    badgesGrid.innerHTML = '';
+    
+    const defaultBadges = [
+        { icon: 'fa-recycle', name: 'Recycling Expert', description: 'Mastered recycling' },
+        { icon: 'fa-tree', name: 'Tree Guardian', description: 'Planted 10 trees' },
+        { icon: 'fa-medal', name: 'Eco Warrior', description: 'Level 3 achieved' }
+    ];
+    
+    const badgesToShow = badges && badges.length > 0 ? badges.slice(0, 3) : defaultBadges;
+    
+    badgesToShow.forEach(badge => {
+        const badgeItem = document.createElement('div');
+        badgeItem.className = 'badge-item';
+        badgeItem.innerHTML = `
+            <div class="badge-icon">
+                <i class="fas ${badge.icon}"></i>
+            </div>
+            <h4>${badge.name}</h4>
+            <p>${badge.description}</p>
+        `;
+        badgesGrid.appendChild(badgeItem);
+    });
+}
+
+// Load achievements
+function loadAchievements(achievements) {
+    const achievementsGrid = document.getElementById('achievements-grid');
+    achievementsGrid.innerHTML = '';
+    
+    const defaultAchievements = [
+        { icon: 'fa-recycle', name: 'Recycling Master', description: 'Complete all recycling challenges', points: 100, unlocked: true },
+        { icon: 'fa-bolt', name: 'Energy Saver', description: 'Save 1000 kWh of energy', points: 150, unlocked: true },
+        { icon: 'fa-tint', name: 'Water Guardian', description: 'Save 5000 liters of water', points: 200, unlocked: false },
+        { icon: 'fa-seedling', name: 'Green Thumb', description: 'Plant 50 virtual trees', points: 250, unlocked: false },
+        { icon: 'fa-users', name: 'Eco Influencer', description: 'Refer 5 friends to EcoLearn', points: 300, unlocked: false },
+        { icon: 'fa-trophy', name: 'Eco Champion', description: 'Reach level 5', points: 500, unlocked: false }
+    ];
+    
+    const achievementsToShow = achievements && achievements.length > 0 ? achievements : defaultAchievements;
+    
+    achievementsToShow.forEach(achievement => {
+        const achievementCard = document.createElement('div');
+        achievementCard.className = `achievement-card ${achievement.unlocked ? '' : 'locked'}`;
+        achievementCard.innerHTML = `
+            <div class="achievement-icon">
+                <i class="fas ${achievement.icon}"></i>
+            </div>
+            <h4>${achievement.name}</h4>
+            <p>${achievement.description}</p>
+            <div class="achievement-points">+${achievement.points}</div>
+        `;
+        achievementsGrid.appendChild(achievementCard);
+    });
+}
+
+// Load activity timeline
+function loadActivityTimeline(activities) {
+    const timeline = document.getElementById('activity-timeline');
+    timeline.innerHTML = '';
+    
+    const defaultActivities = [
+        { icon: 'fa-gamepad', title: 'Completed Recycling Game', description: 'Scored 95% and earned 25 points', time: '2 hours ago', points: 25 },
+        { icon: 'fa-trophy', title: 'Earned New Badge', description: 'Unlocked Recycling Expert badge', time: '1 day ago', points: 50 },
+        { icon: 'fa-tree', title: 'Planted Virtual Tree', description: 'Contributed to reforestation efforts', time: '2 days ago', points: 10 },
+        { icon: 'fa-chart-line', title: 'Level Up!', description: 'Reached Level 3 Eco Enthusiast', time: '3 days ago', points: 100 },
+        { icon: 'fa-users', title: 'Joined Community Challenge', description: 'Participated in weekly eco-challenge', time: '1 week ago', points: 30 }
+    ];
+    
+    const activitiesToShow = activities && activities.length > 0 ? activities.slice(0, 5) : defaultActivities;
+    
+    activitiesToShow.forEach(activity => {
+        const timelineItem = document.createElement('div');
+        timelineItem.className = 'timeline-item';
+        timelineItem.innerHTML = `
+            <div class="timeline-icon">
+                <i class="fas ${activity.icon}"></i>
+            </div>
+            <div class="timeline-content">
+                <h4>${activity.title}</h4>
+                <p>${activity.description}</p>
+                <span class="timeline-time">${activity.time}</span>
+            </div>
+            <div class="timeline-points">+${activity.points}</div>
+        `;
+        timeline.appendChild(timelineItem);
+    });
+}
+
+// Setup event listeners
+function setupEventListeners() {
+    // Edit avatar button
+    document.getElementById('edit-avatar-btn').addEventListener('click', openAvatarModal);
+    
+    // Avatar modal
+    document.querySelector('.close-modal').addEventListener('click', closeAvatarModal);
+    document.getElementById('cancel-avatar').addEventListener('click', closeAvatarModal);
+    document.getElementById('save-avatar').addEventListener('click', saveAvatar);
+    
+    // Avatar options
+    document.querySelectorAll('.avatar-option').forEach(option => {
+        option.addEventListener('click', function() {
+            document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
+            this.classList.add('selected');
+        });
+    });
+    
+    // Profile form
+    document.getElementById('profile-form').addEventListener('submit', saveProfileSettings);
+    
+    // Account actions
+    document.getElementById('change-password-btn').addEventListener('click', changePassword);
+    document.getElementById('privacy-settings-btn').addEventListener('click', openPrivacySettings);
+    document.getElementById('delete-account-btn').addEventListener('click', deleteAccount);
+    
+    // Activity filter
+    document.getElementById('activity-filter').addEventListener('change', filterActivities);
+    
+    // Hamburger menu
+    document.querySelector('.hamburger').addEventListener('click', toggleMobileMenu);
+    
+    // Logout
+    document.getElementById('logout-btn').addEventListener('click', handleLogout);
+    
+    // Close modal when clicking outside
+    window.addEventListener('click', (event) => {
+        if (event.target === document.getElementById('avatar-modal')) {
+            closeAvatarModal();
+        }
+    });
+}
+
+// Avatar modal functions
+function openAvatarModal() {
+    document.getElementById('avatar-modal').style.display = 'flex';
+}
+
+function closeAvatarModal() {
+    document.getElementById('avatar-modal').style.display = 'none';
+}
+
+function saveAvatar() {
+    const selectedOption = document.querySelector('.avatar-option.selected');
+    const icon = selectedOption.querySelector('i').className;
+    
+    // Update avatar in UI
+    document.getElementById('profile-avatar').innerHTML = `<i class="${icon}"></i>`;
+    document.getElementById('user-avatar').innerHTML = `<i class="${icon}"></i>`;
+    
+    // Here you would save to the server
+    console.log('Avatar saved:', icon);
+    
+    closeAvatarModal();
+    showNotification('Profile picture updated successfully!', 'success');
+}
+
+// Save profile settings
+async function saveProfileSettings(e) {
+    e.preventDefault();
+    
+    const formData = {
+        displayName: document.getElementById('display-name').value,
+        bio: document.getElementById('bio').value
+    };
+    
+    try {
+        // Update user profile
+        await auth.currentUser.updateProfile({
+            displayName: formData.displayName
+        });
+        
+        // Save to server
+        const response = await fetch('/api/user/update-profile', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                uid: currentUserId,
+                ...formData
+            })
+        });
+        
+        if (response.ok) {
+            // Update UI
+            document.getElementById('user-name').textContent = formData.displayName;
+            document.getElementById('profile-name').textContent = formData.displayName;
+            showNotification('Profile updated successfully!', 'success');
+        } else {
+            throw new Error('Failed to update profile');
+        }
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        showNotification('Error updating profile. Please try again.', 'error');
+    }
+}
+
+// Change password
+function changePassword() {
+    const newPassword = prompt('Enter your new password:');
+    if (newPassword) {
+        auth.currentUser.updatePassword(newPassword).then(() => {
+            showNotification('Password updated successfully!', 'success');
+        }).catch(error => {
+            console.error('Error updating password:', error);
+            showNotification('Error updating password. Please try again.', 'error');
+        });
+    }
+}
+
+// Open privacy settings
+function openPrivacySettings() {
+    alert('Privacy settings would open here. This feature is coming soon!');
+}
+
+// Delete account
+function deleteAccount() {
+    const confirmDelete = confirm('Are you sure you want to delete your account? This action cannot be undone.');
+    if (confirmDelete) {
+        auth.currentUser.delete().then(() => {
+            window.location.href = 'index.html';
+        }).catch(error => {
+            console.error('Error deleting account:', error);
+            showNotification('Error deleting account. Please try again.', 'error');
+        });
+    }
+}
+
+// Filter activities
+function filterActivities() {
+    const filter = document.getElementById('activity-filter').value;
+    const activities = document.querySelectorAll('.timeline-item');
+    
+    activities.forEach(activity => {
+        if (filter === 'all') {
+            activity.style.display = 'flex';
+        } else {
+            // This would be implemented based on actual activity data
+            activity.style.display = 'flex'; // Placeholder
+        }
+    });
+}
+
+// Toggle mobile menu
+function toggleMobileMenu() {
+    document.querySelector('.nav-menu').classList.toggle('active');
+}
+
+// Handle logout
+function handleLogout(e) {
+    e.preventDefault();
+    
+    auth.signOut().then(() => {
+        window.location.href = "login.html";
+    }).catch((error) => {
+        console.error("Logout error:", error);
+    });
+}
+
+// Show notification
+function showNotification(message, type) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <h4>${type === 'success' ? 'Success!' : 'Error!'}</h4>
+            <p>${message}</p>
+        </div>
+    `;
+    
+    // Add styles for notification
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? 'var(--success)' : 'var(--error)'};
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        z-index: 10000;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+    }, 100);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+
+// Default user data
+function getDefaultUserData() {
+    return {
+        points: 0,
+        level: 1,
+        streak: 0,
+        completedChallenges: 0,
+        gamesCompleted: 0,
+        learningTime: 0,
+        treesPlanted: 0,
+        co2Reduced: 0,
+        waterSaved: 0,
+        wasteRecycled: 0,
+        badges: [],
+        achievements: [],
+        activities: [],
+        bio: '',
+        rank: null,
+        rareBadges: 0,
+        completionRate: 0
+    };
+}
+
+// Create user record
 async function createUserRecord(user) {
     try {
         const response = await fetch('/api/user/create', {
@@ -62,265 +477,8 @@ async function createUserRecord(user) {
                 photoURL: user.photoURL || null
             })
         });
-        
-        const data = await response.json();
-        if (!response.ok) {
-            console.error("Failed to create user record:", data.error);
-        }
+        return await response.json();
     } catch (error) {
         console.error("Error creating user record:", error);
     }
-}
-
-// Function to get default user data
-function getDefaultUserData() {
-    return {
-        points: 0,
-        level: 1,
-        streak: 0,
-        completedChallenges: 0,
-        badges: 0,
-        treesPlanted: 0,
-        learningTime: 0,
-        activities: [],
-        badgesEarned: [],
-        joinDate: new Date().toLocaleDateString(),
-        weeklyProgress: [0, 0, 0, 0, 0, 0, 0]
-    };
-}
-
-// Populate profile with user data
-function populateProfile(user, userData) {
-    // Set user info
-    document.getElementById('user-name').textContent = user.displayName || user.email;
-    document.getElementById('user-avatar').innerHTML = user.photoURL ? 
-        `<img src="${user.photoURL}" alt="User Avatar" style="width: 100%; height: 100%; border-radius: 50%;">` : 
-        `<i class="fas fa-user"></i>`;
-    
-    // Set user points
-    document.getElementById('user-points').textContent = userData.points;
-    document.getElementById('nav-points').textContent = userData.points;
-    
-    // Set user level based on points
-    const userLevel = calculateUserLevel(userData.points);
-    document.getElementById('user-level').textContent = `Level ${userLevel} ${getLevelTitle(userLevel)}`;
-    
-    // Set profile info
-    document.getElementById('profile-name').textContent = user.displayName || user.email;
-    document.getElementById('profile-email').textContent = user.email;
-    document.getElementById('member-since').textContent = `Member since ${userData.joinDate || new Date().toLocaleDateString()}`;
-    document.getElementById('profile-level').textContent = `Level ${userLevel} ${getLevelTitle(userLevel)}`;
-    
-    // Set stats
-    document.getElementById('profile-completed').textContent = userData.completedChallenges;
-    document.getElementById('profile-badges').textContent = userData.badgesEarned ? userData.badgesEarned.length : 0;
-    document.getElementById('profile-trees').textContent = userData.treesPlanted;
-    document.getElementById('profile-time').textContent = `${userData.learningTime}h`;
-    
-    // Load level progress
-    updateLevelProgress(userData.points, userLevel);
-    
-    // Load activities
-    loadRecentActivities(userData.activities);
-    
-    // Load badges
-    loadBadges(userData.badgesEarned);
-    
-    // Initialize chart
-    initializeProgressChart(userData.weeklyProgress);
-}
-
-// Calculate user level based on points
-function calculateUserLevel(points) {
-    if (points < 100) return 1;
-    if (points < 250) return 2;
-    if (points < 500) return 3;
-    if (points < 1000) return 4;
-    if (points < 2000) return 5;
-    return 6;
-}
-
-// Get level title based on level
-function getLevelTitle(level) {
-    const titles = [
-        'Eco Learner',
-        'Eco Explorer',
-        'Eco Enthusiast',
-        'Eco Warrior',
-        'Eco Champion',
-        'Eco Master'
-    ];
-    return titles[level - 1] || 'Eco Legend';
-}
-
-// Update level progress
-function updateLevelProgress(points, currentLevel) {
-    const levelThresholds = [0, 100, 250, 500, 1000, 2000];
-    const currentThreshold = levelThresholds[currentLevel - 1] || 0;
-    const nextThreshold = levelThresholds[currentLevel] || 2500;
-    
-    const progress = ((points - currentThreshold) / (nextThreshold - currentThreshold)) * 100;
-    const progressPercentage = Math.min(100, Math.max(0, Math.round(progress)));
-    
-    document.getElementById('level-progress').style.width = `${progressPercentage}%`;
-    document.getElementById('level-text').textContent = `${progressPercentage}% to Level ${currentLevel + 1}`;
-    document.getElementById('points-text').textContent = `${points - currentThreshold}/${nextThreshold - currentThreshold} points`;
-}
-
-// Load recent activities
-function loadRecentActivities(activities) {
-    const activityList = document.getElementById('activity-list');
-    activityList.innerHTML = '';
-    
-    if (!activities || activities.length === 0) {
-        activityList.innerHTML = '<div class="activity-item"><p>No activities yet. Complete some challenges to get started!</p></div>';
-        return;
-    }
-    
-    // Add activities to the list
-    activities.slice(0, 5).forEach(activity => {
-        const activityItem = document.createElement('div');
-        activityItem.className = 'activity-item';
-        activityItem.innerHTML = `
-            <div class="activity-icon">
-                <i class="fas ${activity.icon || 'fa-gamepad'}"></i>
-            </div>
-            <div class="activity-content">
-                <h4>${activity.title}</h4>
-                <p>${activity.description}</p>
-                <span class="activity-time">${activity.time}</span>
-            </div>
-        `;
-        activityList.appendChild(activityItem);
-    });
-}
-
-// Load badges
-function loadBadges(badgesEarned) {
-    const badgesGrid = document.getElementById('badges-grid');
-    badgesGrid.innerHTML = '';
-    
-    // Define all possible badges
-    const allBadges = [
-        { id: 1, name: "Recycling Master", icon: "fa-recycle", description: "Complete 10 recycling challenges" },
-        { id: 2, name: "Green Thumb", icon: "fa-seedling", description: "Plant your first tree" },
-        { id: 3, name: "Energy Saver", icon: "fa-bolt", description: "Complete energy conservation course" },
-        { id: 4, name: "Quiz Champion", icon: "fa-trophy", description: "Score 100% on any quiz" },
-        { id: 5, name: "Water Guardian", icon: "fa-tint", description: "Complete water conservation challenges" },
-        { id: 6, name: "Eco Explorer", icon: "fa-globe", description: "Reach level 3" }
-    ];
-    
-    if (!badgesEarned || badgesEarned.length === 0) {
-        // Show locked badges
-        allBadges.slice(0, 4).forEach(badge => {
-            const badgeItem = document.createElement('div');
-            badgeItem.className = 'badge-item';
-            badgeItem.innerHTML = `
-                <div class="badge-icon locked">
-                    <i class="fas ${badge.icon}"></i>
-                </div>
-                <div class="badge-info">
-                    <h4>${badge.name}</h4>
-                    <p>Locked</p>
-                </div>
-            `;
-            badgesGrid.appendChild(badgeItem);
-        });
-        return;
-    }
-    
-    // Show earned badges first, then locked ones
-    allBadges.forEach(badge => {
-        const isEarned = badgesEarned.some(earned => earned.id === badge.id);
-        const badgeItem = document.createElement('div');
-        badgeItem.className = 'badge-item';
-        
-        if (isEarned) {
-            const earnedBadge = badgesEarned.find(earned => earned.id === badge.id);
-            badgeItem.innerHTML = `
-                <div class="badge-icon">
-                    <i class="fas ${badge.icon}"></i>
-                </div>
-                <div class="badge-info">
-                    <h4>${badge.name}</h4>
-                    <p>Earned ${earnedBadge.date}</p>
-                </div>
-            `;
-        } else {
-            badgeItem.innerHTML = `
-                <div class="badge-icon locked">
-                    <i class="fas ${badge.icon}"></i>
-                </div>
-                <div class="badge-info">
-                    <h4>${badge.name}</h4>
-                    <p>Locked</p>
-                </div>
-            `;
-        }
-        
-        badgesGrid.appendChild(badgeItem);
-    });
-}
-
-// Initialize progress chart
-function initializeProgressChart(weeklyData) {
-    const ctx = document.getElementById('activityChart').getContext('2d');
-    
-    // Use provided data or default data
-    const data = weeklyData || [0, 0, 0, 0, 0, 0, 0];
-    
-    const activityChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-            datasets: [{
-                label: 'Points Earned',
-                data: data,
-                backgroundColor: 'rgba(46, 125, 50, 0.5)',
-                borderColor: 'rgba(46, 125, 50, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 20
-                    }
-                }
-            }
-        }
-    });
-}
-
-// Initialize profile functionality
-function initializeProfileFunctionality(userId) {
-    // Hamburger menu toggle
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
-    
-    hamburger.addEventListener('click', function() {
-        navMenu.classList.toggle('active');
-    });
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', function(event) {
-        if (!event.target.closest('.nav-menu') && !event.target.closest('.hamburger')) {
-            navMenu.classList.remove('active');
-        }
-    });
-    
-    // Logout functionality
-    document.getElementById('logout-btn').addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        auth.signOut().then(() => {
-            window.location.href = "login.html";
-        }).catch((error) => {
-            console.error("Logout error:", error);
-        });
-    });
 }
