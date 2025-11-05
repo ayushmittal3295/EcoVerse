@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoLearn - Progress</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>EcoLearn - Progress Tracking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/progress.css">
 </head>
@@ -19,9 +19,9 @@
             <ul class="nav-menu">
                 <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
                 <li class="nav-item"><a href="dashboard.html" class="nav-link">Dashboard</a></li>
-                <li class="nav-item"><a href="profile.html" class="nav-link">Profile</a></li>
-                <li class="nav-item"><a href="games.html" class="nav-link">Games</a></li>
-                <li class="nav-item"><a href="community.html" class="nav-link">Community</a></li>
+                <li class="nav-item"><a href="games.html" class="nav-link">Games & Quizzes</a></li>
+                <li class="nav-item"><a href="challenges.html" class="nav-link">Challenges</a></li>
+                <li class="nav-item"><a href="achievements.html" class="nav-link">Achievements</a></li>
                 <li class="nav-item"><a href="progress.html" class="nav-link active">Progress</a></li>
                 <li class="nav-item"><a href="profile.html" class="nav-link profile-link">
                     <i class="fas fa-user"></i>
@@ -40,8 +40,8 @@
         </div>
     </nav>
 
-    <!-- Dashboard Layout -->
-    <div class="dashboard-container">
+    <!-- Progress Page Layout -->
+    <div class="progress-container">
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
@@ -65,25 +65,19 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="profile.html">
-                            <i class="fas fa-user"></i>
-                            <span>Profile</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a href="games.html">
                             <i class="fas fa-gamepad"></i>
                             <span>Games & Quizzes</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#">
+                        <a href="challenges.html">
                             <i class="fas fa-tasks"></i>
                             <span>Challenges</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#">
+                        <a href="achievements.html">
                             <i class="fas fa-trophy"></i>
                             <span>Achievements</span>
                         </a>
@@ -101,7 +95,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#">
+                        <a href="settings.html">
                             <i class="fas fa-cog"></i>
                             <span>Settings</span>
                         </a>
@@ -114,72 +108,81 @@
                     <h4>Your Eco Points</h4>
                     <div class="points-display" id="user-points">0</div>
                 </div>
-                <button class="btn btn-primary redeem-btn">Redeem Rewards</button>
+                <a href="rewards.html" class="btn btn-primary redeem-btn">Redeem Rewards</a>
             </div>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Progress Header -->
-            <section class="progress-header">
+            <!-- Page Header -->
+            <section class="page-header">
                 <h1>Your Learning Progress</h1>
-                <p>Track your eco-journey and see how much you've accomplished</p>
+                <p>Track your eco-learning journey and see how you're making a difference</p>
             </section>
 
-            <!-- Progress Overview -->
-            <section class="progress-overview">
-                <div class="progress-card main-progress">
-                    <h2>Level Progress</h2>
-                    <div class="progress-circle">
-                        <div class="circle-bg"></div>
-                        <div class="circle-progress" id="level-circle"></div>
-                        <div class="circle-text">
-                            <span class="progress-percent" id="level-percent">0%</span>
-                            <span class="progress-label">to Level <span id="next-level">2</span></span>
-                        </div>
+            <!-- Stats Overview -->
+            <section class="stats-overview">
+                <div class="stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
                     </div>
-                    <div class="progress-info">
-                        <p><span id="current-points">0</span> / <span id="next-level-points">100</span> points</p>
-                        <p>You need <span id="points-needed">100</span> more points to reach Level <span id="target-level">2</span></p>
+                    <div class="stat-info">
+                        <h3 id="completed-challenges">0</h3>
+                        <p>Completed Challenges</p>
                     </div>
                 </div>
-                
-                <div class="progress-stats">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-fire"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="streak-days">0</h3>
-                            <p>Day Streak</p>
-                        </div>
+                <div class="stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-medal"></i>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="completed-challenges">0</h3>
-                            <p>Challenges Completed</p>
-                        </div>
+                    <div class="stat-info">
+                        <h3 id="badges-earned">0</h3>
+                        <p>Badges Earned</p>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-medal"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="badges-earned">0</h3>
-                            <p>Badges Earned</p>
-                        </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="trees-planted">0</h3>
+                        <p>Trees Planted</p>
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="learning-time">0h</h3>
+                        <p>Learning Time</p>
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="streak-count">0</h3>
+                        <p>Day Streak</p>
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="total-points">0</h3>
+                        <p>Total Points</p>
                     </div>
                 </div>
             </section>
 
             <!-- Progress Charts -->
             <section class="progress-charts">
-                <div class="chart-card">
+                <div class="chart-section">
                     <div class="chart-header">
-                        <h3>Weekly Activity</h3>
+                        <h2>Points Progress</h2>
                         <select id="time-range">
                             <option value="week">This Week</option>
                             <option value="month">This Month</option>
@@ -187,47 +190,157 @@
                         </select>
                     </div>
                     <div class="chart-container">
-                        <canvas id="activityChart"></canvas>
+                        <canvas id="pointsChart"></canvas>
                     </div>
                 </div>
-                
-                <div class="chart-card">
+
+                <div class="chart-section">
                     <div class="chart-header">
-                        <h3>Category Progress</h3>
+                        <h2>Activity Distribution</h2>
                     </div>
                     <div class="chart-container">
-                        <canvas id="categoryChart"></canvas>
+                        <canvas id="activityPieChart"></canvas>
                     </div>
                 </div>
             </section>
 
-            <!-- Recent Activity -->
-            <section class="recent-activity">
+            <!-- Detailed Progress -->
+            <section class="detailed-progress">
                 <div class="section-header">
-                    <h2>Recent Activity</h2>
-                    <a href="#" class="view-all">View All</a>
+                    <h2>Detailed Progress</h2>
                 </div>
-                <div class="activity-list" id="activity-list">
-                    <!-- Activities will be loaded dynamically -->
+                
+                <div class="progress-grid">
+                    <!-- Games Progress -->
+                    <div class="progress-category">
+                        <h3><i class="fas fa-gamepad"></i> Games & Quizzes</h3>
+                        <div class="progress-item">
+                            <span>Games Completed</span>
+                            <span id="games-completed">0</span>
+                        </div>
+                        <div class="progress-item">
+                            <span>Average Score</span>
+                            <span id="average-score">0%</span>
+                        </div>
+                        <div class="progress-item">
+                            <span>Points from Games</span>
+                            <span id="game-points">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Challenges Progress -->
+                    <div class="progress-category">
+                        <h3><i class="fas fa-tasks"></i> Challenges</h3>
+                        <div class="progress-item">
+                            <span>Challenges Completed</span>
+                            <span id="challenges-completed">0</span>
+                        </div>
+                        <div class="progress-item">
+                            <span>Success Rate</span>
+                            <span id="challenge-success">0%</span>
+                        </div>
+                        <div class="progress-item">
+                            <span>Points from Challenges</span>
+                            <span id="challenge-points">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Learning Progress -->
+                    <div class="progress-category">
+                        <h3><i class="fas fa-book"></i> Learning</h3>
+                        <div class="progress-item">
+                            <span>Lessons Completed</span>
+                            <span id="lessons-completed">0</span>
+                        </div>
+                        <div class="progress-item">
+                            <span>Articles Read</span>
+                            <span id="articles-read">0</span>
+                        </div>
+                        <div class="progress-item">
+                            <span>Points from Learning</span>
+                            <span id="learning-points">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Environmental Impact -->
+                    <div class="progress-category">
+                        <h3><i class="fas fa-earth-americas"></i> Environmental Impact</h3>
+                        <div class="progress-item">
+                            <span>CO₂ Reduced (kg)</span>
+                            <span id="co2-reduced">0</span>
+                        </div>
+                        <div class="progress-item">
+                            <span>Water Saved (L)</span>
+                            <span id="water-saved">0</span>
+                        </div>
+                        <div class="progress-item">
+                            <span>Waste Diverted (kg)</span>
+                            <span id="waste-diverted">0</span>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <!-- Badges Progress -->
-            <section class="badges-progress">
+            <!-- Badges and Achievements -->
+            <section class="badges-section">
                 <div class="section-header">
-                    <h2>Badges Progress</h2>
-                    <a href="profile.html" class="view-all">View All Badges</a>
+                    <h2>Your Badges & Achievements</h2>
+                    <a href="achievements.html" class="view-all">View All</a>
                 </div>
                 <div class="badges-grid" id="badges-grid">
                     <!-- Badges will be loaded dynamically -->
                 </div>
             </section>
+
+            <!-- Level Progression -->
+            <section class="level-progression">
+                <div class="section-header">
+                    <h2>Level Progression</h2>
+                </div>
+                <div class="level-container">
+                    <div class="level-track">
+                        <div class="level current-level" data-level="1">
+                            <div class="level-icon">1</div>
+                            <span>Eco Learner</span>
+                        </div>
+                        <div class="level" data-level="2">
+                            <div class="level-icon">2</div>
+                            <span>Eco Explorer</span>
+                        </div>
+                        <div class="level" data-level="3">
+                            <div class="level-icon">3</div>
+                            <span>Eco Enthusiast</span>
+                        </div>
+                        <div class="level" data-level="4">
+                            <div class="level-icon">4</div>
+                            <span>Eco Warrior</span>
+                        </div>
+                        <div class="level" data-level="5">
+                            <div class="level-icon">5</div>
+                            <span>Eco Champion</span>
+                        </div>
+                        <div class="level" data-level="6">
+                            <div class="level-icon">6</div>
+                            <span>Eco Master</span>
+                        </div>
+                    </div>
+                    <div class="progress-info">
+                        <div class="progress-bar">
+                            <div class="progress" id="level-progress" style="width: 0%"></div>
+                        </div>
+                        <div class="level-stats">
+                            <span id="current-level-text">Level 1: Eco Learner</span>
+                            <span id="points-to-next">100 points to next level</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
+    <!-- Firebase App and Auth -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/progress.js"></script>
 </body>
