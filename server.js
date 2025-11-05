@@ -13,8 +13,16 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Serve static files from the current directory
-app.use(express.static(__dirname));
+// Serve static files
+app.use(express.static(path.join(__dirname, 'pages')));
+app.use('/css', express.static(path.join(__dirname, 'css')));
+app.use('/js', express.static(path.join(__dirname, 'js')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
+// Default route (homepage)
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'pages', 'index.html'));
+});
 
 // MySQL connection pool
 const pool = mysql.createPool({
