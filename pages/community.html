@@ -18,209 +18,265 @@
             </div>
             <ul class="nav-menu">
                 <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="#features" class="nav-link">Features</a></li>
-                <li class="nav-item"><a href="#games" class="nav-link">Games & Quizzes</a></li>
-                <li class="nav-item"><a href="#impact" class="nav-link">Impact</a></li>
-                <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
-                <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
-                <li class="nav-item"><a href="profile.html" class="nav-link profile-link">
-                    <i class="fas fa-user"></i>
-                    <span class="points-badge" id="nav-points">0</span>
-                </a></li>
-                <li class="nav-item"><a href="#" class="nav-link logout-link" id="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Logout
-                </a></li>
+                <li class="nav-item"><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li class="nav-item"><a href="games.html" class="nav-link">Games & Quizzes</a></li>
+                <li class="nav-item"><a href="challenges.html" class="nav-link">Challenges</a></li>
+                <li class="nav-item"><a href="achievements.html" class="nav-link">Achievements</a></li>
+                <li class="nav-item mobile-profile">
+                    <a href="profile.html" class="nav-link profile-link">
+                        <i class="fas fa-user"></i>
+                        <span class="points-badge" id="nav-points">0</span>
+                    </a>
+                </li>
+                <li class="nav-item mobile-logout">
+                    <a href="#" class="nav-link logout-link" id="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                </li>
             </ul>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+            <div class="nav-actions">
+                <a href="profile.html" class="nav-link profile-link desktop-profile">
+                    <i class="fas fa-user"></i>
+                    <span class="points-badge" id="nav-points-desktop">0</span>
+                </a>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
             </div>
         </div>
     </nav>
 
-    <!-- Dashboard Layout -->
-    <div class="dashboard-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <div class="user-profile">
-                    <div class="profile-img" id="user-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="profile-info">
-                        <h3 id="user-name">Loading...</h3>
-                        <p id="user-level">Level 1 Eco Learner</p>
-                    </div>
-                </div>
-            </div>
-            
-            <nav class="sidebar-nav">
-                <ul>
-                    <li class="nav-item">
-                        <a href="dashboard.html">
-                            <i class="fas fa-home"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="games.html">
-                            <i class="fas fa-gamepad"></i>
-                            <span>Games & Quizzes</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="challenges.html">
-                            <i class="fas fa-tasks"></i>
-                            <span>Challenges</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="achievements.html">
-                            <i class="fas fa-trophy"></i>
-                            <span>Achievements</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="progress.html">
-                            <i class="fas fa-chart-line"></i>
-                            <span>Progress</span>
-                        </a>
-                    </li>
-                    <li class="nav-item active">
-                        <a href="community.html">
-                            <i class="fas fa-users"></i>
-                            <span>Community</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="settings.html">
-                            <i class="fas fa-cog"></i>
-                            <span>Settings</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            
-            <div class="sidebar-footer">
-                <div class="eco-points">
-                    <h4>Your Eco Points</h4>
-                    <div class="points-display" id="user-points">0</div>
-                </div>
-                <button class="btn btn-primary redeem-btn">Redeem Rewards</button>
-            </div>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Community Header -->
-            <section class="community-header">
+    <!-- Main Content -->
+    <main class="community-main">
+        <!-- Community Header -->
+        <section class="community-header">
+            <div class="header-content">
                 <h1>EcoLearn Community</h1>
-                <p>Connect with fellow eco-warriors, share tips, and celebrate achievements together!</p>
-                <div class="community-stats">
-                    <div class="stat">
-                        <span class="stat-number" id="total-members">5,280</span>
-                        <span class="stat-label">Total Members</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number" id="online-members">1,245</span>
-                        <span class="stat-label">Online Now</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number" id="community-impact">12,850</span>
-                        <span class="stat-label">Trees Planted</span>
+                <p>Connect with fellow eco-warriors, share knowledge, and grow together</p>
+            </div>
+            <div class="header-stats">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <div>
+                        <h3 id="total-members">1,247</h3>
+                        <p>Active Members</p>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Community Tabs -->
-            <section class="community-tabs">
-                <div class="tabs">
-                    <button class="tab-btn active" data-tab="feed">Community Feed</button>
-                    <button class="tab-btn" data-tab="discussions">Discussions</button>
-                    <button class="tab-btn" data-tab="leaderboard">Leaderboard</button>
-                    <button class="tab-btn" data-tab="events">Events</button>
+        <!-- Community Stats -->
+        <section class="community-stats">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="total-posts">3,842</h3>
+                        <p>Discussions</p>
+                    </div>
                 </div>
-            </section>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="trees-planted">15,689</h3>
+                        <p>Trees Planted</p>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="challenges-completed">8,452</h3>
+                        <p>Challenges Completed</p>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-recycle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="co2-reduced">245t</h3>
+                        <p>CO₂ Reduced</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-            <!-- Community Content -->
+        <!-- Community Layout -->
+        <div class="community-layout">
+            <!-- Left Sidebar -->
+            <aside class="community-sidebar">
+                <!-- User Profile Card -->
+                <div class="user-profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user" id="user-avatar"></i>
+                        </div>
+                        <div class="profile-info">
+                            <h3 id="user-name">Loading...</h3>
+                            <p id="user-rank">Eco Learner</p>
+                            <div class="user-points">
+                                <span id="user-points">0</span> Points
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <span class="stat-value" id="user-posts">0</span>
+                            <span class="stat-label">Posts</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="stat-value" id="user-comments">0</span>
+                            <span class="stat-label">Comments</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="stat-value" id="user-likes">0</span>
+                            <span class="stat-label">Likes</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h3>Quick Actions</h3>
+                    <button class="action-btn new-post-btn">
+                        <i class="fas fa-edit"></i>
+                        New Post
+                    </button>
+                    <button class="action-btn join-event-btn">
+                        <i class="fas fa-calendar-plus"></i>
+                        Join Event
+                    </button>
+                    <button class="action-btn create-group-btn">
+                        <i class="fas fa-users"></i>
+                        Create Group
+                    </button>
+                </div>
+
+                <!-- Online Members -->
+                <div class="online-members">
+                    <h3>Online Now</h3>
+                    <div class="members-list" id="online-members">
+                        <!-- Online members will be loaded here -->
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
             <div class="community-content">
-                <!-- Feed Tab -->
-                <div class="tab-content active" id="feed-tab">
+                <!-- Community Tabs -->
+                <div class="community-tabs">
+                    <button class="tab-btn active" data-tab="discussions">Discussions</button>
+                    <button class="tab-btn" data-tab="events">Events</button>
+                    <button class="tab-btn" data-tab="groups">Groups</button>
+                    <button class="tab-btn" data-tab="leaderboard">Leaderboard</button>
+                </div>
+
+                <!-- Discussions Tab -->
+                <div class="tab-content active" id="discussions-tab">
                     <!-- Create Post -->
-                    <div class="create-post">
+                    <div class="create-post-card">
                         <div class="post-input">
-                            <div class="profile-img small">
+                            <div class="user-avatar-small">
                                 <i class="fas fa-user" id="current-user-avatar"></i>
                             </div>
-                            <input type="text" placeholder="Share your eco-achievement or tip..." id="post-text">
+                            <input type="text" placeholder="Share your eco-thoughts..." id="post-input">
+                            <button class="post-btn" id="create-post-btn">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
                         </div>
                         <div class="post-actions">
-                            <button class="action-btn">
-                                <i class="fas fa-image"></i> Photo
+                            <button class="action-option" data-type="question">
+                                <i class="fas fa-question-circle"></i>
+                                Question
                             </button>
-                            <button class="action-btn">
-                                <i class="fas fa-trophy"></i> Achievement
+                            <button class="action-option" data-type="tip">
+                                <i class="fas fa-lightbulb"></i>
+                                Eco Tip
                             </button>
-                            <button class="action-btn">
-                                <i class="fas fa-question-circle"></i> Question
+                            <button class="action-option" data-type="achievement">
+                                <i class="fas fa-trophy"></i>
+                                Achievement
                             </button>
-                            <button class="btn btn-primary" id="post-submit">Post</button>
                         </div>
                     </div>
 
                     <!-- Posts Feed -->
-                    <div class="posts-feed" id="posts-container">
-                        <!-- Posts will be loaded dynamically -->
-                    </div>
-                </div>
-
-                <!-- Discussions Tab -->
-                <div class="tab-content" id="discussions-tab">
-                    <div class="discussions-header">
-                        <h2>Popular Discussions</h2>
-                        <button class="btn btn-primary" id="create-topic-btn">Start New Topic</button>
-                    </div>
-
-                    <div class="topics-list">
-                        <!-- Topic items will be loaded dynamically -->
-                    </div>
-                </div>
-
-                <!-- Leaderboard Tab -->
-                <div class="tab-content" id="leaderboard-tab">
-                    <div class="leaderboard-header">
-                        <h2>EcoLearn Leaderboard</h2>
-                        <div class="time-filter">
-                            <select id="leaderboard-time">
-                                <option value="weekly">This Week</option>
-                                <option value="monthly">This Month</option>
-                                <option value="alltime">All Time</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="leaderboard-content">
-                        <div class="leaderboard-list" id="leaderboard-container">
-                            <!-- Leaderboard items will be loaded dynamically -->
-                        </div>
+                    <div class="posts-feed" id="posts-feed">
+                        <!-- Posts will be loaded here -->
                     </div>
                 </div>
 
                 <!-- Events Tab -->
                 <div class="tab-content" id="events-tab">
-                    <div class="events-header">
-                        <h2>Upcoming Eco Events</h2>
-                        <button class="btn btn-primary" id="suggest-event-btn">Suggest Event</button>
+                    <div class="events-grid" id="events-grid">
+                        <!-- Events will be loaded here -->
                     </div>
+                </div>
 
-                    <div class="events-list">
-                        <!-- Event items will be loaded dynamically -->
+                <!-- Groups Tab -->
+                <div class="tab-content" id="groups-tab">
+                    <div class="groups-grid" id="groups-grid">
+                        <!-- Groups will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Leaderboard Tab -->
+                <div class="tab-content" id="leaderboard-tab">
+                    <div class="leaderboard-container">
+                        <div class="leaderboard-header">
+                            <h3>Top Eco Warriors</h3>
+                            <select id="leaderboard-filter">
+                                <option value="weekly">This Week</option>
+                                <option value="monthly">This Month</option>
+                                <option value="alltime">All Time</option>
+                            </select>
+                        </div>
+                        <div class="leaderboard-list" id="leaderboard-list">
+                            <!-- Leaderboard will be loaded here -->
+                        </div>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
+    </main>
+
+    <!-- Create Post Modal -->
+    <div class="modal" id="createPostModal">
+        <div class="modal-content">
+            <h2>Create New Post</h2>
+            <form id="post-form">
+                <div class="form-group">
+                    <label for="post-title">Title</label>
+                    <input type="text" id="post-title" placeholder="Enter post title..." required>
+                </div>
+                <div class="form-group">
+                    <label for="post-content">Content</label>
+                    <textarea id="post-content" placeholder="Share your thoughts..." rows="6" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="post-type">Post Type</label>
+                    <select id="post-type">
+                        <option value="discussion">Discussion</option>
+                        <option value="question">Question</option>
+                        <option value="tip">Eco Tip</option>
+                        <option value="achievement">Achievement</option>
+                    </select>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-secondary" id="cancel-post">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Post</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- Firebase App and Auth -->

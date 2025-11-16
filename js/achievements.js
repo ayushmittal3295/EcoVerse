@@ -12,247 +12,649 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
+const db = firebase.firestore();
+
+// Global variables
+let currentUserId = null;
+let userAchievements = [];
+let allAchievements = [];
 
 // Check authentication state
 auth.onAuthStateChanged(async (user) => {
     if (!user) {
-        // User is not logged in, redirect to login page
         window.location.href = "login.html";
         return;
     }
     
-    // User is logged in, load their data
+    currentUserId = user.uid;
+    await initializeAchievementsPage(user);
+});
+
+// Initialize achievements page
+async function initializeAchievementsPage(user) {
     try {
-        // Get user data from server
-        const response = await fetch(`/api/user/data?uid=${user.uid}`);
-        const userData = await response.json();
+        // Load user data from dashboard system
+        const userData = await loadUserData(user.uid);
+        populateUserData(user, userData);
         
+        // Load achievements
+        await loadAchievements(user.uid);
+        
+        // Initialize functionality
+        initializeAchievementsFunctionality(user.uid);
+        
+    } catch (error) {
+        console.error("Error initializing achievements page:", error);
+        // Load default data as fallback
+        const userData = getDefaultUserData();
+        populateUserData(user, userData);
+        loadDefaultAchievements();
+    }
+}
+
+// Load user data - Integrated with Dashboard Point System
+async function loadUserData(userId) {
+    try {
+        // Try to get user data from the same API endpoint as dashboard
+        const response = await fetch(`/api/user/data?uid=${userId}`);
         if (response.ok) {
-            // Set user points
-            document.getElementById('nav-points').textContent = userData.points;
-            
-            // Load user achievements
-            loadUserAchievements(user.uid, userData.achievements || []);
+            const userData = await response.json();
+            return userData;
         } else {
-            console.error("Failed to fetch user data:", userData.error);
+            // If API fails, try to get from localStorage (dashboard might have stored it)
+            const localData = localStorage.getItem(`ecolearn_user_${userId}`);
+            if (localData) {
+                return JSON.parse(localData);
+            }
+            throw new Error('Failed to fetch user data');
         }
     } catch (error) {
         console.error("Error loading user data:", error);
+        return getDefaultUserData();
+    }
+}
+
+// Get default user data aligned with dashboard
+function getDefaultUserData() {
+    return {
+        points: 1250,
+        level: 3,
+        streak: 7,
+        completedChallenges: 12,
+        badges: 2, // This matches your 2/12 unlocked achievements
+        treesPlanted: 8,
+        learningTime: 15,
+        weeklyProgress: [25, 40, 15, 60, 30, 45, 20],
+        monthlyProgress: [120, 180, 95, 210],
+        yearlyProgress: [1500, 1200, 1350, 1100, 1250, 1400, 1300, 1450, 1200, 1350, 1250, 1400]
+    };
+}
+
+// Populate user data in UI - Perfectly aligned with dashboard
+function populateUserData(user, userData) {
+    // Set user info (same as dashboard)
+    document.getElementById('user-name').textContent = user.displayName || user.email.split('@')[0];
+    
+    // Calculate level and title (same logic as dashboard)
+    const userLevel = calculateUserLevel(userData.points);
+    const levelTitle = getLevelTitle(userLevel);
+    document.getElementById('user-level').textContent = `Level ${userLevel} ${levelTitle}`;
+    
+    // Set points (synchronized with dashboard)
+    document.getElementById('user-points').textContent = userData.points;
+    document.getElementById('nav-points').textContent = userData.points;
+    document.getElementById('nav-points-desktop').textContent = userData.points;
+    document.getElementById('mobile-points').textContent = userData.points;
+    
+    // Set badges earned (from dashboard data)
+    document.getElementById('total-badges-earned').textContent = userData.badges || 0;
+    
+    // Update user avatar if available
+    if (user.photoURL) {
+        document.getElementById('user-avatar').innerHTML = `<img src="${user.photoURL}" alt="User Avatar" style="width: 100%; height: 100%; border-radius: 50%;">`;
+    }
+}
+
+// Calculate user level based on points (same as dashboard)
+function calculateUserLevel(points) {
+    if (points < 100) return 1;
+    if (points < 250) return 2;
+    if (points < 500) return 3;
+    if (points < 1000) return 4;
+    if (points < 2000) return 5;
+    return 6;
+}
+
+// Get level title (same as dashboard)
+function getLevelTitle(level) {
+    const titles = ['Eco Learner', 'Eco Explorer', 'Eco Enthusiast', 'Eco Warrior', 'Eco Champion', 'Eco Master'];
+    return titles[level - 1] || 'Eco Legend';
+}
+
+// Load achievements from server or use default
+async function loadAchievements(userId) {
+    try {
+        const response = await fetch(`/api/achievements?uid=${userId}`);
+        if (response.ok) {
+            const data = await response.json();
+            userAchievements = data.userAchievements || [];
+            allAchievements = data.allAchievements || getDefaultAchievements();
+        } else {
+            allAchievements = getDefaultAchievements();
+        }
+        
+        updateAchievementStats();
+        renderAchievements();
+        
+    } catch (error) {
+        console.error("Error loading achievements:", error);
+        allAchievements = getDefaultAchievements();
+        updateAchievementStats();
+        renderAchievements();
+    }
+}
+
+// Get default achievements aligned with your 2/12 design
+function getDefaultAchievements() {
+    return [
+        // Learning Achievements
+        {
+            id: 'learn-1',
+            name: 'First Steps',
+            description: 'Complete your first learning module',
+            category: 'learning',
+            points: 25,
+            icon: 'fa-graduation-cap',
+            rarity: 'common',
+            progress: 1,
+            total: 1,
+            unlocked: true,
+            unlockedAt: new Date('2024-01-15')
+        },
+        {
+            id: 'learn-2',
+            name: 'Knowledge Seeker',
+            description: 'Complete 10 learning modules',
+            category: 'learning',
+            points: 100,
+            icon: 'fa-book',
+            rarity: 'rare',
+            progress: 7,
+            total: 10,
+            unlocked: false,
+            unlockedAt: null
+        },
+        {
+            id: 'learn-3',
+            name: 'Eco Scholar',
+            description: 'Complete 50 learning modules',
+            category: 'learning',
+            points: 500,
+            icon: 'fa-user-graduate',
+            rarity: 'epic',
+            progress: 23,
+            total: 50,
+            unlocked: false,
+            unlockedAt: null
+        },
+
+        // Challenge Achievements
+        {
+            id: 'challenge-1',
+            name: 'Challenge Starter',
+            description: 'Complete your first challenge',
+            category: 'challenges',
+            points: 50,
+            icon: 'fa-flag',
+            rarity: 'common',
+            progress: 1,
+            total: 1,
+            unlocked: true,
+            unlockedAt: new Date('2024-01-20')
+        },
+        {
+            id: 'challenge-2',
+            name: 'Challenge Master',
+            description: 'Complete 25 challenges',
+            category: 'challenges',
+            points: 250,
+            icon: 'fa-trophy',
+            rarity: 'rare',
+            progress: 12,
+            total: 25,
+            unlocked: false,
+            unlockedAt: null
+        },
+        {
+            id: 'challenge-3',
+            name: 'Ultimate Challenger',
+            description: 'Complete 100 challenges',
+            category: 'challenges',
+            points: 1000,
+            icon: 'fa-crown',
+            rarity: 'legendary',
+            progress: 12,
+            total: 100,
+            unlocked: false,
+            unlockedAt: null
+        },
+
+        // Streak Achievements
+        {
+            id: 'streak-1',
+            name: 'Consistent Learner',
+            description: 'Maintain a 7-day streak',
+            category: 'streak',
+            points: 75,
+            icon: 'fa-fire',
+            rarity: 'common',
+            progress: 3,
+            total: 7,
+            unlocked: false,
+            unlockedAt: null
+        },
+        {
+            id: 'streak-2',
+            name: 'Dedicated Eco Warrior',
+            description: 'Maintain a 30-day streak',
+            category: 'streak',
+            points: 300,
+            icon: 'fa-bolt',
+            rarity: 'rare',
+            progress: 3,
+            total: 30,
+            unlocked: false,
+            unlockedAt: null
+        },
+        {
+            id: 'streak-3',
+            name: 'Unstoppable Force',
+            description: 'Maintain a 100-day streak',
+            category: 'streak',
+            points: 1000,
+            icon: 'fa-infinity',
+            rarity: 'legendary',
+            progress: 3,
+            total: 100,
+            unlocked: false,
+            unlockedAt: null
+        },
+
+        // Special Achievements
+        {
+            id: 'special-1',
+            name: 'Early Bird',
+            description: 'Join EcoLearn during the launch period',
+            category: 'special',
+            points: 150,
+            icon: 'fa-feather',
+            rarity: 'rare',
+            progress: 1,
+            total: 1,
+            unlocked: false,
+            unlockedAt: null
+        },
+        {
+            id: 'special-2',
+            name: 'Point Collector',
+            description: 'Earn 1000 total points',
+            category: 'special',
+            points: 200,
+            icon: 'fa-star',
+            rarity: 'epic',
+            progress: 1250,
+            total: 1000,
+            unlocked: true,
+            unlockedAt: new Date('2024-02-01')
+        },
+        {
+            id: 'special-3',
+            name: 'Eco Legend',
+            description: 'Reach the maximum level',
+            category: 'special',
+            points: 500,
+            icon: 'fa-medal',
+            rarity: 'legendary',
+            progress: 3,
+            total: 6,
+            unlocked: false,
+            unlockedAt: null
+        }
+    ];
+}
+
+// Update achievement statistics
+function updateAchievementStats() {
+    const totalAchievements = allAchievements.length;
+    const unlockedAchievements = allAchievements.filter(a => a.unlocked).length;
+    const completionRate = totalAchievements > 0 ? Math.round((unlockedAchievements / totalAchievements) * 100) : 0;
+    const rareAchievements = allAchievements.filter(a => a.unlocked && 
+        (a.rarity === 'rare' || a.rarity === 'epic' || a.rarity === 'legendary')).length;
+
+    // Update stats (aligned with your 12 total, 2 unlocked, 17% rate design)
+    document.getElementById('total-achievements').textContent = totalAchievements;
+    document.getElementById('achievement-rate').textContent = `${completionRate}%`;
+    document.getElementById('rare-badges').textContent = rareAchievements;
+    document.getElementById('unlocked-count').textContent = unlockedAchievements;
+    document.getElementById('total-achievements-count').textContent = totalAchievements;
+    
+    // Update streak from user data
+    const userData = JSON.parse(localStorage.getItem(`ecolearn_user_${currentUserId}`) || '{}');
+    document.getElementById('current-streak').textContent = userData.streak || 0;
+}
+
+// Render achievements based on current filter
+function renderAchievements() {
+    const achievementsGrid = document.getElementById('achievements-grid');
+    const recentUnlocksCarousel = document.getElementById('recent-unlocks-carousel');
+    const currentFilter = document.querySelector('.filter-btn.active').dataset.category;
+    
+    // Clear existing content
+    achievementsGrid.innerHTML = '';
+    recentUnlocksCarousel.innerHTML = '';
+    
+    // Filter achievements
+    const filteredAchievements = currentFilter === 'all' 
+        ? allAchievements 
+        : allAchievements.filter(achievement => achievement.category === currentFilter);
+    
+    // Render achievements grid
+    if (filteredAchievements.length === 0) {
+        achievementsGrid.innerHTML = `
+            <div class="no-achievements">
+                <i class="fas fa-trophy"></i>
+                <h3>No Achievements Found</h3>
+                <p>No achievements available in this category.</p>
+            </div>
+        `;
+    } else {
+        filteredAchievements.forEach(achievement => {
+            achievementsGrid.appendChild(createAchievementCard(achievement));
+        });
     }
     
-    // Initialize achievements functionality
-    initializeAchievementsFunctionality(user.uid);
-});
+    // Render recent unlocks (last 3 unlocked achievements)
+    const recentUnlocks = allAchievements
+        .filter(a => a.unlocked && a.unlockedAt)
+        .sort((a, b) => new Date(b.unlockedAt) - new Date(a.unlockedAt))
+        .slice(0, 3);
+    
+    if (recentUnlocks.length === 0) {
+        recentUnlocksCarousel.innerHTML = `
+            <div class="no-achievements">
+                <p>No recent unlocks. Complete activities to earn achievements!</p>
+            </div>
+        `;
+    } else {
+        recentUnlocks.forEach(achievement => {
+            recentUnlocksCarousel.appendChild(createRecentAchievementItem(achievement));
+        });
+    }
+}
 
-// Load user achievements
-function loadUserAchievements(userId, achievements) {
-    // This would be populated from the server data
-    // For demo purposes, we'll use static data
+// Create achievement card element
+function createAchievementCard(achievement) {
+    const card = document.createElement('div');
+    card.className = `achievement-card ${achievement.unlocked ? 'unlocked' : 'locked'}`;
     
-    // Update achievement stats
-    const totalAchievements = 12;
-    const completedAchievements = achievements.filter(a => a.status === 'completed').length;
-    const inProgressAchievements = achievements.filter(a => a.status === 'in-progress').length;
-    const lockedAchievements = totalAchievements - completedAchievements - inProgressAchievements;
+    const progressPercent = achievement.unlocked ? 100 : (achievement.progress / achievement.total) * 100;
+    const badgeClass = achievement.unlocked ? 'unlocked' : 'locked';
+    const rarityClass = achievement.rarity;
     
-    document.getElementById('total-achievements').textContent = totalAchievements;
-    document.getElementById('completed-achievements').textContent = completedAchievements;
-    document.getElementById('inprogress-achievements').textContent = inProgressAchievements;
-    document.getElementById('locked-achievements').textContent = lockedAchievements;
+    card.innerHTML = `
+        <div class="achievement-badge ${badgeClass} ${rarityClass}">
+            <i class="fas ${achievement.icon}"></i>
+            <span class="achievement-rarity rarity-${achievement.rarity}">
+                <i class="fas ${getRarityIcon(achievement.rarity)}"></i>
+            </span>
+        </div>
+        
+        <div class="achievement-info">
+            <span class="achievement-level">${achievement.rarity.toUpperCase()}</span>
+            <h3>${achievement.name}</h3>
+            <p>${achievement.description}</p>
+            
+            ${!achievement.unlocked ? `
+                <div class="achievement-progress-bar">
+                    <div class="progress-fill" style="width: ${progressPercent}%"></div>
+                </div>
+                <div class="achievement-meta">
+                    <span>Progress: ${achievement.progress}/${achievement.total}</span>
+                    <span class="achievement-points">+${achievement.points}</span>
+                </div>
+            ` : `
+                <div class="achievement-meta">
+                    <span class="achievement-date">Unlocked: ${formatDate(achievement.unlockedAt)}</span>
+                    <span class="achievement-points">+${achievement.points}</span>
+                </div>
+            `}
+        </div>
+    `;
+    
+    return card;
+}
+
+// Create recent achievement item for carousel
+function createRecentAchievementItem(achievement) {
+    const item = document.createElement('div');
+    item.className = 'recent-achievement';
+    
+    item.innerHTML = `
+        <div class="recent-badge">
+            <i class="fas ${achievement.icon}"></i>
+        </div>
+        <h4>${achievement.name}</h4>
+        <span class="achievement-date">${formatDate(achievement.unlockedAt)}</span>
+    `;
+    
+    return item;
+}
+
+// Get rarity icon
+function getRarityIcon(rarity) {
+    const icons = {
+        'common': 'fa-circle',
+        'rare': 'fa-gem',
+        'epic': 'fa-crown',
+        'legendary': 'fa-star'
+    };
+    return icons[rarity] || 'fa-circle';
+}
+
+// Format date for display
+function formatDate(date) {
+    if (!date) return 'Not unlocked';
+    const d = new Date(date);
+    return d.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+    });
 }
 
 // Initialize achievements functionality
 function initializeAchievementsFunctionality(userId) {
-    // Tab functionality
-    const tabButtons = document.querySelectorAll('.tab-btn');
-    tabButtons.forEach(button => {
+    // Filter buttons
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(button => {
         button.addEventListener('click', function() {
-            // Remove active class from all buttons
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            
-            // Add active class to clicked button
+            filterButtons.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
-            
-            // Filter achievements by category
-            const category = this.getAttribute('data-category');
-            filterAchievements(category);
+            renderAchievements();
         });
     });
     
-    // Achievement detail modal
-    const achievementModal = document.getElementById('achievementDetailModal');
-    const achievementModalTitle = document.getElementById('achievementModalTitle');
-    const achievementModalDescription = document.getElementById('achievementModalDescription');
-    const modalIcon = document.getElementById('modalIcon');
-    const progressCurrent = document.getElementById('progressCurrent');
-    const progressTotal = document.getElementById('progressTotal');
-    const modalProgressFill = document.getElementById('modalProgressFill');
-    const achievementTipsList = document.getElementById('achievementTipsList');
-    const trackAchievementBtn = document.getElementById('trackAchievementBtn');
-    const closeAchievementModal = document.getElementById('closeAchievementModal');
-    
-    let selectedAchievement = null;
-    
-    // Achievement cards
-    const achievementCards = document.querySelectorAll('.achievement-card');
-    achievementCards.forEach(card => {
-        card.addEventListener('click', function() {
-            const achievementTitle = this.querySelector('h3').textContent;
-            const achievementDesc = this.querySelector('p').textContent;
-            const achievementStatus = this.classList.contains('completed') ? 'completed' : 
-                                    this.classList.contains('in-progress') ? 'in-progress' : 'locked';
-            
-            // Set achievement details
-            selectedAchievement = {
-                title: achievementTitle,
-                description: achievementDesc,
-                status: achievementStatus,
-                progress: this.querySelector('.achievement-progress span').textContent,
-                points: this.querySelector('.reward-points') ? 
-                    this.querySelector('.reward-points').textContent : '+0',
-                icon: this.querySelector('.achievement-icon i').className
-            };
-            
-            // Populate modal
-            achievementModalTitle.textContent = selectedAchievement.title;
-            achievementModalDescription.textContent = selectedAchievement.description;
-            modalIcon.innerHTML = `<i class="${selectedAchievement.icon}"></i>`;
-            
-            // Set progress
-            const progressMatch = selectedAchievement.progress.match(/(\d+)\/(\d+)/);
-            if (progressMatch) {
-                const current = parseInt(progressMatch[1]);
-                const total = parseInt(progressMatch[2]);
-                const percentage = (current / total) * 100;
-                
-                progressCurrent.textContent = current;
-                progressTotal.textContent = `/ ${total}`;
-                modalProgressFill.style.width = `${percentage}%`;
-            }
-            
-            // Set tips based on achievement
-            achievementTipsList.innerHTML = '';
-            const tips = getAchievementTips(selectedAchievement.title);
-            tips.forEach(tip => {
-                const li = document.createElement('li');
-                li.textContent = tip;
-                achievementTipsList.appendChild(li);
-            });
-            
-            // Set button text based on status
-            if (selectedAchievement.status === 'completed') {
-                trackAchievementBtn.textContent = 'View Details';
-                trackAchievementBtn.disabled = true;
-            } else if (selectedAchievement.status === 'locked') {
-                trackAchievementBtn.textContent = 'Locked';
-                trackAchievementBtn.disabled = true;
-            } else {
-                trackAchievementBtn.textContent = 'Track Achievement';
-                trackAchievementBtn.disabled = false;
-            }
-            
-            // Show modal
-            achievementModal.style.display = 'flex';
-        });
+    // Achievement unlock modal
+    document.getElementById('continueFromAchievement').addEventListener('click', function() {
+        document.getElementById('achievementUnlockModal').style.display = 'none';
     });
     
-    // Track achievement button
-    trackAchievementBtn.addEventListener('click', function() {
-        if (selectedAchievement && selectedAchievement.status === 'in-progress') {
-            // Navigate to relevant page to track progress
-            if (selectedAchievement.title.includes('Commuter')) {
-                window.location.href = 'challenges.html';
-            } else if (selectedAchievement.title.includes('Water')) {
-                window.location.href = 'challenges.html';
-            } else if (selectedAchievement.title.includes('Energy')) {
-                window.location.href = 'challenges.html';
+    // Sidebar functionality
+    initializeSidebar();
+    
+    // Simulate achievement progress (for demo)
+    setupDemoProgress();
+}
+
+// Setup demo progress simulation
+function setupDemoProgress() {
+    // Simulate progress updates every 10 seconds
+    setInterval(() => {
+        simulateProgressUpdate();
+    }, 10000);
+}
+
+// Simulate progress update
+function simulateProgressUpdate() {
+    const lockedAchievements = allAchievements.filter(a => !a.unlocked);
+    
+    lockedAchievements.forEach(achievement => {
+        if (Math.random() > 0.7) { // 30% chance to update progress
+            const increment = Math.floor(Math.random() * 3) + 1; // 1-3 progress
+            achievement.progress = Math.min(achievement.progress + increment, achievement.total);
+            
+            // Check if achievement should be unlocked
+            if (achievement.progress >= achievement.total && !achievement.unlocked) {
+                unlockAchievement(achievement);
             }
         }
     });
     
-    // Close modal button
-    closeAchievementModal.addEventListener('click', function() {
-        achievementModal.style.display = 'none';
-    });
+    updateAchievementStats();
+    renderAchievements();
+}
+
+// Unlock an achievement
+async function unlockAchievement(achievement) {
+    achievement.unlocked = true;
+    achievement.unlockedAt = new Date();
     
-    // Close modal when clicking outside
-    window.addEventListener('click', function(event) {
-        if (event.target === achievementModal) {
-            achievementModal.style.display = 'none';
-        }
-    });
+    // Update user points in the system
+    await updateUserPoints(achievement.points, achievement.name);
     
-    // Hamburger menu toggle
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
+    // Show unlock modal
+    showAchievementUnlockModal(achievement);
     
-    hamburger.addEventListener('click', function() {
-        navMenu.classList.toggle('active');
-    });
-    
-    // Logout functionality
-    document.getElementById('logout-btn').addEventListener('click', function(e) {
-        e.preventDefault();
+    // Update UI
+    updateAchievementStats();
+    renderAchievements();
+}
+
+// Update user points - Synchronized with Dashboard
+async function updateUserPoints(points, achievementName) {
+    try {
+        // Update points via the same API as dashboard
+        const response = await fetch('/api/user/update-points', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                uid: currentUserId,
+                points: points,
+                activity: {
+                    type: 'achievement',
+                    title: achievementName,
+                    description: `Unlocked achievement and earned ${points} points`,
+                    time: new Date().toLocaleDateString()
+                }
+            })
+        });
         
-        auth.signOut().then(() => {
-            window.location.href = "login.html";
-        }).catch((error) => {
-            console.error("Logout error:", error);
-        });
-    });
-}
-
-// Filter achievements by category
-function filterAchievements(category) {
-    const achievementCards = document.querySelectorAll('.achievement-card');
-    
-    achievementCards.forEach(card => {
-        if (category === 'all') {
-            card.style.display = 'flex';
+        if (response.ok) {
+            // Update local storage and UI
+            const userData = await loadUserData(currentUserId);
+            populateUserData(auth.currentUser, userData);
+            
+            // Also update badges count
+            userData.badges = (userData.badges || 0) + 1;
+            localStorage.setItem(`ecolearn_user_${currentUserId}`, JSON.stringify(userData));
+            
         } else {
-            // This would filter based on achievement category
-            // For demo, we'll just show a random selection
-            const shouldShow = Math.random() > 0.3;
-            card.style.display = shouldShow ? 'flex' : 'none';
+            throw new Error('Failed to update points');
         }
-    });
+        
+    } catch (error) {
+        console.error("Error updating points:", error);
+        // Fallback: update locally
+        const currentPoints = parseInt(document.getElementById('user-points').textContent);
+        const newPoints = currentPoints + points;
+        
+        document.getElementById('user-points').textContent = newPoints;
+        document.getElementById('nav-points').textContent = newPoints;
+        document.getElementById('nav-points-desktop').textContent = newPoints;
+        document.getElementById('mobile-points').textContent = newPoints;
+        
+        // Update badges count locally
+        const currentBadges = parseInt(document.getElementById('total-badges-earned').textContent);
+        document.getElementById('total-badges-earned').textContent = currentBadges + 1;
+    }
 }
 
-// Get achievement tips
-function getAchievementTips(achievementTitle) {
-    const tips = {
-        'Eco Commuter': [
-            'Plan your routes in advance to use public transportation',
-            'Consider biking or walking for short distances',
-            'Carpool with colleagues or friends when possible'
-        ],
-        'Water Guardian': [
-            'Take shorter showers to reduce water usage',
-            'Fix any leaking taps or toilets promptly',
-            'Collect rainwater for watering plants'
-        ],
-        'Energy Saver': [
-            'Turn off lights when leaving a room',
-            'Unplug electronics when not in use',
-            'Use energy-efficient LED bulbs'
-        ],
-        'Recycling Expert': [
-            'Learn what materials are accepted in your local recycling program',
-            'Rinse containers before recycling them',
-            'Break down cardboard boxes to save space'
-        ],
-        'default': [
-            'Check back daily for new activities',
-            'Complete related challenges to progress faster',
-            'Share your progress with friends for accountability'
-        ]
-    };
+// Show achievement unlock modal
+function showAchievementUnlockModal(achievement) {
+    document.getElementById('unlocked-badge-icon').className = `fas ${achievement.icon}`;
+    document.getElementById('unlocked-achievement-name').textContent = achievement.name;
+    document.getElementById('unlocked-achievement-desc').textContent = achievement.description;
+    document.getElementById('achievement-points-earned').textContent = achievement.points;
+    document.getElementById('achievementUnlockModal').style.display = 'flex';
+}
+
+// Initialize sidebar functionality (same as dashboard)
+function initializeSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebarClose = document.getElementById('sidebarClose');
     
-    for (const [key, value] of Object.entries(tips)) {
-        if (achievementTitle.includes(key)) {
-            return value;
-        }
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', function() {
+            sidebar.classList.add('active');
+            sidebarOverlay.classList.add('active');
+        });
     }
     
-    return tips.default;
+    if (sidebarClose) {
+        sidebarClose.addEventListener('click', function() {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+    }
+    
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', function() {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+    }
+    
+    // Logout functionality
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            auth.signOut().then(() => {
+                window.location.href = "login.html";
+            }).catch((error) => {
+                console.error("Logout error:", error);
+            });
+        });
+    }
+}
+
+// Close modals when clicking outside
+window.addEventListener('click', function(event) {
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+});
+
+// Load default achievements (fallback)
+function loadDefaultAchievements() {
+    allAchievements = getDefaultAchievements();
+    updateAchievementStats();
+    renderAchievements();
 }
